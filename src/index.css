@@ -1,0 +1,253 @@
+/* Import Tailwind CSS v4 - provides utility classes for styling */
+@import "tailwindcss";
+
+/* Root variables - Notion-inspired minimalistic black and white theme */
+:root {
+  /* Goudy-style serif fonts with clean sans-serif fallbacks */
+  /* Notion uses sans-serif, but keeping your Goudy preference for elegance */
+  font-family: 'Crimson Text', 'EB Garamond', 'Goudy Bookletter 1911', Georgia, serif;
+  
+  /* Line height 1.7 - Notion's signature spacious, readable line spacing */
+  /* More generous than typical 1.5 for that airy, clean Notion feel */
+  line-height: 1.7;
+  
+  /* Regular weight (400) - Notion uses standard weight, not thin */
+  /* Balances readability with clean aesthetic */
+  font-weight: 400;
+
+  /* Support both light and dark color schemes */
+  color-scheme: light dark;
+  
+  /* Dark mode text: soft white (#e8e8e8) - easier on eyes than pure white */
+  /* Notion uses slightly muted whites to reduce eye strain */
+  color: #e8e8e8;
+  
+  /* Dark mode background: true black (#000000) - Notion's signature dark mode */
+  /* Pure black creates maximum contrast and modern, sleek appearance */
+  background-color: #000000;
+
+  /* Disable synthetic bold/italic for quality rendering */
+  font-synthesis: none;
+  
+  /* Optimize text rendering for crisp appearance */
+  text-rendering: optimizeLegibility;
+  
+  /* Smooth font edges on WebKit browsers */
+  -webkit-font-smoothing: antialiased;
+  
+  /* Smooth font edges on Firefox */
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Link styling - Notion's subtle gray approach */
+a {
+  /* Regular weight - links don't need to be bold in minimal design */
+  font-weight: 400;
+  
+  /* Medium gray (#9b9b9b) - Notion's understated link color */
+  /* Visible but not demanding attention */
+  color: #9b9b9b;
+  
+  /* No underline - cleaner, more modern appearance */
+  text-decoration: none;
+  
+  /* Quick transition (0.15s) for responsive feel */
+  transition: color 0.15s ease;
+}
+
+/* Link hover - brighten to near-white for clear feedback */
+a:hover {
+  /* Light gray on hover - Notion style subtle highlight */
+  color: #d4d4d4;
+}
+
+/* Body styling - maximum simplicity */
+body {
+  /* No margin - edge-to-edge layouts like Notion */
+  margin: 0;
+  
+  /* Comfortable padding (2rem) creates breathing room */
+  /* Notion has generous whitespace around content */
+  padding: 2rem;
+  
+  /* Full viewport height ensures proper layout */
+  min-height: 100vh;
+  
+  /* Minimum width prevents text wrapping on tiny screens */
+  min-width: 320px;
+  
+  /* Minimal letter spacing (0.2px) - just enough for clarity */
+  /* Notion keeps spacing subtle, not exaggerated */
+  letter-spacing: 0.2px;
+}
+
+/* Heading 1 - large but not excessive, Notion-style hierarchy */
+h1 {
+  /* 2.2em size - prominent but restrained like Notion headers */
+  font-size: 2.2em;
+  
+  /* Line height 1.3 - tighter for headings, prevents excessive space */
+  line-height: 1.3;
+  
+  /* Semi-bold (600) provides clear hierarchy without being heavy */
+  font-weight: 600;
+  
+  /* Very minimal letter spacing - Notion doesn't exaggerate spacing */
+  letter-spacing: 0.3px;
+  
+  /* Generous margin (1.2em top, 0.6em bottom) for breathing room */
+  /* Notion is known for spacious layouts */
+  margin: 1.2em 0 0.6em 0;
+  
+  /* Pure white headings stand out against black background */
+  color: #ffffff;
+}
+
+/* Heading 2 - clear hierarchy step down from h1 */
+h2 {
+  font-size: 1.8em;
+  line-height: 1.3;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  margin: 1em 0 0.5em 0;
+  color: #f5f5f5;
+}
+
+/* Heading 3 - third level hierarchy */
+h3 {
+  font-size: 1.4em;
+  line-height: 1.4;
+  font-weight: 600;
+  letter-spacing: 0.1px;
+  margin: 0.8em 0 0.4em 0;
+  color: #e8e8e8;
+}
+
+/* Paragraph spacing - Notion's generous vertical rhythm */
+p {
+  /* Margin bottom for clear separation between paragraphs */
+  margin: 0 0 1em 0;
+}
+
+/* Button styling - flat, minimal, Notion-inspired */
+button {
+  /* Minimal rounded corners (3px) - barely rounded, almost flat */
+  /* Notion uses very subtle rounding */
+  border-radius: 3px;
+  
+  /* No border by default - cleaner appearance */
+  border: none;
+  
+  /* Comfortable padding - not cramped, not excessive */
+  padding: 0.5em 1.2em;
+  
+  /* Slightly smaller text (0.95em) for subtlety */
+  font-size: 0.95em;
+  
+  /* Regular weight keeps buttons understated */
+  font-weight: 400;
+  
+  /* Inherit font for consistency */
+  font-family: inherit;
+  
+  /* Dark gray background (#1a1a1a) - subtle against black */
+  /* Creates gentle depth without being obvious */
+  background-color: #1a1a1a;
+  
+  /* Light gray text - readable but not harsh white */
+  color: #e8e8e8;
+  
+  /* Pointer cursor for interactivity */
+  cursor: pointer;
+  
+  /* Quick transitions (0.15s) feel snappy and responsive */
+  transition: all 0.15s ease;
+  
+  /* Minimal letter spacing matches overall aesthetic */
+  letter-spacing: 0.2px;
+}
+
+/* Button hover - subtle lift in brightness */
+button:hover {
+  /* Slightly lighter gray on hover */
+  background-color: #2a2a2a;
+  
+  /* Brighten text to white for feedback */
+  color: #ffffff;
+}
+
+/* Button active state - pressed appearance */
+button:active {
+  /* Darken slightly when clicked */
+  background-color: #151515;
+  
+  /* No scale transform - Notion keeps it simple */
+  transform: scale(0.98);
+}
+
+/* Button focus - minimal outline for accessibility */
+button:focus,
+button:focus-visible {
+  /* Thin gray outline - visible but not intrusive */
+  outline: 1px solid #404040;
+  
+  /* Small offset keeps outline clean */
+  outline-offset: 2px;
+}
+
+/* Light mode - Notion's iconic white background with black text */
+@media (prefers-color-scheme: light) {
+  :root {
+    /* Nearly black text (#1a1a1a) - softer than pure black */
+    /* Notion uses dark gray instead of harsh #000000 for text */
+    color: #1a1a1a;
+    
+    /* Pure white background (#ffffff) - Notion's signature clean canvas */
+    background-color: #ffffff;
+  }
+  
+  /* Links in light mode - medium gray for subtlety */
+  a {
+    /* Gray that's visible but not demanding */
+    color: #5a5a5a;
+  }
+  
+  /* Link hover in light mode - darken for feedback */
+  a:hover {
+    color: #000000;
+  }
+  
+  /* Headings in light mode - pure black for maximum contrast */
+  h1, h2, h3 {
+    color: #000000;
+  }
+  
+  /* Button in light mode - very light gray background */
+  button {
+    /* Off-white background - subtle against white page */
+    background-color: #f7f7f7;
+    
+    /* Thin border adds definition without heaviness */
+    border: 1px solid #e0e0e0;
+    
+    /* Dark text for contrast */
+    color: #1a1a1a;
+  }
+  
+  /* Button hover in light mode - darken slightly */
+  button:hover {
+    /* Slightly darker gray on hover */
+    background-color: #ebebeb;
+    
+    /* Darker border for subtle feedback */
+    border-color: #d0d0d0;
+    
+    /* Keep text dark */
+    color: #000000;
+  }
+  
+  /* Button active in light mode */
+  button:active {
+    background-color: #e0e0e0;
+  }
+}
