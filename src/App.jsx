@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom"
 import Navbar from "./components/Navbar.jsx"
 import Home from "./pages/Home.jsx"
 import Projects from "./pages/Projects.jsx"
+import ProjectDetail from "./pages/ProjectDetail.jsx"
 import Writing from "./pages/Writing.jsx"
 import Learning from "./pages/Learning.jsx"
 import Funsies from "./pages/Funsies.jsx"
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/projects/:slug" element={<ProjectDetail />} />
           <Route path="/writing" element={<Writing />} /> {/* Creative writing page */}
           <Route path="/learning" element={<Learning />} /> {/* Learning blog page */}
           <Route path="/funsies" element={<Funsies />} />

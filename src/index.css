@@ -1,5 +1,6 @@
 /* Import Tailwind CSS v4 - provides utility classes for styling */
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 /* Root variables - Notion-inspired minimalistic black and white theme */
 :root {
@@ -194,6 +195,29 @@ button:focus-visible {
   /* Small offset keeps outline clean */
   outline-offset: 2px;
 }
+
+/* Custom Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  opacity: 0; /* Start hidden to prevent flash */
+}
+
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-700 { animation-delay: 700ms; }
 
 /* Light mode - Notion's iconic white background with black text */
 @media (prefers-color-scheme: light) {

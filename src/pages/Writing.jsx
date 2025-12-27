@@ -1,54 +1,24 @@
 // src/pages/Writing.jsx
 // This page displays your creative writing, essays, and personal reflections
 
-import Box from "@mui/material/Box"
-import Typography from "@mui/material/Typography"
-
-// Reuse the same serif font stack
-const serifFont =
-  "'Goudy Bookletter 1911', 'Crimson Text', 'EB Garamond', Georgia, serif"
-
 function Writing() {
   return (
-    <Box>
+    <div className="max-w-3xl mx-auto px-6 py-12">
       {/* Page heading */}
-      <Typography
-        variant="h4"
-        component="h1"
-        sx={{
-          mb: 2,
-          fontWeight: 600,
-          fontFamily: serifFont,
-          letterSpacing: "0.5px",
-        }}
-      >
+      <h1 className="text-3xl font-serif font-semibold mb-4 tracking-[0.5px] animate-fade-in-up">
         Writing
-      </Typography>
+      </h1>
 
       {/* Subtitle */}
-      <Typography
-        variant="body1"
-        sx={{
-          mb: 4,
-          color: "#e8e8e8",
-          fontFamily: serifFont,
-        }}
-      >
+      <p className="mb-8 text-gray-600 dark:text-[#e8e8e8] font-serif text-lg animate-fade-in-up delay-100">
         Essays, reflections, and thoughts on life, design, and everything in between.
-      </Typography>
+      </p>
 
       {/* Placeholder content - you can add your writing pieces here */}
-      <Typography
-        variant="body1"
-        sx={{
-          fontFamily: serifFont,
-          color: "#e8e8e8",
-          lineHeight: 1.8,
-        }}
-      >
+      <p className="font-serif text-gray-600 dark:text-[#e8e8e8] leading-loose animate-fade-in-up delay-200">
         Your writing will go here. You can add essays, blog posts, or any creative writing you want to share.
-      </Typography>
-    </Box>
+      </p>
+    </div>
   )
 }
 

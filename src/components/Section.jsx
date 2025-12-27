@@ -2,9 +2,11 @@
 
 function Section({ id, title, children }) {
   return (
-    <section id={id} className="section">
-      <h2 className="section-title">{title}</h2>
-      {children}
+    <section id={id} className="py-12 max-w-3xl mx-auto px-6">
+      <h2 className="text-3xl font-serif font-semibold mb-6 text-center animate-fade-in-up">{title}</h2>
+      <div className="font-serif text-lg leading-relaxed animate-fade-in-up delay-100">
+        {children}
+      </div>
     </section>
   )
 }
