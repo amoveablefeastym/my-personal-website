@@ -30,7 +30,7 @@ function Home() {
 
         {/* Name */}
         <h1 className="font-serif font-medium tracking-tight mb-4 text-5xl sm:text-6xl md:text-7xl animate-fade-in-up delay-200 text-black dark:text-white">
-          Hi, I'm <span className="italic relative inline-block hover:text-[#d32f2f] transition-colors duration-300 cursor-default">{profileData.name}</span>.
+          Hi, I'm <span className="italic relative inline-block hover:text-[#d32f2f] transition-colors duration-300 cursor-default">{profileData.name}</span>!
         </h1>
 
         {/* Short description under the name */}

@@ -11,7 +11,6 @@ This site is where those threads meet. Part portfolio, part journal, part playgr
   socials: [
     { platform: "github", url: "https://github.com/amoveablefeastym" },
     { platform: "linkedin", url: "https://linkedin.com/in/yimin-chen-0b1b3b1b3" },
-    { platform: "twitter", url: "https://twitter.com" },
     { platform: "email", url: "mailto:yiminchen2025@u.northwestern.edu" }
   ],
   interests: [

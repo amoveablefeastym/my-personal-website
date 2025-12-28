@@ -10,7 +10,7 @@ function Funsies() {
         </h1>
         
         <p className="text-gray-600 dark:text-[#e8e8e8] font-serif text-lg animate-fade-in-up delay-100">
-          Hobbies, playful projects, photos, games, anything light and fun.
+          Me having a life.
         </p>
       </div>
 
