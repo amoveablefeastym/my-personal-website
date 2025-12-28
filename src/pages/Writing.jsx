@@ -12,7 +12,7 @@ function Writing() {
         </h1>
         <div className="flex flex-col items-center gap-2">
           <p className="text-lg text-gray-500 dark:text-gray-400 font-serif italic leading-relaxed max-w-xl">
-            Essays, reflections, and thoughts on life, design, and everything in between.
+            I write therefore I am.
           </p>
           <span className="font-sans text-xs font-bold uppercase tracking-widest text-gray-400 shrink-0">
             {writingPosts.length} Entries
