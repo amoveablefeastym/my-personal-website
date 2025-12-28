@@ -31,6 +31,168 @@
   }
 }
 
+/* RUSTY LAKE AESTHETIC ADDITIONS */
+
+/* 1. Film Grain / Noise Overlay */
+.rusty-noise {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.07; /* Subtle grain */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* 2. Vignette (Darkened corners) */
+.rusty-vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9997;
+  background: radial-gradient(circle, transparent 50%, rgba(0,0,0,0.15) 100%);
+}
+
+/* Dark mode vignette is stronger */
+@media (prefers-color-scheme: dark) {
+  .rusty-vignette {
+    background: radial-gradient(circle, transparent 50%, rgba(0,0,0,0.4) 100%);
+  }
+}
+
+/* 3. Corrupted Soul Effect for Profile Pic */
+.corrupted-soul-filter {
+  filter: sepia(20%) contrast(105%) brightness(1.05); /* Colored but slightly vintage */
+  transition: filter 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.group:hover .corrupted-soul-filter {
+  /* The "Corrupted Soul" look: dark, high contrast, inverted colors */
+  filter: grayscale(100%) contrast(200%) brightness(0.7) invert(100%);
+}
+
+/* 4. Rusty Lake Typography */
+.font-typewriter {
+  font-family: "Courier Prime", "Courier New", Courier, monospace;
+  letter-spacing: -0.02em;
+}
+
+/* 5. The "Red Line" Link Effect (Connecting the clues) */
+.rusty-link {
+  position: relative;
+  text-decoration: none;
+}
+.rusty-link::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  bottom: -2px;
+  left: 0;
+  background-color: #8b0000; /* Blood red */
+  transform: scaleX(0);
+  transform-origin: bottom right;
+  transition: transform 0.3s ease-out;
+}
+.rusty-link:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* 6. "The Frame" - Double border effect */
+.rusty-frame {
+  position: relative;
+}
+.rusty-frame::before {
+  content: "";
+  position: absolute;
+  inset: -12px;
+  border: 1px solid rgba(0,0,0,0.1);
+  pointer-events: none;
+  z-index: 10;
+}
+@media (prefers-color-scheme: dark) {
+  .rusty-frame::before {
+    border-color: rgba(255,255,255,0.1);
+  }
+}
+
+/* 7. Custom Cursor (Rusty Lake Target Style) */
+body {
+  /* A simple reticle/target cursor */
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="black" stroke-width="1.5"/><circle cx="16" cy="16" r="2" fill="black"/></svg>') 16 16, auto;
+}
+
+@media (prefers-color-scheme: dark) {
+  body {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="white" stroke-width="1.5"/><circle cx="16" cy="16" r="2" fill="white"/></svg>') 16 16, auto;
+  }
+}
+
+a, button, .cursor-pointer {
+  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="none" stroke="red" stroke-width="2"/><circle cx="16" cy="16" r="4" fill="red"/></svg>') 16 16, pointer;
+}
+
+/* 8. Glitch Text Effect */
+.rusty-glitch {
+  position: relative;
+}
+.rusty-glitch::before,
+.rusty-glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: inherit;
+}
+.rusty-glitch::before {
+  left: 2px;
+  text-shadow: -1px 0 #ff00c1;
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch-anim 5s infinite linear alternate-reverse;
+}
+.rusty-glitch::after {
+  left: -2px;
+  text-shadow: -1px 0 #00fff9;
+  clip: rect(44px, 450px, 56px, 0);
+  animation: glitch-anim2 5s infinite linear alternate-reverse;
+}
+
+@keyframes glitch-anim {
+  0% { clip: rect(30px, 9999px, 10px, 0); }
+  5% { clip: rect(80px, 9999px, 90px, 0); }
+  10% { clip: rect(10px, 9999px, 40px, 0); }
+  15% { clip: rect(50px, 9999px, 20px, 0); }
+  20% { clip: rect(20px, 9999px, 60px, 0); }
+  100% { clip: rect(60px, 9999px, 30px, 0); }
+}
+@keyframes glitch-anim2 {
+  0% { clip: rect(10px, 9999px, 80px, 0); }
+  5% { clip: rect(60px, 9999px, 10px, 0); }
+  10% { clip: rect(40px, 9999px, 50px, 0); }
+  15% { clip: rect(90px, 9999px, 20px, 0); }
+  20% { clip: rect(20px, 9999px, 30px, 0); }
+  100% { clip: rect(50px, 9999px, 60px, 0); }
+}
+
+/* 9. Floating Symbols (The Ritual) */
+.rusty-symbol {
+  position: absolute;
+  opacity: 0.05;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+.rusty-symbol:hover {
+  opacity: 0.3;
+}
+
 /* Root variables - Notion-inspired minimalistic black and white theme */
 :root {
   /* Default to serif for that "writer" feel */

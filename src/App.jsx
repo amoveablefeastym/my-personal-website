@@ -13,6 +13,10 @@ import FunsiesDetail from "./pages/FunsiesDetail.jsx"
 function App() {
   return (
     <div id="top">
+      {/* Rusty Lake Atmosphere: Noise and Vignette overlays */}
+      <div className="rusty-noise"></div>
+      <div className="rusty-vignette"></div>
+
       <Navbar />
 
       <main className="page">

@@ -41,9 +41,10 @@ function Navbar() {
           onClick={() => handleClick("logo")}
           className={`
             font-serif text-xl md:text-2xl font-bold tracking-tight no-underline text-black dark:text-white
-            transition-all duration-300 ease-out
+            transition-all duration-300 ease-out rusty-glitch
             ${clickedItem === "logo" ? "scale-110 font-extrabold" : "scale-100"}
           `}
+          data-text="Yimin Huang"
         >
           Yimin Huang
         </Link>
