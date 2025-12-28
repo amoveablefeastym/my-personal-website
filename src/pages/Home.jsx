@@ -4,7 +4,7 @@
 // Layout: centered column with profile picture, name, short description,
 // and a row of social icons that link out to your profiles.
 
-import { Github, Linkedin, Mail, Twitter } from "lucide-react"
+import { Github, Linkedin, Mail} from "lucide-react"
 import ReactMarkdown from "react-markdown"
 import { profileData } from "../data/profile"
 import Marquee from "../components/Marquee"
@@ -71,17 +71,6 @@ function Home() {
             className="text-gray-600 dark:text-[#e8e8e8] hover:text-black dark:hover:text-white hover:scale-110 transition-all duration-300"
           >
             <Mail size={28} strokeWidth={1.5} />
-          </a>
-
-          {/* Twitter / X (optional, remove if you don’t use it) */}
-          <a
-            href={profileData.socials.find(s => s.platform === "twitter")?.url}
-            target="_blank"
-            rel="noreferrer"
-            aria-label="Twitter"
-            className="text-gray-600 dark:text-[#e8e8e8] hover:text-black dark:hover:text-white hover:scale-110 transition-all duration-300"
-          >
-            <Twitter size={28} strokeWidth={1.5} />
           </a>
         </div>
       </div>

@@ -180,19 +180,19 @@ Our application automatically converts raw telehealth transcripts into **standar
   <h4 class="text-lg font-sans font-bold mb-4 text-center text-black dark:text-white">SOAP Note Structure</h4>
   <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <div class="p-4 bg-white dark:bg-gray-800 rounded border-l-4 border-blue-500">
-      <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white">📋 SUBJECTIVE</div>
+      <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white">SUBJECTIVE</div>
       <div class="text-sm text-gray-600 dark:text-gray-400">Patient's reported symptoms, concerns, and medical history</div>
     </div>
     <div class="p-4 bg-white dark:bg-gray-800 rounded border-l-4 border-green-500">
-      <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white">🔬 OBJECTIVE</div>
+      <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white">OBJECTIVE</div>
       <div class="text-sm text-gray-600 dark:text-gray-400">Clinical observations, vital signs, and examination findings</div>
     </div>
     <div class="p-4 bg-white dark:bg-gray-800 rounded border-l-4 border-orange-500">
-      <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white">🩺 ASSESSMENT</div>
+      <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white">ASSESSMENT</div>
       <div class="text-sm text-gray-600 dark:text-gray-400">Medical diagnosis and clinical evaluation</div>
     </div>
     <div class="p-4 bg-white dark:bg-gray-800 rounded border-l-4 border-purple-500">
-      <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white">💊 PLAN</div>
+      <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white">PLAN</div>
       <div class="text-sm text-gray-600 dark:text-gray-400">Treatment recommendations and follow-up instructions</div>
     </div>
   </div>
@@ -208,7 +208,7 @@ Our application automatically converts raw telehealth transcripts into **standar
   <div class="flex flex-col space-y-4">
     <div class="flex items-center justify-center">
       <div class="px-6 py-3 bg-blue-100 dark:bg-blue-900 rounded-lg font-sans font-bold text-sm text-black dark:text-white">
-        📄 Telehealth Transcript
+        Telehealth Transcript
       </div>
     </div>
     <div class="flex justify-center">
@@ -216,7 +216,7 @@ Our application automatically converts raw telehealth transcripts into **standar
     </div>
     <div class="flex items-center justify-center">
       <div class="px-6 py-3 bg-green-100 dark:bg-green-900 rounded-lg font-sans font-bold text-sm text-black dark:text-white">
-        🌐 Flask API (Python Backend)
+        Flask API (Python Backend)
       </div>
     </div>
     <div class="flex justify-center">
@@ -224,7 +224,7 @@ Our application automatically converts raw telehealth transcripts into **standar
     </div>
     <div class="flex items-center justify-center">
       <div class="px-6 py-3 bg-purple-100 dark:bg-purple-900 rounded-lg font-sans font-bold text-sm text-black dark:text-white">
-        🤖 OpenAI GPT-4o Processing
+        OpenAI GPT-4o Processing
       </div>
     </div>
     <div class="flex justify-center">
@@ -232,12 +232,12 @@ Our application automatically converts raw telehealth transcripts into **standar
     </div>
     <div class="flex items-center justify-center">
       <div class="px-6 py-3 bg-orange-100 dark:bg-orange-900 rounded-lg font-sans font-bold text-sm text-black dark:text-white">
-        📋 Structured SOAP Note
+        Structured SOAP Note
       </div>
     </div>
   </div>
   <div class="mt-6 text-center text-xs text-gray-500 dark:text-gray-400 font-sans">
-    ⚡ Real-time processing • 🔐 Zero data persistence • ✅ HIPAA-ready
+    Real-time processing • Zero data persistence • HIPAA-ready
   </div>
 </div>
 
@@ -274,7 +274,7 @@ Our application automatically converts raw telehealth transcripts into **standar
 
 ### Key Features
 
-**🎯 Clinical Accuracy**
+**Clinical Accuracy**
 
 The AI understands medical context—not just keywords. It recognizes:
 - Complex medical terminology and abbreviations
@@ -287,7 +287,7 @@ The AI understands medical context—not just keywords. It recognizes:
   <figcaption class="text-center text-sm text-gray-500 mt-3 font-serif italic">Real-time AI processing extracting structured medical information from transcripts.</figcaption>
 </figure>
 
-**🔐 Privacy-First Architecture**
+**Privacy-First Architecture**
 
 Built with HIPAA compliance in mind:
 - **Zero data persistence** — no patient information is ever stored
@@ -295,7 +295,7 @@ Built with HIPAA compliance in mind:
 - **Secure credential management** — API keys handled through environment variables
 - **End-to-end encryption ready** for deployment in healthcare environments
 
-**⚡ Intuitive Workflow**
+**Intuitive Workflow**
 
 Designed for busy clinical settings:
 - **Drag-and-drop file upload** or direct text paste
