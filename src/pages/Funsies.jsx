@@ -4,12 +4,19 @@ import { funsiesPosts } from "../data/funsies"
 function Funsies() {
   return (
     <div className="max-w-5xl mx-auto px-6 py-12 relative">
-      <div className="text-center mb-16 relative group cursor-default">
+      <div className="text-center mb-16 relative group cursor-default"
+           onMouseEnter={(e) => {
+             const p = e.currentTarget.querySelector('p');
+             if (p) {
+               p.classList.remove('opacity-0');
+               p.classList.add('opacity-100');
+             }
+           }}>
         <h1 className="text-4xl md:text-5xl font-serif font-semibold mb-4 tracking-[0.5px] animate-fade-in-up text-black dark:text-white relative inline-block">
           Funsies
         </h1>
         
-        <p className="text-gray-600 dark:text-gray-400 font-serif text-lg animate-fade-in-up delay-100 italic opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out">
+        <p className="text-gray-600 dark:text-gray-400 font-serif text-lg animate-fade-in-up delay-100 italic opacity-0 transition-opacity duration-700 ease-in-out">
           Me having a life.
         </p>
       </div>

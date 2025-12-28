@@ -6,12 +6,19 @@ function Writing() {
   return (
     <div className="max-w-3xl mx-auto px-6 py-20 animate-fade-in-up relative">
       {/* Page heading */}
-      <header className="mb-20 border-b border-gray-200 dark:border-gray-800 pb-8 text-center relative z-10 group cursor-default">
+      <header className="mb-20 border-b border-gray-200 dark:border-gray-800 pb-8 text-center relative z-10 group cursor-default"
+              onMouseEnter={(e) => {
+                const p = e.currentTarget.querySelector('p');
+                if (p) {
+                  p.classList.remove('opacity-0');
+                  p.classList.add('opacity-100');
+                }
+              }}>
         <h1 className="text-4xl font-serif font-bold mb-4 text-black dark:text-white relative inline-block">
           Writing
         </h1>
         <div className="flex flex-col items-center gap-2">
-          <p className="text-lg text-gray-500 dark:text-gray-400 font-serif italic leading-relaxed max-w-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out">
+          <p className="text-lg text-gray-500 dark:text-gray-400 font-serif italic leading-relaxed max-w-xl opacity-0 transition-opacity duration-700 ease-in-out">
             I write therefore I am.
           </p>
           <span className="font-sans text-xs font-bold uppercase tracking-widest text-gray-400 shrink-0 border border-gray-200 dark:border-gray-800 px-2 py-1 mt-2">

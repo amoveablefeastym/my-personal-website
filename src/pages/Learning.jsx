@@ -4,9 +4,16 @@ import { learningPosts } from "../data/learning"
 function Learning() {
   return (
     <div className="max-w-4xl mx-auto px-6 py-20 animate-fade-in-up relative">
-      <header className="mb-20 border-b border-gray-100 dark:border-gray-800 pb-8 text-center relative z-10 group cursor-default flex flex-col items-center">
+      <header className="mb-20 border-b border-gray-100 dark:border-gray-800 pb-8 text-center relative z-10 group cursor-default flex flex-col items-center"
+              onMouseEnter={(e) => {
+                const p = e.currentTarget.querySelector('p');
+                if (p) {
+                  p.classList.remove('opacity-0');
+                  p.classList.add('opacity-100');
+                }
+              }}>
         <h1 className="text-4xl font-serif font-bold mb-4 text-black dark:text-white">Learning Log</h1>
-        <p className="text-gray-500 dark:text-gray-400 font-serif italic text-lg max-w-2xl mx-auto opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out">
+        <p className="text-gray-500 dark:text-gray-400 font-serif italic text-lg max-w-2xl mx-auto opacity-0 transition-opacity duration-700 ease-in-out">
           I'm constantly learning new things and reflecting. So here is me sharing what I've learnt as notes to myself and others.
         </p>
       </header>

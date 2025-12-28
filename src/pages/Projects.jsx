@@ -11,13 +11,20 @@ function Projects() {
     // Main container - The New Yorker style with full width and generous margins
     <div className="max-w-6xl mx-auto px-6 md:px-12 bg-white dark:bg-black py-12 relative">
       {/* Page heading - The New Yorker style centered title */}
-      <div className="text-center mb-16 border-b border-black/10 dark:border-white/10 pb-12 relative group cursor-default">
+      <div className="text-center mb-16 border-b border-black/10 dark:border-white/10 pb-12 relative group cursor-default"
+           onMouseEnter={(e) => {
+             const p = e.currentTarget.querySelector('p');
+             if (p) {
+               p.classList.remove('opacity-0');
+               p.classList.add('opacity-100');
+             }
+           }}>
         <h1 className="mb-4 font-semibold font-serif tracking-tight text-black dark:text-white text-5xl md:text-6xl animate-fade-in-up relative inline-block">
           Projects
         </h1>
 
         {/* Subtitle - Brief description with The New Yorker's understated style */}
-        <p className="text-[#707070] dark:text-gray-400 font-serif text-lg italic leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out">
+        <p className="text-[#707070] dark:text-gray-400 font-serif text-lg italic leading-relaxed opacity-0 transition-opacity duration-700 ease-in-out">
           Selected research projects, and things I've built.
         </p>
       </div>
