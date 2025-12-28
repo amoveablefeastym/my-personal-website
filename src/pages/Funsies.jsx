@@ -3,46 +3,46 @@ import { funsiesPosts } from "../data/funsies"
 
 function Funsies() {
   return (
-    <div className="max-w-5xl mx-auto px-6 py-12">
-      <div className="text-center mb-12">
-        <h1 className="text-3xl font-serif font-semibold mb-4 tracking-[0.5px] animate-fade-in-up">
+    <div className="max-w-5xl mx-auto px-6 py-12 relative">
+      <div className="text-center mb-16 relative group cursor-default">
+        <h1 className="text-4xl md:text-5xl font-serif font-semibold mb-4 tracking-[0.5px] animate-fade-in-up text-black dark:text-white relative inline-block">
           Funsies
         </h1>
         
-        <p className="text-gray-600 dark:text-[#e8e8e8] font-serif text-lg animate-fade-in-up delay-100">
+        <p className="text-gray-600 dark:text-gray-400 font-serif text-lg animate-fade-in-up delay-100 italic opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out">
           Me having a life.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 animate-fade-in-up delay-200">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 animate-fade-in-up delay-200">
         {funsiesPosts.map((post) => (
           <Link 
             key={post.id} 
             to={`/funsies/${post.slug}`}
-            className="group block bg-gray-50 dark:bg-[#1a1a1a] rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300"
+            className="group block bg-white dark:bg-[#111] p-3 shadow-sm hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 relative"
           >
             {post.image ? (
-              <div className="aspect-video overflow-hidden">
+              <div className="aspect-video overflow-hidden mb-4 relative">
                 <img 
                   src={post.image} 
                   alt={post.title} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
                 />
               </div>
             ) : (
-              <div className="aspect-video bg-gray-200 dark:bg-[#333] flex items-center justify-center">
-                <span className="text-gray-400 font-serif italic">No Image</span>
+              <div className="aspect-video bg-gray-100 dark:bg-[#222] flex items-center justify-center mb-4 border border-gray-200 dark:border-gray-800">
+                <span className="text-gray-400 font-sans text-xs tracking-widest">IMAGE MISSING</span>
               </div>
             )}
             
-            <div className="p-6">
-              <div className="text-xs font-sans font-bold text-[#d32f2f] uppercase tracking-widest mb-2">
+            <div className="px-2 pb-2 text-center">
+              <div className="text-[10px] font-sans font-bold text-gray-400 uppercase tracking-widest mb-2">
                 {post.category}
               </div>
-              <h2 className="text-xl font-serif font-semibold mb-2 group-hover:text-[#d32f2f] transition-colors">
+              <h2 className="text-2xl font-serif text-black dark:text-white mb-2 group-hover:text-[#8b0000] dark:group-hover:text-red-400 transition-colors">
                 {post.title}
               </h2>
-              <p className="text-gray-600 dark:text-[#e8e8e8] text-sm leading-relaxed">
+              <p className="text-gray-500 dark:text-gray-400 text-sm font-serif italic leading-relaxed">
                 {post.description}
               </p>
             </div>

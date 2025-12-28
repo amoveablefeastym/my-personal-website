@@ -9,15 +9,15 @@ import { projects } from "../data/projects"
 function Projects() {
   return (
     // Main container - The New Yorker style with full width and generous margins
-    <div className="max-w-6xl mx-auto px-6 md:px-12 bg-white dark:bg-black py-12">
+    <div className="max-w-6xl mx-auto px-6 md:px-12 bg-white dark:bg-black py-12 relative">
       {/* Page heading - The New Yorker style centered title */}
-      <div className="text-center mb-16 border-b border-black/10 dark:border-white/10 pb-12">
-        <h1 className="mb-4 font-semibold font-serif tracking-tight text-black dark:text-white text-5xl md:text-6xl animate-fade-in-up">
+      <div className="text-center mb-16 border-b border-black/10 dark:border-white/10 pb-12 relative group cursor-default">
+        <h1 className="mb-4 font-semibold font-serif tracking-tight text-black dark:text-white text-5xl md:text-6xl animate-fade-in-up relative inline-block">
           Projects
         </h1>
 
         {/* Subtitle - Brief description with The New Yorker's understated style */}
-        <p className="text-[#707070] dark:text-gray-400 font-serif text-lg italic leading-relaxed animate-fade-in-up delay-100">
+        <p className="text-[#707070] dark:text-gray-400 font-serif text-lg italic leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out">
           Selected research projects, and things I've built.
         </p>
       </div>
@@ -29,17 +29,17 @@ function Projects() {
           <Link
             key={project.slug}
             to={`/projects/${project.slug}`}
-            className={`group flex flex-col no-underline text-inherit transition-all duration-300 ease-out bg-transparent border-none cursor-pointer
+            className={`group flex flex-col no-underline text-inherit transition-all duration-300 ease-out bg-transparent border-none cursor-pointer relative
               ${index === 0 ? "md:col-span-2 md:grid md:grid-cols-2 md:gap-12 md:items-start" : ""}
             `}
           >
             {/* Image or placeholder */}
-            <div className={`w-full overflow-hidden mb-4 ${index === 0 ? "md:mb-0" : ""}`}>
+            <div className={`w-full overflow-hidden mb-4 ${index === 0 ? "md:mb-0" : ""} relative`}>
               {project.image ? (
                 <img
                   src={project.image}
                   alt={`${project.title} preview`}
-                  className="w-full aspect-4/3 object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                  className="w-full aspect-4/3 object-cover transition-all duration-700 ease-out group-hover:scale-105"
                 />
               ) : (
                 // Placeholder box
@@ -52,14 +52,14 @@ function Projects() {
             </div>
 
             {/* CardContent */}
-            <div className="flex flex-col justify-center">
+            <div className="flex flex-col justify-center relative">
               {/* Category label */}
-              <span className="text-[#d32f2f] font-sans text-xs font-bold tracking-widest mb-3 block uppercase">
+              <span className="text-[#d32f2f] font-sans text-sm font-bold tracking-widest mb-3 block uppercase">
                 {project.category}
               </span>
 
               {/* Project title */}
-              <h2 className={`font-serif font-medium mb-3 text-black dark:text-white leading-tight group-hover:text-[#555] dark:group-hover:text-gray-400 transition-colors
+              <h2 className={`font-serif font-medium mb-3 text-black dark:text-white leading-tight group-hover:text-[#8b0000] dark:group-hover:text-red-400 transition-colors w-fit
                 ${index === 0 ? "text-3xl md:text-4xl" : "text-2xl"}
               `}>
                 {project.title}
@@ -73,7 +73,7 @@ function Projects() {
               </p>
               
               {/* Read more link (visual cue) */}
-              <span className="mt-4 inline-block font-sans text-xs font-bold uppercase tracking-wider text-black dark:text-white border-b border-black dark:border-white pb-0.5 w-max group-hover:border-[#d32f2f] group-hover:text-[#d32f2f] transition-all">
+              <span className="mt-4 inline-block font-sans text-sm font-bold uppercase tracking-wider text-black dark:text-white border-b border-black dark:border-white pb-0.5 w-max group-hover:border-[#d32f2f] group-hover:text-[#d32f2f] transition-all">
                 Read More
               </span>
             </div>
