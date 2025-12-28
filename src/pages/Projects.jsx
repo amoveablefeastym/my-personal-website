@@ -9,15 +9,15 @@ import { projects } from "../data/projects"
 function Projects() {
   return (
     // Main container - The New Yorker style with full width and generous margins
-    <div className="max-w-6xl mx-auto px-6 md:px-12 bg-white py-12">
+    <div className="max-w-6xl mx-auto px-6 md:px-12 bg-white dark:bg-black py-12">
       {/* Page heading - The New Yorker style centered title */}
-      <div className="text-center mb-16 border-b border-black/10 pb-12">
-        <h1 className="mb-4 font-semibold font-serif tracking-tight text-black text-5xl md:text-6xl animate-fade-in-up">
+      <div className="text-center mb-16 border-b border-black/10 dark:border-white/10 pb-12">
+        <h1 className="mb-4 font-semibold font-serif tracking-tight text-black dark:text-white text-5xl md:text-6xl animate-fade-in-up">
           Projects
         </h1>
 
         {/* Subtitle - Brief description with The New Yorker's understated style */}
-        <p className="text-[#707070] font-serif text-lg italic leading-relaxed animate-fade-in-up delay-100">
+        <p className="text-[#707070] dark:text-gray-400 font-serif text-lg italic leading-relaxed animate-fade-in-up delay-100">
           Selected research projects, and things I've built.
         </p>
       </div>
@@ -43,8 +43,8 @@ function Projects() {
                 />
               ) : (
                 // Placeholder box
-                <div className="w-full aspect-4/3 bg-[#f0f0f0] flex items-center justify-center transition-colors duration-300 group-hover:bg-[#e0e0e0]">
-                  <span className="text-[#999999] font-serif italic text-sm">
+                <div className="w-full aspect-4/3 bg-[#f0f0f0] dark:bg-[#222] flex items-center justify-center transition-colors duration-300 group-hover:bg-[#e0e0e0] dark:group-hover:bg-[#333]">
+                  <span className="text-[#999999] dark:text-gray-500 font-serif italic text-sm">
                     Image placeholder
                   </span>
                 </div>
@@ -59,21 +59,21 @@ function Projects() {
               </span>
 
               {/* Project title */}
-              <h2 className={`font-serif font-medium mb-3 text-black leading-tight group-hover:text-[#555] transition-colors
+              <h2 className={`font-serif font-medium mb-3 text-black dark:text-white leading-tight group-hover:text-[#555] dark:group-hover:text-gray-400 transition-colors
                 ${index === 0 ? "text-3xl md:text-4xl" : "text-2xl"}
               `}>
                 {project.title}
               </h2>
 
               {/* Project description */}
-              <p className={`font-serif text-[#333333] leading-relaxed tracking-wide
+              <p className={`font-serif text-[#333333] dark:text-gray-400 leading-relaxed tracking-wide
                 ${index === 0 ? "text-lg" : "text-base"}
               `}>
                 {project.description}
               </p>
               
               {/* Read more link (visual cue) */}
-              <span className="mt-4 inline-block font-sans text-xs font-bold uppercase tracking-wider text-black border-b border-black pb-0.5 w-max group-hover:border-[#d32f2f] group-hover:text-[#d32f2f] transition-all">
+              <span className="mt-4 inline-block font-sans text-xs font-bold uppercase tracking-wider text-black dark:text-white border-b border-black dark:border-white pb-0.5 w-max group-hover:border-[#d32f2f] group-hover:text-[#d32f2f] transition-all">
                 Read More
               </span>
             </div>

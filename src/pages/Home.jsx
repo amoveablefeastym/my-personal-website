@@ -5,87 +5,90 @@
 // and a row of social icons that link out to your profiles.
 
 import { Github, Linkedin, Mail, Twitter } from "lucide-react"
+import ReactMarkdown from "react-markdown"
+import { profileData } from "../data/profile"
+import Marquee from "../components/Marquee"
 
 // Import a local profile image.
 import profileImage from "../assets/profile.jpg"
 
 function Home() {
   return (
-    // Outer container that centers the content on the page.
-    <div className="min-h-[70vh] flex flex-col items-center justify-center text-center mt-20">
-      {/* Profile picture in the middle */}
-      <img
-        src={profileImage}
-        alt="Profile picture of Yimin"
-        className="w-[350px] h-[350px] mb-4 rounded-full object-cover animate-fade-in-up hover:scale-105 transition-transform duration-500 ease-out"
-      />
+    <div className="w-full flex flex-col items-center">
+      {/* Outer container that centers the content on the page. */}
+      <div className="min-h-[80vh] flex flex-col items-center justify-center text-center mt-12 md:mt-20 px-4 max-w-4xl mx-auto relative z-10">
+        
+        {/* Profile picture in the middle */}
+        <div className="relative mb-8 group">
+          <div className="absolute inset-0 rounded-full bg-gray-200 dark:bg-gray-800 transform translate-x-2 translate-y-2 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform duration-300 ease-out -z-10"></div>
+          <img
+            src={profileImage}
+            alt={`Profile picture of ${profileData.name}`}
+            className="w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] rounded-full object-cover animate-fade-in-up transition-all duration-700 ease-out border-4 border-white dark:border-black shadow-xl"
+          />
+        </div>
 
-      {/* Name */}
-      <h1 className="font-serif font-semibold tracking-[0.5px] mb-2 text-4xl sm:text-5xl animate-fade-in-up delay-200">
-        Hi! I'm Yimin.
-      </h1>
+        {/* Name */}
+        <h1 className="font-serif font-medium tracking-tight mb-4 text-5xl sm:text-6xl md:text-7xl animate-fade-in-up delay-200 text-black dark:text-white">
+          Hi, I'm <span className="italic relative inline-block hover:text-[#d32f2f] transition-colors duration-300 cursor-default">{profileData.name}</span>.
+        </h1>
 
-      {/* Short description under the name */}
-      <p className="max-w-[480px] font-serif text-gray-600 dark:text-[#e8e8e8] mb-6 text-base sm:text-lg leading-relaxed animate-fade-in-up delay-300">
-        {/* Replace this with your own intro text. Keep it 2–3 sentences. */}
-        I'm an undergraduate student at <strong><u>Northwestern University</u></strong>, studying{" "}
-        <strong><u>Computer Science</u></strong>, <strong><u>Cognitive Science</u></strong> and{" "}
-        <strong><u>Design</u></strong>.
-        <br />
-        <br />
-        I'm always trying to understand how people <strong><u>think</u></strong>,{" "}
-        <strong><u>feel</u></strong>, and <strong><u>move through the world</u></strong>. I split my time
-        between building interfaces, studying the brains, and writing about the messy parts of
-        being human.
-        <br />
-        <br />
-        This site is where those threads meet. Part portofolio, part journal, part playground, 
-        a little bit of everything that makes me me, very much still in progress.
-      </p>
+        {/* Short description under the name */}
+        <div className="max-w-[540px] font-serif text-gray-600 dark:text-[#a0a0a0] mb-10 text-lg sm:text-xl leading-relaxed animate-fade-in-up delay-300 prose prose-lg prose-p:my-4 prose-strong:font-medium prose-strong:text-black dark:prose-strong:text-white prose-a:text-black dark:prose-a:text-white prose-a:no-underline prose-a:border-b prose-a:border-gray-300 hover:prose-a:border-black dark:prose-a:border-gray-700 dark:hover:prose-a:border-white prose-a:transition-colors">
+          <ReactMarkdown>
+            {profileData.bio}
+          </ReactMarkdown>
+        </div>
 
-      {/* Row of social icons */}
-      <div className="flex flex-row gap-6 justify-center animate-fade-in-up delay-500">
-        {/* GitHub */}
-        <a
-          href="https://github.com/amoveablefeastym"
-          target="_blank"
-          rel="noreferrer"
-          aria-label="GitHub"
-          className="text-gray-600 dark:text-[#e8e8e8] hover:text-black dark:hover:text-white hover:scale-110 transition-all duration-300"
-        >
-          <Github size={28} strokeWidth={1.5} />
-        </a>
+        {/* Row of social icons */}
+        <div className="flex flex-row gap-8 justify-center animate-fade-in-up delay-500 mb-20">
+          {/* GitHub */}
+          <a
+            href={profileData.socials.find(s => s.platform === "github")?.url}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="GitHub"
+            className="text-gray-600 dark:text-[#e8e8e8] hover:text-black dark:hover:text-white hover:scale-110 transition-all duration-300"
+          >
+            <Github size={28} strokeWidth={1.5} />
+          </a>
 
-        {/* LinkedIn */}
-        <a
-          href="https://www.linkedin.com/in/yimin-huang-nu"
-          target="_blank"
-          rel="noreferrer"
-          aria-label="LinkedIn"
-          className="text-gray-600 dark:text-[#e8e8e8] hover:text-black dark:hover:text-white hover:scale-110 transition-all duration-300"
-        >
-          <Linkedin size={28} strokeWidth={1.5} />
-        </a>
+          {/* LinkedIn */}
+          <a
+            href={profileData.socials.find(s => s.platform === "linkedin")?.url}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="LinkedIn"
+            className="text-gray-600 dark:text-[#e8e8e8] hover:text-black dark:hover:text-white hover:scale-110 transition-all duration-300"
+          >
+            <Linkedin size={28} strokeWidth={1.5} />
+          </a>
 
-        {/* Email */}
-        <a
-          href="mailto:h1683618346@gmail.com"
-          aria-label="Email"
-          className="text-gray-600 dark:text-[#e8e8e8] hover:text-black dark:hover:text-white hover:scale-110 transition-all duration-300"
-        >
-          <Mail size={28} strokeWidth={1.5} />
-        </a>
+          {/* Email */}
+          <a
+            href={profileData.socials.find(s => s.platform === "email")?.url}
+            aria-label="Email"
+            className="text-gray-600 dark:text-[#e8e8e8] hover:text-black dark:hover:text-white hover:scale-110 transition-all duration-300"
+          >
+            <Mail size={28} strokeWidth={1.5} />
+          </a>
 
-        {/* Twitter / X (optional, remove if you don’t use it) */}
-        <a
-          href="https://twitter.com/your-handle"
-          target="_blank"
-          rel="noreferrer"
-          aria-label="Twitter"
-          className="text-gray-600 dark:text-[#e8e8e8] hover:text-black dark:hover:text-white hover:scale-110 transition-all duration-300"
-        >
-          <Twitter size={28} strokeWidth={1.5} />
-        </a>
+          {/* Twitter / X (optional, remove if you don’t use it) */}
+          <a
+            href={profileData.socials.find(s => s.platform === "twitter")?.url}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Twitter"
+            className="text-gray-600 dark:text-[#e8e8e8] hover:text-black dark:hover:text-white hover:scale-110 transition-all duration-300"
+          >
+            <Twitter size={28} strokeWidth={1.5} />
+          </a>
+        </div>
+      </div>
+
+      {/* Marquee Section */}
+      <div className="w-full animate-fade-in-up delay-700">
+        <Marquee items={profileData.interests || []} />
       </div>
     </div>
   )

@@ -2,11 +2,39 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@theme {
+  --font-sans: "Noto Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Crimson Text", "EB Garamond", "Goudy Bookletter 1911", Georgia, serif;
+  
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-marquee: marquee 25s linear infinite;
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+}
+
+.bg-dot-pattern {
+  background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .bg-dot-pattern {
+    background-image: radial-gradient(#333 1px, transparent 1px);
+  }
+}
+
 /* Root variables - Notion-inspired minimalistic black and white theme */
 :root {
-  /* Goudy-style serif fonts with clean sans-serif fallbacks */
-  /* Notion uses sans-serif, but keeping your Goudy preference for elegance */
-  font-family: 'Crimson Text', 'EB Garamond', 'Goudy Bookletter 1911', Georgia, serif;
+  /* Default to serif for that "writer" feel */
+  font-family: var(--font-serif);
   
   /* Line height 1.7 - Notion's signature spacious, readable line spacing */
   /* More generous than typical 1.5 for that airy, clean Notion feel */

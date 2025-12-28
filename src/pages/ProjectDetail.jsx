@@ -1,6 +1,8 @@
 import { useParams, Link } from "react-router-dom"
 import { projects } from "../data/projects"
 import { ArrowLeft } from "lucide-react"
+import ReactMarkdown from "react-markdown"
+import rehypeRaw from "rehype-raw"
 
 function ProjectDetail() {
   const { slug } = useParams()
@@ -21,7 +23,7 @@ function ProjectDetail() {
     <div className="max-w-3xl mx-auto px-6 py-12 animate-fade-in-up">
       <Link 
         to="/projects" 
-        className="inline-flex items-center text-[#707070] hover:text-black transition-colors mb-8 font-serif italic"
+        className="inline-flex items-center text-[#707070] dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors mb-8 font-serif italic"
       >
         <ArrowLeft size={16} className="mr-2" />
         Back to Projects
@@ -31,7 +33,7 @@ function ProjectDetail() {
         {project.category}
       </span>
 
-      <h1 className="text-4xl md:text-5xl font-serif font-semibold mb-8 text-black leading-tight">
+      <h1 className="text-4xl md:text-5xl font-serif font-semibold mb-8 text-black dark:text-white leading-tight">
         {project.title}
       </h1>
 
@@ -43,10 +45,11 @@ function ProjectDetail() {
         />
       )}
 
-      <div 
-        className="prose prose-lg prose-headings:font-serif prose-p:font-serif prose-p:text-[#333] max-w-none"
-        dangerouslySetInnerHTML={{ __html: project.longDescription }}
-      />
+      <div className="prose prose-lg prose-headings:font-serif prose-p:font-serif prose-p:text-[#333] dark:prose-p:text-gray-300 dark:prose-headings:text-white dark:prose-strong:text-white dark:prose-a:text-white dark:prose-li:text-gray-300 max-w-none">
+        <ReactMarkdown rehypePlugins={[rehypeRaw]}>
+          {project.longDescription}
+        </ReactMarkdown>
+      </div>
     </div>
   )
 }
