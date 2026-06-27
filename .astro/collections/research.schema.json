@@ -1,0 +1,64 @@
+{
+  "$ref": "#/definitions/research",
+  "definitions": {
+    "research": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "image": {
+          "type": "string"
+        },
+        "date": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "integer",
+              "format": "unix-time"
+            }
+          ]
+        },
+        "demo_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "repo_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "paper_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "credit": {
+          "type": "string"
+        },
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "category",
+        "description",
+        "date"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

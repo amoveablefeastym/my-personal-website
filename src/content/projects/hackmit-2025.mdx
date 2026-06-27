@@ -1,0 +1,126 @@
+---
+title: "AI-Powered Medical SOAP Note Generator"
+category: "AI / HEALTHCARE"
+description: "An intelligent system that automatically transforms telehealth transcripts into standardized SOAP notes, reducing documentation time from 15–20 minutes to under a minute."
+image: "/images/ai-medical/main-page.png"
+date: 2025-09-14
+featured: false
+repo_url: "https://github.com/amoveablefeastym/HackMIT-Team-2025"
+---
+
+Healthcare providers face a critical challenge: **clinical documentation consumes 15–20 minutes per patient visit**, pulling physicians away from patient care. This burden contributes to burnout and reduces the time available for meaningful doctor-patient interactions.
+
+We built an AI-powered solution that transforms this workflow.
+
+<div class="my-8">
+  <a href="https://github.com/amoveablefeastym/HackMIT-Team-2025" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-6 py-3 text-[#d32f2f] bg-transparent border border-[#d32f2f] hover:bg-[#d32f2f] hover:text-white transition-all no-underline font-sans text-sm font-bold uppercase tracking-widest rounded-sm">
+    View on GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+  </a>
+</div>
+
+---
+
+### The Solution: Intelligent SOAP Note Generation
+
+Our application automatically converts raw telehealth transcripts into **standardized SOAP notes**, the industry-standard format for clinical documentation. The system uses OpenAI's GPT-4o to analyze patient-doctor conversations and intelligently extract key medical information.
+
+<div class="my-8 p-6 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+  <h4 class="text-lg font-sans font-bold mb-4 text-center text-black dark:text-white">SOAP Note Structure</h4>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <div class="p-4 bg-white dark:bg-gray-800 rounded border-l-4 border-blue-500">
+      <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white">SUBJECTIVE</div>
+      <div class="text-sm text-gray-600 dark:text-gray-400">Patient's reported symptoms, concerns, and medical history</div>
+    </div>
+    <div class="p-4 bg-white dark:bg-gray-800 rounded border-l-4 border-green-500">
+      <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white">OBJECTIVE</div>
+      <div class="text-sm text-gray-600 dark:text-gray-400">Clinical observations, vital signs, and examination findings</div>
+    </div>
+    <div class="p-4 bg-white dark:bg-gray-800 rounded border-l-4 border-orange-500">
+      <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white">ASSESSMENT</div>
+      <div class="text-sm text-gray-600 dark:text-gray-400">Medical diagnosis and clinical evaluation</div>
+    </div>
+    <div class="p-4 bg-white dark:bg-gray-800 rounded border-l-4 border-purple-500">
+      <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white">PLAN</div>
+      <div class="text-sm text-gray-600 dark:text-gray-400">Treatment recommendations and follow-up instructions</div>
+    </div>
+  </div>
+</div>
+
+**The result?** Documentation time drops from 15–20 minutes to **under 1 minute** while maintaining professional healthcare standards.
+
+---
+
+### User Workflow
+
+<div class="my-8">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="text-center">
+      <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-blue-100 dark:bg-blue-900 flex items-center justify-center text-2xl font-bold text-black dark:text-white">1</div>
+      <h4 class="font-sans font-bold mb-2 text-black dark:text-white">Upload</h4>
+      <p class="text-sm text-gray-600 dark:text-gray-400">Drag & drop transcript file or paste text directly</p>
+    </div>
+    <div class="text-center">
+      <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 dark:bg-green-900 flex items-center justify-center text-2xl font-bold text-black dark:text-white">2</div>
+      <h4 class="font-sans font-bold mb-2 text-black dark:text-white">Process</h4>
+      <p class="text-sm text-gray-600 dark:text-gray-400">AI analyzes conversation and extracts medical information</p>
+    </div>
+    <div class="text-center">
+      <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center text-2xl font-bold text-black dark:text-white">3</div>
+      <h4 class="font-sans font-bold mb-2 text-black dark:text-white">Export</h4>
+      <p class="text-sm text-gray-600 dark:text-gray-400">Copy to clipboard or download as formatted note</p>
+    </div>
+  </div>
+</div>
+
+<figure class="my-12">
+  <img src="/images/ai-medical/main-page.png" alt="SOAP Note Generator Interface" class="w-full h-auto rounded-sm border border-gray-200 shadow-sm" />
+  <figcaption class="text-center text-sm text-gray-500 mt-3 font-serif italic">The main interface showing the upload functionality and clean, intuitive design.</figcaption>
+</figure>
+
+---
+
+### Key Features
+
+**Clinical Accuracy:** The AI understands medical context, not just keywords. It recognizes complex medical terminology, symptom patterns, dosages, allergies, and the difference between patient-reported data and clinical observations.
+
+<figure class="my-12">
+  <img src="/images/ai-medical/soap-note.png" alt="AI Processing View" class="w-full h-auto rounded-sm border border-gray-200 shadow-sm" />
+  <figcaption class="text-center text-sm text-gray-500 mt-3 font-serif italic">Real-time AI processing extracting structured medical information from transcripts.</figcaption>
+</figure>
+
+**Privacy-First Architecture:** Built with HIPAA compliance in mind: zero data persistence, real-time processing only, secure credential management.
+
+<figure class="my-12">
+  <img src="/images/ai-medical/generated-soap-note.png" alt="Generated SOAP Note Output" class="w-full h-auto rounded-sm border border-gray-200 shadow-sm" />
+  <figcaption class="text-center text-sm text-gray-500 mt-3 font-serif italic">The final generated SOAP note, professionally formatted and ready for export.</figcaption>
+</figure>
+
+---
+
+### Real-World Impact
+
+<div class="my-8 p-6 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
+    <div>
+      <div class="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">15→1 min</div>
+      <div class="text-sm text-gray-600 dark:text-gray-400">Time per patient note</div>
+    </div>
+    <div>
+      <div class="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">100%</div>
+      <div class="text-sm text-gray-600 dark:text-gray-400">Professional standard compliance</div>
+    </div>
+    <div>
+      <div class="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">0</div>
+      <div class="text-sm text-gray-600 dark:text-gray-400">Patient data stored</div>
+    </div>
+  </div>
+</div>
+
+### Technical Stack
+
+- **Backend:** Python Flask · OpenAI GPT-4o · Docker
+- **Frontend:** HTML/CSS/JavaScript · Responsive design · Async processing
+- **Deployment:** Cloud-ready · Horizontal scaling
+
+Built at **HackMIT 2025**.

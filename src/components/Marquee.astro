@@ -1,0 +1,20 @@
+---
+interface Props {
+  items: string[];
+}
+const { items } = Astro.props;
+---
+
+<div class="relative flex overflow-hidden py-4 bg-gray-50 dark:bg-[#111] border-y border-gray-100 dark:border-gray-800 w-full">
+  <div class="animate-marquee whitespace-nowrap flex items-center">
+    {[...items, ...items, ...items].map((item, i) => (
+      <span class="mx-8 text-lg font-sans text-gray-400 uppercase tracking-widest font-medium">
+        {item}
+      </span>
+    ))}
+  </div>
+
+  <!-- Fade edges -->
+  <div class="absolute inset-y-0 left-0 w-20 bg-gradient-to-r from-gray-50 dark:from-[#111] to-transparent pointer-events-none"></div>
+  <div class="absolute inset-y-0 right-0 w-20 bg-gradient-to-l from-gray-50 dark:from-[#111] to-transparent pointer-events-none"></div>
+</div>

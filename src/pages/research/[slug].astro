@@ -1,0 +1,60 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('research');
+  return entries.map(entry => ({
+    params: { slug: entry.id },
+    props:  { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { title, date, category, paper_url, credit } = entry.data;
+const { Content } = await render(entry);
+
+const dateStr = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+---
+
+<Layout title={title}>
+  <div class="max-w-3xl mx-auto px-6 py-12 animate-fade-in-up">
+
+    <a href="/research" class="inline-flex items-center text-[#707070] dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors mb-8 font-serif italic no-underline">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Research
+    </a>
+
+    <div class="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-4 mb-6">
+      <span class="text-[#d32f2f] font-sans text-xs font-bold uppercase tracking-widest">{category}</span>
+      <span class="text-gray-400 font-sans text-xs uppercase tracking-widest">{dateStr}</span>
+    </div>
+
+    <h1 class="text-4xl md:text-5xl font-serif font-semibold mb-12 text-black dark:text-white leading-tight">
+      {title}
+    </h1>
+
+    {paper_url && (
+      <div class="mb-10">
+        <a href={paper_url} target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center px-6 py-3 text-[#d32f2f] bg-transparent border border-[#d32f2f] hover:bg-[#d32f2f] hover:text-white transition-all no-underline font-sans text-sm font-bold uppercase tracking-widest rounded-sm">
+          Read Paper
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="ml-2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+        </a>
+      </div>
+    )}
+
+    {credit && (
+      <p
+        set:html={credit}
+        style="font-family: 'Crimson Text', 'EB Garamond', Georgia, serif; font-size: 0.95rem; color: #888888; line-height: 1.7; margin-bottom: 2rem;"
+        class="credit-line"
+      />
+    )}
+
+    <article class="prose prose-lg prose-headings:font-serif prose-p:font-serif prose-p:text-[#333] prose-a:font-medium prose-a:text-[#333] prose-a:underline prose-a:decoration-black/40 prose-a:underline-offset-4 prose-a:decoration-[1.5px] hover:prose-a:decoration-black prose-li:text-[#333] dark:prose-p:text-gray-300 dark:prose-headings:text-white dark:prose-strong:text-white dark:prose-a:text-white dark:prose-a:decoration-white/45 dark:hover:prose-a:decoration-white dark:prose-li:text-gray-300 max-w-none">
+      <Content />
+    </article>
+
+  </div>
+</Layout>

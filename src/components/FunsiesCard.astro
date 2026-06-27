@@ -1,0 +1,52 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'funsies'>;
+}
+
+const { post } = Astro.props;
+const { title, description, image, tags, category } = post.data;
+---
+
+<a
+  href={`/funsies/${post.id}`}
+  class="group block bg-white dark:bg-[#111] p-3 shadow-sm hover:shadow-xl transition-all duration-500 transform hover:-translate-y-1 relative no-underline"
+>
+  {image ? (
+    <div class="aspect-video overflow-hidden mb-4 relative">
+      <img
+        src={image}
+        alt={title}
+        class="w-full h-full object-cover group-hover:scale-105 transition-all duration-700"
+      />
+    </div>
+  ) : (
+    <div class="aspect-video bg-gray-100 dark:bg-[#222] flex items-center justify-center mb-4 border border-gray-200 dark:border-gray-800">
+      <span class="text-gray-400 font-sans text-xs tracking-widest">IMAGE MISSING</span>
+    </div>
+  )}
+
+  <div class="px-2 pb-2 text-center">
+    {category && (
+      <div class="text-[10px] font-sans font-bold text-gray-400 uppercase tracking-widest mb-2">
+        {category}
+      </div>
+    )}
+    <h2 class="text-2xl font-serif text-black dark:text-white mb-2 group-hover:text-[#8b0000] dark:group-hover:text-red-400 transition-colors">
+      {title}
+    </h2>
+    <p class="text-gray-500 dark:text-gray-400 text-sm font-serif italic leading-relaxed">
+      {description}
+    </p>
+    {tags && tags.length > 0 && (
+      <div class="flex flex-wrap justify-center gap-1 mt-3">
+        {tags.map(tag => (
+          <span class="px-2 py-0.5 text-[10px] font-sans uppercase tracking-wider border border-gray-200 dark:border-gray-700 text-gray-400">
+            {tag}
+          </span>
+        ))}
+      </div>
+    )}
+  </div>
+</a>

@@ -1,0 +1,166 @@
+---
+title: "From World Learning to World Mirror: LLM-Driven Systems for Cultural Exploration and Self-Reflection"
+category: "HCI / EXPERIENTIAL COMPUTING"
+description: "Two LLM-driven systems exploring how place can become a mirror for cultural curiosity and personal reflection."
+image: "/images/experiential-computing/image1.png"
+date: 2025-12-01
+credit: 'Developing <a href="https://dtr.northwestern.edu/projects/recE0oh0YVadF18sV" target="_blank" rel="noopener noreferrer">this project</a> through the <a href="https://dtr.northwestern.edu" target="_blank" rel="noopener noreferrer">Design, Technology and Research</a> program under Delta Lab at Northwestern University, with the close mentorship of <a href="https://eecs.northwestern.edu/~hq/" target="_blank" rel="noopener noreferrer">Prof. Haoqi Zhang</a>. <em>(I love you DTR ♡)</em>'
+---
+
+*Fall 2025.* WorldLearning began with a simple observation: people across cultures seek the same things (fun, connection, belonging, purpose) but realize them in radically different ways. The goal was to make these differences visible, and to encourage curiosity about the social, historical, and cultural factors that shaped them.
+> People around the world share broad experiential
+goals such as “relaxing” or “having fun,” but the concrete
+activities that realize these experiences vary widely by place.
+Existing tools like search engines, guidebooks, travel blogs, and
+large language models (LLMs) can answer questions such as
+“What do people do for fun in Japan?”, yet they typically present
+one country at a time and require users to already know what
+to ask. These answer-first interfaces make it hard to see how
+a single experience is realized differently across countries, or to
+surface surprising contrasts that might provoke deeper questions.
+This paper presents WorldLearning, an interactive system that
+uses an LLM and a world map to help users explore how local
+people in different countries typically have fun in their free time.
+Given a user-specified activity (for example, “going to karaoke”),
+WorldLearning uses an LLM as a scoring model to estimate how
+typical that activity is as something locals do for fun in each
+country, and visualizes the resulting scores as a choropleth map
+with ranking lists and follow-up explanation tools. The system
+is designed to transform interaction with LLMs from one-shot
+question–answer exchanges into a dialectical process in which
+visualized patterns generate new questions that users then probe
+further. A preliminary study with two participants engaging
+in guided think-aloud exploration suggests that WorldLearning
+can surface unexpected global patterns, prompt questions that
+users would not have asked on their own, and support sustained
+curiosity-driven inquiry about why everyday experiences are
+realized differently across countries.
+<div class="my-8">
+  <a href="/papers/world-learning-paper.pdf" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-6 py-3 text-[#d32f2f] bg-transparent border border-[#d32f2f] hover:bg-[#d32f2f] hover:text-white transition-all no-underline font-sans text-sm font-bold uppercase tracking-widest rounded-sm">
+    Read the full paper
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+  </a>
+</div>
+<div class="my-12 grid grid-cols-1 gap-8">
+  <figure>
+    <img src="/images/experiential-computing/image1.png" alt="WorldLearning Interface" class="w-full h-auto rounded-sm border border-gray-200 shadow-sm" />
+    <figcaption class="text-center text-sm text-gray-500 mt-3 font-serif italic">Figure 1: The main interface showing the interactive globe and activity selection.</figcaption>
+  </figure>
+  <figure>
+    <img src="/images/experiential-computing/image2.png" alt="Analysis View" class="w-full h-auto rounded-sm border border-gray-200 shadow-sm" />
+    <figcaption class="text-center text-sm text-gray-500 mt-3 font-serif italic">Figure 2: Detailed analysis view comparing cultural salience across different regions.</figcaption>
+  </figure>
+</div>
+
+
+### Key Features
+
+- **Interactive 3D Visualization:** A reactive globe built with Three.js allowing users to spin, zoom, and select countries to visualize data spatially.
+- **LLM-Driven Scoring:** Uses GPT-4 to dynamically score the "typicality" of activities across different cultures, turning qualitative knowledge into quantitative data.
+- **Comparative Analysis:** Side-by-side ranking lists and choropleth maps allow users to contrast how different regions prioritize specific experiences.
+- **Dialectical Exploration:** Designed to prompt follow-up questions rather than just providing static answers, fostering curiosity-driven inquiry.
+
+### Technical Stack
+
+- **Frontend:** React (TypeScript), TanStack Start & Router, Tailwind CSS. D3.js and TopoJSON for map visualizations.
+- **Backend:** Node.js via TanStack Start server functions. Zod for schema validation and custom middleware for auth.
+- **AI / ML:** OpenAI API (davinci-002 for log-probs, GPT-4 for explanations). Custom tokenization and log-summation logic.
+- **Tools:** Vite, pnpm, ESLint, Prettier.
+
+<div class="w-16 h-px bg-gray-300 dark:bg-gray-700 mx-auto my-12"></div>
+
+As I continued my research, I began asking myself a different question.
+
+**Is simply learning facts about differences enough? What were the moments that had actually changed me?**
+
+The answer was never a statistic, a map, or a piece of information.
+
+
+One of my best friends is from Cartagena, Colombia. I remember listening to him talk about home, the neighbors who stopped to greet each other, the music, the dancing, the way life seemed to spill out into the streets. There was a warmth, a passion, and a deep love in the way he remembered everything. Weirdly, I felt connected to a place I had never been.
+
+But I couldn't reconcile with the contradiction:
+
+**How could a country that had experienced so much violence, conflict, and collective trauma still be so full of joy? How could people continue to dance, sing, love, and celebrate after everything they had endured?**
+
+At first, I thought I was trying to understand Colombia. Eventually, I realized I was trying to understand myself.
+
+When faced with hardships in my own life, my instinct is often to move toward the pain, to make it bigger in my head than it actually is, to analyze it, revisit it, fetishize it. Yet the stories I heard from Colombia seemed to point toward a different form of resilience. Not the denial of suffering, but the refusal to allow suffering to become the entirety of one's life. Joy was not the absence of pain. It was a way of living alongside it.
+
+For the first time, I began to wonder whether resilience was not found in endlessly revisiting pain, but in continuing to move despite it.
+
+<div class="w-16 h-px bg-gray-300 dark:bg-gray-700 mx-auto my-12"></div>
+
+This realization led me to reconsider the purpose of the project. What stayed with me from encounters with other cultures was not factual knowledge, it was emotional transformation. The most meaningful moments were not when I learned something new about another place. They were when another person's way of living challenged my assumptions about my own.
+
+<div class="my-12 text-center">
+  <span class="font-sans text-xs font-bold tracking-widest text-[#d32f2f] uppercase">Fall 2025 → Spring 2026</span>
+  <div class="mt-3 text-2xl md:text-3xl font-serif font-semibold text-black dark:text-white">WorldLearning became WorldMirror.</div>
+</div>
+
+Rather than treating places as destinations to be learned about, WorldMirror treats places as expressions of human values, priorities, and ways of responding to life's challenges. Each place represents a particular organization of social norms, relationships, histories, and environments. By exploring these systems, users are not only learning about others; they are encountering alternative ways of understanding belonging, community, resilience, and meaning.
+
+Places become *models of life organization*, and ultimately mirrors through which users can examine their own assumptions and tensions.
+> People are often limited to their own perspectives,
+which are deeply shaped by their surroundings. Place – that
+is, the geographic location in which people live and interact
+with one another – is enriched by historical, cultural, and social
+contexts which subsequently influences how people think and
+behave. People often perceive locations, especially unfamiliar
+ones, as inherently distinct from the self, merely as places to
+visit and learn about rather than as mechanisms for personal
+development. Yet, people’s internal worlds are shaped by the
+same forces which shape surroundings. Individual habits, be-
+liefs, values, and attitudes evolve through exposure to societal,
+cultural, and environmental pressures. Whether consciously or
+subconsciously, people make efforts to improve self-concept and
+overcome personal challenges through reflection, self-awareness,
+and seeing issues from a new perspective. Oftentimes, it is
+the last element that enables the first two to occur. There
+is an opportunity to reconcile people’s internal worlds with
+their external world, particularly through providing people with
+contexts that are disparate from their own. In this manner, we
+welcome alternative perspectives, grounded by physical locations,
+to help individuals reveal current thought patterns, make com-
+parisons, and ultimately gain personal insights. In this paper,
+we present WorldMirror, a system that uses a mixture of LLM
+discussions and interaction with videos to help users gain a deeper
+understanding of their problem, learn different ways to approach
+their problem, and learn about the world. Given a user problem,
+the LLM prompts the user to learn more about their problem
+and connect it with different aspects of the user’s life to identify
+underlying root causes. Then the LLM provides locations around
+the world that can teach the user new ways of thinking about
+their problem. Through interacting with a video of people living
+their daily lives at the location and further discussion with the
+LLM, the system pushes users to learn more about their problem
+and the world. A preliminary study with one participant using
+the system suggests that WorldMirror can understand the user’s
+problem thoroughly and identify root causes but struggles to help
+users grow in their own thinking about their problem and the
+world.
+<div class="my-8">
+  <a href="/papers/WorldMirror_S26.pdf" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-6 py-3 text-[#d32f2f] bg-transparent border border-[#d32f2f] hover:bg-[#d32f2f] hover:text-white transition-all no-underline font-sans text-sm font-bold uppercase tracking-widest rounded-sm">
+    Read the full paper
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+  </a>
+</div>
+<div class="my-12 grid grid-cols-1 gap-8">
+  <figure>
+    <img src="/images/experiential-computing/image3.png" alt="Figure 3: Conceptual Representation of Design" class="w-full h-auto rounded-sm border border-gray-200 shadow-sm" />
+    <figcaption class="text-center text-sm text-gray-500 mt-3 font-serif italic">Figure 3: Conceptual Representation of Design</figcaption>
+  </figure>
+  <figure>
+    <img src="/images/experiential-computing/image4.png" alt="Figure 4: System Flow Diagram" class="w-full h-auto rounded-sm border border-gray-200 shadow-sm" />
+    <figcaption class="text-center text-sm text-gray-500 mt-3 font-serif italic">Figure 4: System Flow Diagram</figcaption>
+  </figure>
+</div>
+
+
+In the original project, reflection emerged from comparing cultural differences. In WorldMirror, reflection becomes the central mechanism. Users are guided to connect what they observe in an unfamiliar place back to their own experiences. The goal is not simply to understand why a practice exists elsewhere, but to ask what that practice reveals about one's own values, desires, and worldview.
+
+I began by believing that learning about the world meant discovering how people are different. Through conversations, travel, and reflection, I came to believe that the most powerful encounters with difference are the ones that reveal our shared humanity. The project shifted from helping users understand other cultures to creating opportunities for the kind of emotional and personal transformation that occurs when another person's story causes us to see ourselves differently.
+
+
+
+
+

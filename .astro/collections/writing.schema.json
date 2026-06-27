@@ -1,0 +1,60 @@
+{
+  "$ref": "#/definitions/writing",
+  "definitions": {
+    "writing": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "synopsis": {
+          "type": "string"
+        },
+        "content_type": {
+          "type": "string",
+          "enum": [
+            "full-text",
+            "pdf",
+            "synopsis-only"
+          ],
+          "default": "full-text"
+        },
+        "pdf_url": {
+          "type": "string",
+          "format": "uri"
+        },
+        "date": {
+          "anyOf": [
+            {
+              "type": "string",
+              "format": "date-time"
+            },
+            {
+              "type": "string",
+              "format": "date"
+            },
+            {
+              "type": "integer",
+              "format": "unix-time"
+            }
+          ]
+        },
+        "$schema": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "date"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$schema": "http://json-schema.org/draft-07/schema#"
+}

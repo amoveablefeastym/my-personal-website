@@ -1,0 +1,36 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import WritingEntry from '../../components/WritingEntry.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('writing'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout title="Writing" description="Creative writing, essays, and plays.">
+  <div class="max-w-3xl mx-auto px-6 py-20 animate-fade-in-up relative">
+
+    <header class="mb-20 border-b border-gray-200 dark:border-gray-800 pb-8 text-center relative z-10 group cursor-default">
+      <h1 class="text-4xl font-serif font-bold mb-4 text-black dark:text-white relative inline-block">
+        Writing
+      </h1>
+      <div class="flex flex-col items-center gap-2">
+        <p class="text-lg text-gray-500 dark:text-gray-400 font-serif italic leading-relaxed max-w-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out">
+          I write therefore I am.
+        </p>
+        <span class="font-sans text-xs font-bold uppercase tracking-widest text-gray-400 shrink-0 border border-gray-200 dark:border-gray-800 px-2 py-1 mt-2">
+          {posts.length} {posts.length === 1 ? 'Entry' : 'Entries'}
+        </span>
+      </div>
+    </header>
+
+    <div class="space-y-4 relative z-10">
+      {posts.length === 0 ? (
+        <p class="text-center font-serif text-gray-400 italic py-12">Nothing here yet — check back soon.</p>
+      ) : (
+        posts.map(entry => <WritingEntry entry={entry} />)
+      )}
+    </div>
+
+  </div>
+</Layout>

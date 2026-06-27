@@ -1,0 +1,53 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('funsies');
+  return posts.map(post => ({
+    params: { slug: post.id },
+    props:  { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { title, description, date, tags, image } = post.data;
+const { Content } = await render(post);
+
+const dateStr = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+---
+
+<Layout title={title} description={description}>
+  <div class="max-w-3xl mx-auto px-6 py-12 animate-fade-in-up">
+
+    <a href="/funsies" class="inline-flex items-center text-[#707070] dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors mb-8 font-serif italic no-underline">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2"><polyline points="15 18 9 12 15 6"/></svg>
+      Back to Funsies
+    </a>
+
+    <span class="text-gray-400 font-sans text-xs uppercase tracking-widest mb-4 block">{dateStr}</span>
+
+    <h1 class="text-4xl md:text-5xl font-serif font-semibold mb-4 text-black dark:text-white leading-tight">
+      {title}
+    </h1>
+
+    {tags && tags.length > 0 && (
+      <div class="flex flex-wrap gap-2 mb-8">
+        {tags.map(tag => (
+          <span class="px-2 py-0.5 text-[10px] font-sans uppercase tracking-wider border border-gray-200 dark:border-gray-700 text-gray-400">
+            {tag}
+          </span>
+        ))}
+      </div>
+    )}
+
+    {image && (
+      <img src={image} alt={title} class="w-full rounded-sm mb-10 aspect-video object-cover" />
+    )}
+
+    <article class="prose prose-lg prose-headings:font-serif prose-p:font-serif prose-p:text-[#333] dark:prose-p:text-gray-300 dark:prose-headings:text-white dark:prose-strong:text-white dark:prose-a:text-white dark:prose-li:text-gray-300 max-w-none">
+      <Content />
+    </article>
+
+  </div>
+</Layout>

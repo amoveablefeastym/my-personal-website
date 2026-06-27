@@ -1,0 +1,367 @@
+---
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'Personal website of Yimin Huang' } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+
+    <!-- Prevent FOUC: set theme before paint -->
+    <script is:inline>
+      const saved = localStorage.getItem('theme');
+      const sys = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      document.documentElement.dataset.theme = saved ?? sys;
+    </script>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Crimson+Text:wght@400;600;700&family=EB+Garamond:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>{title} — Yimin Huang</title>
+    {description && <meta name="description" content={description} />}
+  </head>
+  <body>
+    <!-- Rusty Lake atmosphere overlays -->
+    <div class="rusty-noise"></div>
+    <div class="rusty-vignette"></div>
+
+    <Nav />
+
+    <main>
+      <slot />
+    </main>
+
+    <Footer />
+  </body>
+</html>
+
+<!-- Global styles inlined to avoid @tailwindcss/vite dev-server CSS index conflict -->
+<style is:global>
+  @import "tailwindcss";
+  @plugin "@tailwindcss/typography";
+
+  /* Dark mode via data-theme="dark" attribute on <html> */
+  @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+
+  @theme {
+    --font-sans: "Noto Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-serif: "Crimson Text", "EB Garamond", Georgia, serif;
+    --animate-float: float 6s ease-in-out infinite;
+    --animate-marquee: marquee 25s linear infinite;
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+  }
+
+  /* ── Base ─────────────────────────────────────────── */
+
+  :root {
+    font-family: var(--font-serif);
+    line-height: 1.7;
+    font-weight: 400;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color-scheme: light dark;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    min-width: 320px;
+    letter-spacing: 0.2px;
+    background-color: #ffffff;
+    color: #1a1a1a;
+  }
+  [data-theme="dark"] body {
+    background-color: #000000;
+    color: #e8e8e8;
+  }
+
+  a {
+    font-weight: 400;
+    color: #5a5a5a;
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  a:hover { color: #000000; }
+  [data-theme="dark"] a { color: #9b9b9b; }
+  [data-theme="dark"] a:hover { color: #d4d4d4; }
+
+  h1 { font-size: 2.2em; line-height: 1.3; font-weight: 600; margin: 1.2em 0 0.6em; color: #000; }
+  h2 { font-size: 1.8em; line-height: 1.3; font-weight: 600; margin: 1em 0 0.5em; color: #000; }
+  h3 { font-size: 1.4em; line-height: 1.4; font-weight: 600; margin: 0.8em 0 0.4em; color: #000; }
+  [data-theme="dark"] h1 { color: #fff; }
+  [data-theme="dark"] h2 { color: #f5f5f5; }
+  [data-theme="dark"] h3 { color: #e8e8e8; }
+  p { margin: 0 0 1em; }
+
+  /* ── Animations ───────────────────────────────────── */
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .animate-fade-in-up {
+    animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    opacity: 0;
+  }
+
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-500 { animation-delay: 500ms; }
+  .delay-700 { animation-delay: 700ms; }
+
+  /* ── Dot pattern ──────────────────────────────────── */
+
+  .bg-dot-pattern {
+    background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  [data-theme="dark"] .bg-dot-pattern {
+    background-image: radial-gradient(#333 1px, transparent 1px);
+  }
+
+  /* ── Rusty Lake: Film Grain ───────────────────────── */
+
+  .rusty-noise {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9998;
+    opacity: 0.07;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+
+  /* ── Rusty Lake: Vignette ─────────────────────────── */
+
+  .rusty-vignette {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9997;
+    background: radial-gradient(circle, transparent 50%, rgba(0,0,0,0.15) 100%);
+  }
+  [data-theme="dark"] .rusty-vignette {
+    background: radial-gradient(circle, transparent 50%, rgba(0,0,0,0.4) 100%);
+  }
+
+  /* ── Rusty Lake: Profile filter ───────────────────── */
+
+  .corrupted-soul-filter {
+    filter: sepia(20%) contrast(105%) brightness(1.05);
+    transition: filter 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* ── Rusty Lake: Typewriter font ──────────────────── */
+
+  .font-typewriter {
+    font-family: "Courier Prime", "Courier New", Courier, monospace;
+    letter-spacing: -0.02em;
+  }
+
+  /* ── Project credit line ─────────────────────────── */
+
+  .project-credit {
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    color: #b8b8b8;
+    line-height: 1.7;
+    letter-spacing: 0.05em;
+    margin-bottom: 2.5rem;
+  }
+  [data-theme="dark"] .project-credit { color: #4a4a4a; }
+
+  .project-credit a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: rgba(160, 160, 160, 0.5);
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: text-decoration-color 0.2s ease, text-decoration-thickness 0.2s ease;
+  }
+  .project-credit a:hover {
+    color: inherit;
+    text-decoration-color: #b8b8b8;
+    text-decoration-thickness: 1.5px;
+  }
+  [data-theme="dark"] .project-credit a { text-decoration-color: rgba(80, 80, 80, 0.6); }
+  [data-theme="dark"] .project-credit a:hover { text-decoration-color: #4a4a4a; }
+
+  /* ── Research credit line ────────────────────────── */
+
+  .credit-line a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: rgba(136, 136, 136, 0.5);
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    transition: text-decoration-color 0.2s ease, text-decoration-thickness 0.2s ease;
+  }
+  .credit-line a:hover {
+    color: inherit;
+    text-decoration-color: #888888;
+    text-decoration-thickness: 2px;
+  }
+
+  /* ── Prose inline links ─────────────────────────── */
+
+  .prose a {
+    color: inherit;
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: rgba(0, 0, 0, 0.45);
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1.5px;
+    transition: text-decoration-color 0.2s ease, text-decoration-thickness 0.2s ease;
+  }
+  .prose a:hover {
+    color: inherit;
+    text-decoration-color: rgba(0, 0, 0, 0.9);
+    text-decoration-thickness: 2px;
+  }
+  [data-theme="dark"] .prose a {
+    color: inherit;
+    text-decoration-color: rgba(255, 255, 255, 0.45);
+  }
+  [data-theme="dark"] .prose a:hover {
+    color: inherit;
+    text-decoration-color: rgba(255, 255, 255, 0.9);
+  }
+
+  /* ── Bio inline links ────────────────────────────── */
+
+  .bio-link {
+    font-weight: 500;
+    color: #1a1a1a;
+    text-decoration: underline;
+    text-decoration-color: rgba(0, 0, 0, 0.45);
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1.5px;
+    transition: text-decoration-color 0.2s ease, text-decoration-thickness 0.2s ease, letter-spacing 0.2s ease;
+  }
+  .bio-link:hover {
+    color: #1a1a1a;
+    text-decoration-color: #1a1a1a;
+    text-decoration-thickness: 2.5px;
+    letter-spacing: 0.01em;
+  }
+  [data-theme="dark"] .bio-link {
+    color: #ffffff;
+    text-decoration-color: rgba(255, 255, 255, 0.45);
+  }
+  [data-theme="dark"] .bio-link:hover {
+    color: #ffffff;
+    text-decoration-color: #ffffff;
+  }
+
+  /* ── Rusty Lake: Red thread link ──────────────────── */
+
+  .rusty-link { position: relative; text-decoration: none; }
+  .rusty-link::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: -2px;
+    left: 0;
+    background-color: #8b0000;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease-out;
+  }
+  .rusty-link:hover::after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+  }
+
+  /* ── Rusty Lake: Double frame ─────────────────────── */
+
+  .rusty-frame { position: relative; }
+  .rusty-frame::before {
+    content: "";
+    position: absolute;
+    inset: -12px;
+    border: 1px solid rgba(0,0,0,0.1);
+    pointer-events: none;
+    z-index: 10;
+  }
+  [data-theme="dark"] .rusty-frame::before { border-color: rgba(255,255,255,0.1); }
+
+  /* ── Rusty Lake: Glitch text ──────────────────────── */
+
+  .rusty-glitch { position: relative; }
+  .rusty-glitch::before,
+  .rusty-glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: inherit;
+  }
+  .rusty-glitch::before {
+    left: 2px;
+    text-shadow: -1px 0 #ff00c1;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim 5s infinite linear alternate-reverse;
+  }
+  .rusty-glitch::after {
+    left: -2px;
+    text-shadow: -1px 0 #00fff9;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim2 5s infinite linear alternate-reverse;
+  }
+
+  @keyframes glitch-anim {
+    0%   { clip: rect(30px, 9999px, 10px, 0); }
+    5%   { clip: rect(80px, 9999px, 90px, 0); }
+    10%  { clip: rect(10px, 9999px, 40px, 0); }
+    15%  { clip: rect(50px, 9999px, 20px, 0); }
+    20%  { clip: rect(20px, 9999px, 60px, 0); }
+    100% { clip: rect(60px, 9999px, 30px, 0); }
+  }
+  @keyframes glitch-anim2 {
+    0%   { clip: rect(10px, 9999px, 80px, 0); }
+    5%   { clip: rect(60px, 9999px, 10px, 0); }
+    10%  { clip: rect(40px, 9999px, 50px, 0); }
+    15%  { clip: rect(90px, 9999px, 20px, 0); }
+    20%  { clip: rect(20px, 9999px, 30px, 0); }
+    100% { clip: rect(50px, 9999px, 60px, 0); }
+  }
+
+  /* ── Rusty Lake: Floating symbols ─────────────────── */
+
+  .rusty-symbol {
+    position: absolute;
+    opacity: 0.05;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+  }
+  .rusty-symbol:hover { opacity: 0.3; }
+</style>

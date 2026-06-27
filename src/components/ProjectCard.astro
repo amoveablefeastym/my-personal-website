@@ -1,0 +1,53 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  featured?: boolean;
+}
+
+const { project, featured = false } = Astro.props;
+const { title, category, description, image } = project.data;
+---
+
+<a
+  href={`/projects/${project.id}`}
+  class={`group flex flex-col no-underline text-inherit transition-all duration-300 ease-out relative ${
+    featured ? 'md:col-span-2 md:grid md:grid-cols-2 md:gap-12 md:items-start' : ''
+  }`}
+>
+  <!-- Image -->
+  <div class={`w-full overflow-hidden mb-4 ${featured ? 'md:mb-0' : ''} relative`}>
+    {image ? (
+      <img
+        src={image}
+        alt={`${title} preview`}
+        class="w-full aspect-4/3 object-cover transition-all duration-700 ease-out group-hover:scale-105"
+      />
+    ) : (
+      <div class="w-full aspect-4/3 bg-[#f0f0f0] dark:bg-[#222] flex items-center justify-center transition-colors duration-300 group-hover:bg-[#e0e0e0] dark:group-hover:bg-[#333]">
+        <span class="text-[#999999] dark:text-gray-500 font-serif italic text-sm">No image</span>
+      </div>
+    )}
+  </div>
+
+  <!-- Content -->
+  <div class="flex flex-col justify-center">
+    <span class="text-[#d32f2f] font-sans text-sm font-bold tracking-widest mb-3 block uppercase">
+      {category}
+    </span>
+    <h2 class={`font-serif font-medium mb-3 text-black dark:text-white leading-tight group-hover:text-[#8b0000] dark:group-hover:text-red-400 transition-colors w-fit ${
+      featured ? 'text-3xl md:text-4xl' : 'text-2xl'
+    }`}>
+      {title}
+    </h2>
+    <p class={`font-serif text-[#333333] dark:text-gray-400 leading-relaxed tracking-wide ${
+      featured ? 'text-lg' : 'text-base'
+    }`}>
+      {description}
+    </p>
+    <span class="mt-4 inline-block font-sans text-sm font-bold uppercase tracking-wider text-black dark:text-white border-b border-black dark:border-white pb-0.5 w-max group-hover:border-[#d32f2f] group-hover:text-[#d32f2f] transition-all">
+      Read More
+    </span>
+  </div>
+</a>

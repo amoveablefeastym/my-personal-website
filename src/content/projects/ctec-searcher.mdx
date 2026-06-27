@@ -1,0 +1,84 @@
+---
+title: "CTEC Searcher"
+category: "PROJECT MANAGEMENT / FULLSTACK"
+description: "A searchable, structured database for Northwestern course and professor evaluations, turning locked PDF reports into something students can actually use."
+image: "/images/CTEC-searcher/image1.png"
+date: 2025-03-15
+featured: false
+---
+
+After every class, Northwestern students fill out CTECs (Course and Teacher Evaluations): 1–6 scale ratings, structured feedback, and written comments. That data is real and detailed, but it's locked inside long, unsearchable PDF reports. There's no way to compare professors, filter by department, or ask a quick question like "is the workload heavy?" without reading the whole document.
+
+**CTEC Searcher** turns that PDF archive into something closer to "RateMyProfessor, but structured and data-driven." Students search and filter course offerings by department, level, and term, sort by any of five rating dimensions (instruction quality, course rating, amount learned, intellectual challenge, prior interest), and drill into a course page showing rating distributions, time-survey data, demographics, and raw student comments, plus an AI assistant that answers questions grounded only in that course's actual reviews.
+
+<div class="my-8 p-5 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+    <div>
+      <div class="font-serif text-sm text-gray-700 dark:text-gray-300 leading-relaxed">Rapidly search for courses, professors, or departments</div>
+    </div>
+    <div>
+      <div class="font-serif text-sm text-gray-700 dark:text-gray-300 leading-relaxed">Easy to read and navigate UI that quickly and clearly communicates relevant information</div>
+    </div>
+    <div>
+      <div class="font-serif text-sm text-gray-700 dark:text-gray-300 leading-relaxed">Use AI to summarize comments instead of reading through one by one</div>
+    </div>
+  </div>
+</div>
+
+<div class="my-12 grid grid-cols-1 gap-8">
+  <figure>
+    <img src="/images/CTEC-searcher/image2.png" alt="Four panel problem statements" class="w-full h-auto rounded-sm border border-gray-200 shadow-sm" />
+    <figcaption class="text-center text-sm text-gray-500 mt-3 font-serif italic">Figure 1: Four Panel problem statements</figcaption>
+  </figure>
+  <figure>
+    <img src="/images/CTEC-searcher/image1.png" alt="CTEC Searcher Page" class="w-1/2 h-auto rounded-sm border border-gray-200 shadow-sm mx-auto block" />
+    <figcaption class="text-center text-sm text-gray-500 mt-3 font-serif italic">Figure 2: CTEC Searcher Page</figcaption>
+  </figure>
+</div>
+
+### Architecture
+
+<div class="my-8 space-y-4">
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-blue-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">Data Model</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">A relational schema (<code class="font-mono text-xs bg-gray-100 dark:bg-gray-700 px-1 rounded">Professor</code>, <code class="font-mono text-xs bg-gray-100 dark:bg-gray-700 px-1 rounded">Course</code>, <code class="font-mono text-xs bg-gray-100 dark:bg-gray-700 px-1 rounded">CourseOffering</code>, <code class="font-mono text-xs bg-gray-100 dark:bg-gray-700 px-1 rounded">Question</code>, <code class="font-mono text-xs bg-gray-100 dark:bg-gray-700 px-1 rounded">QuestionDistribution</code>, <code class="font-mono text-xs bg-gray-100 dark:bg-gray-700 px-1 rounded">Comment</code>) served through Firebase Data Connect over Cloud SQL Postgres. GraphQL-defined types generate fully typed query/mutation clients consumed directly by React hooks, so the schema is the single source of truth from database to UI.</div>
+  </div>
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-green-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">Search, Filter, Sort</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">Client-side search across course name, number, professor, and department, combined with department/level/term filters and rating-based sorting. Filter state lives in the URL's search params rather than component state, so any filtered view is shareable and survives a page refresh.</div>
+  </div>
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-purple-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">RAG-Powered "Ask the Reviews"</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">A chat feature (Gemini 2.5 Flash) scoped to a single course's comments: the system prompt injects only that course's student comments as context and explicitly instructs the model to answer from those comments alone, falling back to "I couldn't find that in the reviews" rather than hallucinating. Multi-turn conversation history is preserved across follow-up questions.</div>
+  </div>
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-orange-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">Data Ingestion</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">A seed pipeline parses CTEC source data into structured JSON and pushes it into production via authenticated GraphQL mutations against the Data Connect endpoint, categorizing questions (core rating vs. time-survey vs. demographic) before insertion.</div>
+  </div>
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-teal-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">Visualization</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">Custom rating bars and distribution charts render the 1–6 scale responses and categorical breakdowns as proportional bars, so ratings stay scannable and comparable across courses.</div>
+  </div>
+</div>
+
+
+I worked on a 5-person team practicing agile development, contributing to the design and software development.
+
+### Stack
+
+<div class="my-6 p-6 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div>
+      <div class="font-sans font-bold text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">Frontend</div>
+      <div class="font-serif text-sm text-gray-700 dark:text-gray-300">React 19 · TypeScript · Vite · React Router · Tailwind CSS</div>
+    </div>
+    <div>
+      <div class="font-sans font-bold text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">Backend</div>
+      <div class="font-serif text-sm text-gray-700 dark:text-gray-300">Firebase Data Connect · Cloud SQL (PostgreSQL) · GraphQL</div>
+    </div>
+    <div>
+      <div class="font-sans font-bold text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">AI</div>
+      <div class="font-serif text-sm text-gray-700 dark:text-gray-300">Google Gemini 2.5 Flash (RAG over student comments)</div>
+    </div>
+  </div>
+</div>

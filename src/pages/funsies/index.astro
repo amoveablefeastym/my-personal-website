@@ -1,0 +1,31 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import FunsiesCard from '../../components/FunsiesCard.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('funsies'))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+---
+
+<Layout title="Funsies" description="Me having a life.">
+  <div class="max-w-5xl mx-auto px-6 py-12 relative">
+
+    <div class="text-center mb-16 relative group cursor-default">
+      <h1 class="text-4xl md:text-5xl font-serif font-semibold mb-4 tracking-[0.5px] animate-fade-in-up text-black dark:text-white relative inline-block">
+        Funsies
+      </h1>
+      <p class="text-gray-600 dark:text-gray-400 font-serif text-lg animate-fade-in-up delay-100 italic opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out">
+        Me having a life.
+      </p>
+    </div>
+
+    {posts.length === 0 ? (
+      <p class="text-center font-serif text-gray-400 italic py-12">Nothing here yet — check back soon.</p>
+    ) : (
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-12 animate-fade-in-up delay-200">
+        {posts.map(post => <FunsiesCard post={post} />)}
+      </div>
+    )}
+
+  </div>
+</Layout>
