@@ -1,16 +1,48 @@
-# React + Vite
+# Yimin Huang — Personal Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Personal website built with Astro 5, Tailwind CSS v4, and MDX. Deployed on Vercel.
 
-Currently, two official plugins are available:
+## Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **[Astro 5](https://astro.build/)** — static site generator with Content Collections
+- **[Tailwind CSS v4](https://tailwindcss.com/)** + `@tailwindcss/typography` — styling
+- **MDX** — content authoring for projects, research, and writing entries
+- **Vercel** — deployment (auto-deploys on push to `main`)
 
-## React Compiler
+## Structure
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```
+src/
+  content/
+    projects/     # Project case studies (MDX)
+    research/     # Research entries (MDX)
+    writing/      # Writing entries — stories, screenplays, plays (MDX)
+  pages/
+    index.astro
+    projects/
+    research/
+    writing/
+  components/
+  layouts/
+public/
+  images/         # Project and writing images
+  files/          # PDFs (white papers, screenplays)
+```
 
-## Expanding the ESLint configuration
+## Content
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**Projects:** ClassHub, CTEC Searcher, Shopify for Students, Drift
+
+**Writing:** short stories, screenplays, stage plays — rendered as full-text pages or PDF embeds depending on `content_type` in frontmatter
+
+## Dev
+
+```bash
+npm run dev      # start local dev server
+npm run build    # production build
+npm run preview  # preview production build
+```
+
+## Deploy
+
+Push to `main` — Vercel handles the rest.
