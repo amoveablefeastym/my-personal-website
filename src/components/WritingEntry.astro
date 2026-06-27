@@ -6,7 +6,7 @@ interface Props {
 }
 
 const { entry } = Astro.props;
-const { title, date, synopsis, content_type, pdf_url, type, category } = entry.data;
+const { title, date, synopsis, content_type, pdf_url, type, category, image } = entry.data;
 const label = type || category;
 const dateStr = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 
@@ -33,9 +33,12 @@ const href =
     </h2>
     <p class="font-serif text-sm italic text-gray-400 dark:text-gray-500 mb-4">{dateStr}</p>
     {synopsis && (
-      <p class="font-serif text-base text-gray-500 dark:text-gray-400 leading-relaxed max-w-xl">
+      <p class="font-serif text-base text-gray-500 dark:text-gray-400 leading-relaxed max-w-xl mb-4">
         {synopsis}
       </p>
+    )}
+    {image && (
+      <img src={image} alt={title} class="w-full h-56 object-cover object-[center_60%] rounded-sm mt-4 grayscale-[20%]" />
     )}
   </a>
 ) : (
@@ -50,9 +53,12 @@ const href =
     </h2>
     <p class="font-serif text-sm italic text-gray-400 dark:text-gray-500 mb-4">{dateStr}</p>
     {synopsis && (
-      <p class="font-serif text-base text-gray-500 dark:text-gray-400 leading-relaxed max-w-xl">
+      <p class="font-serif text-base text-gray-500 dark:text-gray-400 leading-relaxed max-w-xl mb-4">
         {synopsis}
       </p>
+    )}
+    {image && (
+      <img src={image} alt={title} class="w-full h-56 object-cover object-[center_60%] rounded-sm mt-4 grayscale-[20%]" />
     )}
   </div>
 )}

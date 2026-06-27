@@ -29,6 +29,9 @@
           "type": "string",
           "format": "uri"
         },
+        "image": {
+          "type": "string"
+        },
         "date": {
           "anyOf": [
             {

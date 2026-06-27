@@ -41,6 +41,7 @@ export const collections = {
       synopsis:     z.string().optional(),
       content_type: z.enum(['full-text', 'pdf', 'synopsis-only']).default('full-text'),
       pdf_url:      z.string().url().optional(),
+      image:        z.string().optional(),
       date:         z.coerce.date(),
     }),
   }),
