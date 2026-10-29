@@ -1,0 +1,106 @@
+---
+title: "Bubblist: A Floating Glass To-Do List"
+category: "DESIGN / DESKTOP APP"
+description: "A quiet to-do list for the Mac that lives in a glass bubble on your desktop. Click it, and your day slides out."
+image: "/images/bubblist/cover.png"
+date: 2026-10-28
+featured: false
+repo_url: "https://github.com/amoveablefeastym/bubblist"
+---
+
+*Personal project · macOS desktop app · open source*
+
+Most to-do apps want to be opened. They live in a window you have to find, behind a Dock icon you have to click, in a layout built for managing projects rather than getting through a day. I wanted the opposite: something that stays out of the way until the moment I need it, and then feels light enough that I actually use it.
+
+**Bubblist** is a small glass bubble that floats above everything on the desktop, showing how many tasks are left today. Click it and a see-through panel slides out with the day's list. Tick something off and confetti bursts from the checkbox. Click away and it tucks itself back in.
+
+<div class="my-8 flex flex-wrap gap-3">
+  <a href="https://github.com/amoveablefeastym/bubblist" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-6 py-3 text-[#d32f2f] bg-transparent border border-[#d32f2f] hover:bg-[#d32f2f] hover:text-white transition-all no-underline font-sans text-sm font-bold uppercase tracking-widest rounded-sm">
+    View on GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+  </a>
+  <a href="https://github.com/amoveablefeastym/bubblist/releases/latest" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-6 py-3 text-[#d32f2f] bg-transparent border border-[#d32f2f] hover:bg-[#d32f2f] hover:text-white transition-all no-underline font-sans text-sm font-bold uppercase tracking-widest rounded-sm">
+    Download for Mac
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+  </a>
+</div>
+
+<figure class="my-12">
+  <img src="/images/bubblist/panel.png" alt="The Bubblist panel: today's tasks grouped into work, study, life and admin, with one task crossed off, one due at 6:00 pm, and a daily task" class="w-1/2 h-auto rounded-sm border border-gray-200 shadow-sm mx-auto block" />
+  <figcaption class="text-center text-sm text-gray-500 mt-3 font-serif italic">The panel on a real desktop: the wallpaper shows through Apple's Liquid Glass</figcaption>
+</figure>
+
+### What It Does
+
+<div class="my-8 space-y-4">
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-purple-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">The Bubble</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">A glass disc that floats above every window and every Space, showing today's remaining count. Drag it anywhere and it remembers where it was left. There's no Dock icon and no window to manage. ⌘⇧Space opens the list from anywhere.</div>
+  </div>
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-blue-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">Days, Weeks, and Sections</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">Tabs for the week, today, tomorrow, and any date added with <strong>+</strong>. The panel always opens on today. Tasks sit in four sections (work, study, life, admin), and unfinished tasks from past days quietly roll forward instead of disappearing.</div>
+  </div>
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-teal-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">Times and Repeats</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">Tasks can have a time or a time frame, picked from a list or typed naturally ("2-3:30pm"). They can repeat every day, on chosen weekdays, or every week, and checking one off only counts for that day.</div>
+  </div>
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-green-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">Direct Manipulation</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">Click a task's text to cross it off. Grab it anywhere to drag it: the other rows glide aside to open a gap, and dropping it on a day's tab reschedules it. The panel resizes from its edges and remembers its size.</div>
+  </div>
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-orange-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">A Small Celebration</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">Every finished task gets a burst of confetti that tumbles down under simulated gravity. Clearing the last task of the day sets off a bigger one. It's a small thing, but it makes finishing feel like something.</div>
+  </div>
+</div>
+
+### Design Process
+
+The look went through several rounds before it settled. It started as frosted glass, then became an editorial, magazine-like page with a serif masthead, then a typewriter-style manuscript set in Courier. Each version taught me something about what a list you glance at fifty times a day can carry. The serif and typewriter versions had character but slowed reading down, and heavy styling competed with the tasks themselves.
+
+The final design keeps what worked: a light, widely spaced monospace face, soft charcoal text instead of black, section names set as small spaced capitals, and a strike-through that turns finished tasks gray rather than red. The panel itself became as clear as possible, using Apple's own Liquid Glass material so the desktop shows through and the list feels like part of the screen rather than a window on top of it. Interaction details were tuned the same way, by using it: clicking text to cross things off, a drag that never jumps, and resize handles that appear only on hover.
+
+### How It's Built
+
+<div class="my-8 space-y-4">
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-blue-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">Two Windows, Two Processes</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">An Electron app with a main process that owns the windows, files, global shortcut, and login item, and two sandboxed web pages (the bubble and the panel) that talk to it only through a small preload bridge. The pages never touch the disk directly.</div>
+  </div>
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-purple-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">Native Liquid Glass</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">On macOS 26 the panel and bubble sit on a real <code class="font-mono text-xs bg-gray-100 dark:bg-gray-700 px-1 rounded">NSGlassEffectView</code>, attached through a native add-on, with the page's own background left transparent. Older systems fall back to the standard vibrancy blur.</div>
+  </div>
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-teal-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">State → Render</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">No framework. All tasks live in one state object; every change updates it, saves it, and re-renders the list from scratch, so the screen can never drift out of sync with the data. Daily, weekday, and weekly repeats are stored once and track completion per day or per week.</div>
+  </div>
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-green-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">Smooth Dragging</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">Instead of rearranging the list under the cursor (which makes rows jump), the drag measures every row once when it starts, works out the drop point from that fixed snapshot, and slides rows aside with CSS transforms. Nothing changes in the list until the task is dropped.</div>
+  </div>
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-orange-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">Private by Default</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">Everything is stored locally as a plain JSON file. No accounts, no server, no network calls. The packaged app is built with a custom script that bundles, signs, and installs it, and releases are published on GitHub.</div>
+  </div>
+</div>
+
+### Stack
+
+<div class="my-6 p-6 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div>
+      <div class="font-sans font-bold text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">App</div>
+      <div class="font-serif text-sm text-gray-700 dark:text-gray-300">Electron · JavaScript · HTML · CSS · Canvas</div>
+    </div>
+    <div>
+      <div class="font-sans font-bold text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">macOS</div>
+      <div class="font-serif text-sm text-gray-700 dark:text-gray-300">Liquid Glass (NSGlassEffectView) · login items · code signing</div>
+    </div>
+    <div>
+      <div class="font-sans font-bold text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">Process</div>
+      <div class="font-serif text-sm text-gray-700 dark:text-gray-300">Interaction design · iterative visual design · AI-assisted development (Claude Code) · open source</div>
+    </div>
+  </div>
+</div>
