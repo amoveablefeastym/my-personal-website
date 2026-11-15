@@ -1,0 +1,91 @@
+---
+title: "Half-Baked: A Pixel-Art Bakery for Ideas"
+category: "DESIGN / DESKTOP APP"
+description: "A cozy macOS app where half-formed ideas rise like dough. Jot one down, give it a recipe, and watch its little pixel loaf bake as you make progress."
+image: "/images/half-baked/home.png"
+date: 2026-11-15
+featured: false
+---
+
+*Personal project · native macOS app · Swift*
+
+Most of my ideas start out half-baked: a line in a notes app, a tab I'll "get back to," a thought I lose by dinner. Notes apps are good at catching them and bad at helping them grow. Project tools go the other way, asking for structure an idea doesn't have yet. I wanted something in between, a place where a raw idea can sit, collect thoughts, and slowly turn into something real.
+
+**Half-Baked** is that place, dressed up as a bakery. A steaming pixel loaf floats on the desktop with a count of ideas still rising. Click it and a panel opens to an oven and a single prompt: *What's rising?* Type an idea, hit Return, and it floats over onto the shelf. From there, every idea gets its own counter to work on, and its loaf goes from raw dough to golden bread as it comes together.
+
+<figure class="my-12">
+  <img src="/images/half-baked/home.png" alt="The Half-Baked home screen: a gingham shelf listing three rising ideas, and a pixel oven above a large 'What's rising?' prompt" class="w-full h-auto rounded-sm border border-gray-200 shadow-sm" />
+  <figcaption class="text-center text-sm text-gray-500 mt-3 font-serif italic">Home: the oven, the prompt, and the shelf of ideas still rising</figcaption>
+</figure>
+
+### What It Does
+
+<div class="my-8 space-y-4">
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-yellow-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">Jot It Down</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">The home screen is one big text field, already focused. Type an idea and press Return: the words shrink and fly across into the "Rising" list on the shelf. Capturing a thought should take a second, so there are no fields, tags or folders to fill in first.</div>
+  </div>
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-orange-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">Give It a Counter</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">Each idea opens into its own workspace with two parts: a <strong>Recipe</strong> of steps to tick off, and <strong>Notes</strong> for loose thoughts. Tab switches between adding a note and adding a step. Click any step or note to open a thread under it for findings, answers and follow-ups, so research stays attached to the question it answers.</div>
+  </div>
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-red-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">Watch It Bake</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">An idea's loaf shows how far along it is. It starts as raw dough, rises in a bowl once some of its recipe is done, becomes a shaped loaf past the halfway mark, and turns golden and steaming when it's marked as baked. Finished ideas move to a "Baked" shelf instead of disappearing.</div>
+  </div>
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-green-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">Always Within Reach</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">The loaf icon floats above every window and Space, and can be dragged anywhere. ⌃⌥B opens the panel from any app, and it tucks itself away when you click elsewhere unless you pin it open. There's no Dock icon to manage.</div>
+  </div>
+</div>
+
+<figure class="my-12">
+  <img src="/images/half-baked/counter.png" alt="An idea's counter: the title 'make an automated demo generator', a Recipe with one unchecked step, and Notes with an open thread under 'render on its own'" class="w-full h-auto rounded-sm border border-gray-200 shadow-sm" />
+  <figcaption class="text-center text-sm text-gray-500 mt-3 font-serif italic">An idea's counter: a recipe of steps, notes, and a thread opened under one of them</figcaption>
+</figure>
+
+### Design Process
+
+The bakery metaphor came from the name, and it ended up shaping the whole app. Ideas are "dough," the list is "Rising," and finishing one is "Mark as baked." The metaphor turned progress into something you can see at a glance: you don't need to read a percentage when the loaf is visibly closer to bread.
+
+The look is warm and low-contrast on purpose: flour-colored backgrounds, a faint gingham tablecloth on the shelf, chunky pixel cards with hard offset shadows, and a single pixel typeface (Pixelify Sans) for everything. Each idea gets its own "flavor" color: honey, strawberry jam, blueberry, matcha, cinnamon or apricot. Dark mode is a warm oven at night rather than a gray inversion. Small moments of motion, like the idea flying onto the shelf, the flickering oven flames and the bobbing loaf, give the app a bit of life without getting in the way.
+
+### How It's Built
+
+<div class="my-8 space-y-4">
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-blue-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">SwiftUI on AppKit</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">The interface is SwiftUI, hosted in two AppKit windows: a borderless, always-on-top window for the floating loaf and a panel that places itself beside it on whichever side of the screen has room. A Carbon hot key provides the global shortcut, and the login item uses <code class="font-mono text-xs bg-gray-100 dark:bg-gray-700 px-1 rounded">SMAppService</code>.</div>
+  </div>
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-purple-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">Pixel Art in Code</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">Every sprite (the dough, the bowl, the loaf, the oven) is drawn from small character grids, one letter per pixel, and painted onto a SwiftUI <code class="font-mono text-xs bg-gray-100 dark:bg-gray-700 px-1 rounded">Canvas</code>. Steam and flames are frame swaps on a timer. Even the app icon is generated by a Swift script at build time.</div>
+  </div>
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-teal-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">Scales With the Window</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">Instead of reflowing, the whole interface zooms: a zoom factor computed from the window size is passed down through the SwiftUI environment, so type, spacing and pixel sizes grow together and the pixel art stays crisp at any size.</div>
+  </div>
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-orange-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">Local and Forgiving</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">Ideas are saved as a plain JSON file in Application Support on every change. No accounts, no server, no network calls. Decoding is tolerant, so files saved by older versions still load as the data model grows, and deleting an idea can be undone.</div>
+  </div>
+</div>
+
+### Stack
+
+<div class="my-6 p-6 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div>
+      <div class="font-sans font-bold text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">App</div>
+      <div class="font-serif text-sm text-gray-700 dark:text-gray-300">Swift · SwiftUI · AppKit · Canvas</div>
+    </div>
+    <div>
+      <div class="font-sans font-bold text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">macOS</div>
+      <div class="font-serif text-sm text-gray-700 dark:text-gray-300">Floating windows · global hot key · login items · built with swiftc and a shell script</div>
+    </div>
+    <div>
+      <div class="font-sans font-bold text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">Process</div>
+      <div class="font-serif text-sm text-gray-700 dark:text-gray-300">Interaction design · pixel art · visual metaphor · AI-assisted development (Claude Code)</div>
+    </div>
+  </div>
+</div>
