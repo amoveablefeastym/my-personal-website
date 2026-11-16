@@ -1,0 +1,49 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  category: string;
+  description: string;
+  image?: string;
+  date: Date;
+  index: number;
+  featured?: boolean;
+}
+
+const { href, title, category, description, image, date, index, featured = false } = Astro.props;
+const no = String(index + 1).padStart(2, '0');
+const year = date.getFullYear();
+const [main, ...rest] = title.split(': ');
+const sub = rest.join(': ');
+const tags = category.split('/').map(s => s.trim()).filter(Boolean);
+const tagColors = ['bg-sky', 'bg-butter', 'bg-mint', 'bg-lilac'];
+---
+
+<a
+  href={href}
+  data-reveal
+  class={`group px-box px-hover flex flex-col ${featured ? 'md:col-span-2 md:grid md:grid-cols-12' : ''}`}
+>
+  <div class={`relative overflow-hidden bg-bg-2 border-ink ${featured ? 'md:col-span-7 border-b-[3px] md:border-b-0 md:border-r-[3px] aspect-[4/3] md:aspect-auto md:min-h-[380px]' : 'aspect-[4/3] border-b-[3px]'}`}>
+    {image
+      ? <img src={image} alt="" loading={featured ? 'eager' : 'lazy'} class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]" />
+      : <div class="absolute inset-0 grid place-items-center label">no image</div>}
+    <span class="absolute top-3 left-3 font-label text-[0.68rem] px-2 py-0.5 bg-ink text-bg">#{no}</span>
+    {featured && <span class="absolute top-3 right-3 px-chip bg-butter shadow-[2px_2px_0_var(--shadow)] anim-bob">LATEST</span>}
+  </div>
+
+  <div class={`p-5 md:p-6 flex flex-col ${featured ? 'md:col-span-5 md:p-8 md:justify-center' : 'flex-1'}`}>
+    <div class="flex flex-wrap gap-2 mb-4">
+      {tags.map((t, i) => <span class={`px-chip ${tagColors[i % tagColors.length]}`}>{t}</span>)}
+    </div>
+    <h2 class={`!m-0 font-pixel font-semibold leading-[1.05] ${featured ? 'text-4xl md:text-5xl' : 'text-3xl'}`}>
+      {main}
+    </h2>
+    {sub && <p class={`mt-2 mb-0 font-pixel text-ink-2 ${featured ? 'text-xl' : 'text-lg'}`}>{sub}</p>}
+    <p class={`mt-4 mb-0 text-ink-2 leading-relaxed ${featured ? 'text-lg' : ''} flex-1`}>{description}</p>
+    <div class="mt-5 flex items-center justify-between font-label text-[0.72rem]">
+      <span class="text-muted">{year}</span>
+      <span class="text-ink group-hover:text-tomato">Open ▶</span>
+    </div>
+  </div>
+</a>

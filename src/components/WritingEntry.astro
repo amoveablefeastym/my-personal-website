@@ -1,64 +1,55 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import Sprite from './Sprite.astro';
 
 interface Props {
   entry: CollectionEntry<'writing'>;
+  index: number;
 }
 
-const { entry } = Astro.props;
+const { entry, index } = Astro.props;
 const { title, date, synopsis, content_type, pdf_url, type, category, image } = entry.data;
 const label = type || category;
-const dateStr = date.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+const dateStr = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+const no = String(index + 1).padStart(2, '0');
 
 const href =
-  content_type === 'pdf'       ? (pdf_url ?? '#') :
+  content_type === 'pdf'       ? (pdf_url ?? undefined) :
   content_type === 'full-text' ? `/writing/${entry.id}` :
   undefined;
+const isPdf = content_type === 'pdf';
+const Tag = href ? 'a' : 'div';
+const colors = ['bg-mint', 'bg-lilac', 'bg-sky', 'bg-butter'];
 ---
 
-{href ? (
-  <a
-    href={href}
-    target={content_type === 'pdf' ? '_blank' : undefined}
-    rel={content_type === 'pdf' ? 'noopener noreferrer' : undefined}
-    class="group block py-12 no-underline border-t border-gray-100 dark:border-gray-800 first:border-t-0"
-  >
-    {label && (
-      <span class="text-[10px] font-sans font-bold uppercase tracking-[0.2em] text-gray-400 dark:text-gray-600 mb-4 block">
-        {label}
-      </span>
-    )}
-    <h2 class="font-serif text-3xl md:text-4xl font-medium text-black dark:text-white leading-tight mb-3 group-hover:text-[#8b0000] dark:group-hover:text-red-400 transition-colors duration-300">
-      {title}
-    </h2>
-    <p class="font-serif text-sm italic text-gray-400 dark:text-gray-500 mb-4">{dateStr}</p>
-    {synopsis && (
-      <p class="font-serif text-base text-gray-500 dark:text-gray-400 leading-relaxed max-w-xl mb-4">
-        {synopsis}
-      </p>
-    )}
+<Tag
+  href={href}
+  target={isPdf ? '_blank' : undefined}
+  rel={isPdf ? 'noopener noreferrer' : undefined}
+  data-reveal
+  class={`group px-box ${href ? 'px-hover' : ''} grid grid-cols-1 sm:grid-cols-[9rem_1fr]`}
+>
+  <div class={`${colors[index % colors.length]} border-b-[3px] sm:border-b-0 sm:border-r-[3px] border-ink p-4 flex sm:flex-col items-center sm:justify-center gap-3`}>
+    <span class="group-bob"><Sprite name="book" scale={4} /></span>
+    <span class="font-label text-[0.75rem] text-[#2a2140]">File {no}</span>
+  </div>
+
+  <div class="p-5 md:p-7">
+    <div class="flex flex-wrap items-center gap-x-3 gap-y-2 mb-3">
+      {label && <span class="px-chip bg-butter">{label}</span>}
+      <span class="label">{dateStr}</span>
+    </div>
+    <h2 class="!m-0 font-pixel font-semibold text-3xl md:text-4xl leading-tight">{title}</h2>
+    {synopsis && <p class="mt-3 mb-0 text-ink-2 text-lg leading-relaxed max-w-2xl">{synopsis}</p>}
     {image && (
-      <img src={image} alt={title} class="w-full h-56 object-cover object-[center_60%] rounded-sm mt-4 grayscale-[20%]" />
+      <div class="mt-5 border-[3px] border-ink overflow-hidden max-w-xl">
+        <img src={image} alt="" loading="lazy" class="w-full h-48 md:h-60 object-cover object-[center_60%]" />
+      </div>
     )}
-  </a>
-) : (
-  <div class="block py-12 border-t border-gray-100 dark:border-gray-800 first:border-t-0">
-    {label && (
-      <span class="text-[10px] font-sans font-bold uppercase tracking-[0.2em] text-gray-400 dark:text-gray-600 mb-4 block">
-        {label}
-      </span>
-    )}
-    <h2 class="font-serif text-3xl md:text-4xl font-medium text-black dark:text-white leading-tight mb-3">
-      {title}
-    </h2>
-    <p class="font-serif text-sm italic text-gray-400 dark:text-gray-500 mb-4">{dateStr}</p>
-    {synopsis && (
-      <p class="font-serif text-base text-gray-500 dark:text-gray-400 leading-relaxed max-w-xl mb-4">
-        {synopsis}
+    {href && (
+      <p class="mt-5 mb-0 font-label text-[0.75rem] text-ink group-hover:text-tomato">
+        {isPdf ? '▶ Open PDF ↗' : '▶ Load file'}
       </p>
-    )}
-    {image && (
-      <img src={image} alt={title} class="w-full h-56 object-cover object-[center_60%] rounded-sm mt-4 grayscale-[20%]" />
     )}
   </div>
-)}
+</Tag>

@@ -1,0 +1,405 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHeader from '../components/PageHeader.astro';
+import Sprite from '../components/Sprite.astro';
+import { getEntry } from 'astro:content';
+
+// Each game ends by introducing the project it's based on
+const halfBaked = await getEntry('projects', 'half-baked');
+const bubblist  = await getEntry('projects', 'bubblist');
+const projects = {
+  bake: { title: 'Half-Baked', href: '/projects/half-baked', image: halfBaked?.data.image, desc: halfBaked?.data.description },
+  pop:  { title: 'Bubblist',   href: '/projects/bubblist',   image: bubblist?.data.image,  desc: bubblist?.data.description },
+};
+
+// Real ideas from my Half-Baked shelf
+const IDEAS = ['teach people how to use AI to code', 'music matcher', 'make an automated demo generator'];
+const STAGES = ['raw dough', 'rising', 'shaped loaf', 'golden!'];
+---
+
+<Layout title="Arcade" description="Two tiny games based on Yimin's apps.">
+  <div class="max-w-6xl mx-auto px-4 md:px-8">
+    <PageHeader index="05" title="Arcade" subtitle="Two tiny games, each one based on an app I made. Insert coin. (Coins are free here.)" count={2} countLabel="games" />
+
+    <div class="grid gap-10">
+
+      <!-- ── Bake-Off ──────────────────────────────────── -->
+      <section class="px-box" aria-labelledby="bake-title" data-reveal>
+        <div class="flex flex-wrap items-center justify-between gap-3 px-5 py-3 border-b-[3px] border-ink bg-butter text-[#2a2140]">
+          <h2 id="bake-title" class="!m-0 font-pixel text-2xl md:text-3xl">Bake-Off</h2>
+          <span class="font-label text-[0.7rem]">Best: <span data-bake-best>—</span> pts</span>
+        </div>
+        <div class="p-5 md:p-8">
+          <p class="mt-0 mb-5 text-ink-2">
+            Three half-baked ideas are waiting in the oven. Stop the heat needle in the <span class="font-semibold text-[#c4703a] dark:text-butter">golden zone</span> to move each loaf from raw dough to golden bread.
+            Dead center is a <em>perfect</em> bake. Miss and it burns: three burns and the bakery closes.
+          </p>
+
+          <div class="grid md:grid-cols-[1fr_1.2fr] gap-6 items-stretch">
+            <!-- Oven -->
+            <div class="relative border-[3px] border-ink bg-[#2a2140] p-4 flex flex-col">
+              <div class="flex justify-between font-label text-[0.65rem] text-[#f5ecd9] mb-3">
+                <span>Idea <span data-bake-idx>1</span>/{IDEAS.length}</span>
+                <span data-bake-lives aria-label="Lives">♥♥♥</span>
+              </div>
+              <div class="flex-1 grid place-items-center bg-[#3a2f5c] border-[3px] border-[#0f0b1e] min-h-[190px] relative overflow-hidden">
+                <!-- oven glow -->
+                <div data-bake-glow class="absolute inset-x-0 bottom-0 h-1/3 bg-[linear-gradient(transparent,rgba(245,192,74,.35))] transition-opacity"></div>
+                {[0, 1, 2, 3].map(i => (
+                  <span data-loaf={i} class={`relative ${i === 0 ? '' : 'hidden'}`}><Sprite name={`loaf${i}`} scale={7} /></span>
+                ))}
+                <span data-bake-flash class="hidden absolute top-3 left-1/2 -translate-x-1/2 px-2 py-0.5 border-2 border-ink font-label text-[0.7rem] whitespace-nowrap"></span>
+              </div>
+              <div class="mt-3 flex justify-center gap-2" aria-hidden="true">
+                <span class="w-3 h-3 bg-tomato border-2 border-[#0f0b1e] anim-blink"></span>
+                <span class="w-3 h-3 bg-butter border-2 border-[#0f0b1e] anim-blink [animation-delay:.3s]"></span>
+                <span class="w-3 h-3 bg-tomato border-2 border-[#0f0b1e] anim-blink [animation-delay:.6s]"></span>
+              </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="flex flex-col">
+              <p class="m-0 font-label text-[0.65rem] text-muted">Now baking</p>
+              <p data-bake-idea class="m-0 mt-1 font-pixel text-2xl md:text-3xl leading-tight">{IDEAS[0]}</p>
+              <p class="m-0 mt-2 font-label text-[0.7rem]">Stage: <span data-bake-stage class="text-tomato">{STAGES[0]}</span></p>
+
+              <!-- Heat gauge -->
+              <div class="mt-6" aria-hidden="true">
+                <div class="flex justify-between font-label text-[0.6rem] text-muted mb-1"><span>cold</span><span>heat</span><span>burnt</span></div>
+                <div data-bake-gauge class="relative h-10 border-[3px] border-ink bg-[linear-gradient(90deg,#d9f0fb,#fbf4e6_40%,#f0a35b_75%,#b83a26)]">
+                  <div data-bake-zone class="absolute inset-y-0 bg-butter/80 border-x-[3px] border-ink [background-image:repeating-linear-gradient(90deg,transparent_0_6px,rgba(42,33,64,.25)_6px_8px)]">
+                    <span class="absolute inset-y-0 left-1/2 -translate-x-1/2 w-[3px] bg-ink/60"></span>
+                  </div>
+                  <div data-bake-needle class="absolute -top-2 -bottom-2 w-[6px] bg-ink" style="left:0%"></div>
+                </div>
+              </div>
+
+              <div class="mt-6 flex flex-wrap items-center gap-4">
+                <button type="button" data-bake-go class="px-btn !bg-tomato !text-[#fffaf0] hover:!bg-butter hover:!text-[#2a2140] !text-base !px-6 !py-3">▶ Start baking</button>
+                <span class="font-label text-[0.65rem] text-muted">or press <kbd class="px-1 border-2 border-ink">space</kbd></span>
+              </div>
+              <p class="mt-auto pt-6 mb-0 font-label text-[0.75rem]">Score <span data-bake-score class="text-ink">0</span> · Perfects <span data-bake-perfect class="text-ink">0</span></p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Bubble Rush ───────────────────────────────── -->
+      <section class="px-box" aria-labelledby="pop-title" data-reveal>
+        <div class="flex flex-wrap items-center justify-between gap-3 px-5 py-3 border-b-[3px] border-ink bg-sky text-[#2a2140]">
+          <h2 id="pop-title" class="!m-0 font-pixel text-2xl md:text-3xl">Bubble Rush</h2>
+          <span class="font-label text-[0.7rem]">Best: <span data-pop-best>—</span> tasks</span>
+        </div>
+        <div class="p-5 md:p-8">
+          <p class="mt-0 mb-5 text-ink-2">
+            Your to-dos are floating away. Pop as many as you can in 30 seconds.
+            Watch out for the <span class="text-tomato font-semibold">red</span> ones: those are distractions (−2).
+          </p>
+
+          <div data-pop-arena class="relative h-[380px] md:h-[440px] border-[3px] border-ink overflow-hidden select-none bg-[linear-gradient(#d9f0fb,#fbf4e6)] dark:bg-[linear-gradient(#231d40,#17132b)]">
+            <div class="absolute top-3 left-3 right-3 flex justify-between font-label text-[0.75rem] z-10 pointer-events-none">
+              <span class="px-2 py-0.5 bg-card border-2 border-ink">Score <span data-pop-score>0</span></span>
+              <span class="px-2 py-0.5 bg-card border-2 border-ink">⏱ <span data-pop-time>30</span>s</span>
+            </div>
+            <div data-pop-start class="absolute inset-0 grid place-items-center z-20">
+              <div class="text-center">
+                <span class="inline-block anim-bob"><Sprite name="bubble" scale={6} /></span>
+                <p class="mt-3 mb-4 font-pixel text-2xl text-ink">Ready?</p>
+                <button type="button" data-pop-go class="px-btn !bg-tomato !text-[#fffaf0] hover:!bg-butter hover:!text-[#2a2140]">▶ Press start</button>
+              </div>
+            </div>
+            <div class="absolute bottom-0 inset-x-0 h-3 bg-mint border-t-[3px] border-ink"></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script type="application/json" id="arcade-data" set:html={JSON.stringify({ projects, ideas: IDEAS, stages: STAGES })} />
+</Layout>
+
+<style is:global>
+  .pop-bubble {
+    position: absolute;
+    display: grid;
+    place-items: center;
+    width: 76px;
+    height: 76px;
+    cursor: pointer;
+  }
+  .pop-bubble .pop-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70px;
+    text-align: center;
+    font-family: var(--font-label);
+    font-size: 0.5rem;
+    line-height: 1.15;
+    color: var(--ink);
+    pointer-events: none;
+  }
+  .pop-bubble.bad .pop-label { color: var(--tomato); }
+</style>
+
+<script>
+  type Project = { title: string; href: string; image?: string; desc?: string };
+  const DATA = JSON.parse(document.getElementById('arcade-data')?.textContent || '{}') as {
+    projects: Record<'bake' | 'pop', Project>; ideas: string[]; stages: string[];
+  };
+  const api = () => (window as any).__game;
+  const fx  = () => (window as any).__secrets;
+  const esc = (s: string) => s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
+
+  // ── End-of-game pop-up that leads to the real project ─
+  function projectPopup(game: 'bake' | 'pop', headline: string, result: string, isBest: boolean, again: () => void) {
+    const p = DATA.projects[game];
+    fx()?.openScene(`Game over · ${game === 'bake' ? 'Bake-Off' : 'Bubble Rush'}`, `
+      <p data-type class="m-0 font-pixel text-4xl leading-tight">${esc(headline)}</p>
+      <p class="mt-2 mb-5 font-label text-[0.75rem] text-ink-2">${esc(result)}${isBest ? ' · <span class="text-tomato">NEW BEST! ★</span>' : ''}</p>
+      <div class="border-[3px] border-ink shadow-[4px_4px_0_var(--shadow)] bg-card">
+        <p class="m-0 px-3 py-1.5 border-b-[3px] border-ink bg-butter text-[#2a2140] font-label text-[0.65rem]">★ This game is based on a real app I made</p>
+        ${p.image ? `<img src="${p.image}" alt="" class="block w-full aspect-[16/9] object-cover border-b-[3px] border-ink" />` : ''}
+        <div class="p-4">
+          <p class="m-0 font-pixel text-2xl">${esc(p.title)}</p>
+          <p class="mt-1 mb-0 text-ink-2">${esc(p.desc ?? '')}</p>
+        </div>
+      </div>
+      <div class="mt-6 flex flex-wrap gap-3 justify-between">
+        <button type="button" data-again class="px-btn">↻ Play again</button>
+        <a href="${p.href}" class="px-btn !bg-tomato !text-[#fffaf0] hover:!bg-butter hover:!text-[#2a2140]">See ${esc(p.title)} ▶</a>
+      </div>`);
+    fx()?.typeIn(document.querySelector('[data-scene-body]'), 30);
+    document.querySelector('[data-scene-body] [data-again]')?.addEventListener('click', () => { fx()?.closeScene(); again(); });
+  }
+
+  // ── Bake-Off ─────────────────────────────────────────
+  const $ = <T extends HTMLElement>(sel: string) => document.querySelector<T>(sel)!;
+  const needle = $('[data-bake-needle]');
+  const zone = $('[data-bake-zone]');
+  const goBtn = $<HTMLButtonElement>('[data-bake-go]');
+  const ideaEl = $('[data-bake-idea]');
+  const stageEl = $('[data-bake-stage]');
+  const idxEl = $('[data-bake-idx]');
+  const livesEl = $('[data-bake-lives]');
+  const scoreEl = $('[data-bake-score]');
+  const perfEl = $('[data-bake-perfect]');
+  const flash = $('[data-bake-flash]');
+  const bestEl = $('[data-bake-best]');
+  const loaves = Array.from(document.querySelectorAll<HTMLElement>('[data-loaf]'));
+
+  let inGame = false, bRunning = false, bRaf = 0, pos = 0, dir = 1, speed = 0.55, last = 0;
+  let idea = 0, stage = 0, lives = 3, bScore = 0, perfects = 0, hits = 0;
+  let zoneC = 0.6, zoneW = 0.2, locked = false;
+
+  function showLoaf(i: number) { loaves.forEach((l, j) => l.classList.toggle('hidden', j !== i)); }
+  function setZone() {
+    zoneW = Math.max(0.09, 0.22 - hits * 0.015);
+    zoneC = 0.35 + Math.random() * 0.45;
+    zone.style.left = `${(zoneC - zoneW / 2) * 100}%`;
+    zone.style.width = `${zoneW * 100}%`;
+  }
+  function renderBake() {
+    ideaEl.textContent = DATA.ideas[Math.min(idea, DATA.ideas.length - 1)];
+    stageEl.textContent = DATA.stages[stage];
+    idxEl.textContent = String(Math.min(idea + 1, DATA.ideas.length));
+    livesEl.textContent = '♥'.repeat(lives) + '♡'.repeat(3 - lives);
+    scoreEl.textContent = String(bScore);
+    perfEl.textContent = String(perfects);
+    showLoaf(stage);
+  }
+  function flashMsg(text: string, cls: string) {
+    flash.textContent = text;
+    flash.className = `absolute top-3 left-1/2 -translate-x-1/2 px-2 py-0.5 border-2 border-ink font-label text-[0.7rem] whitespace-nowrap toast-in ${cls}`;
+    setTimeout(() => flash.classList.add('hidden'), 900);
+  }
+
+  function tick(t: number) {
+    const dt = last ? Math.min((t - last) / 1000, 0.05) : 0;
+    last = t;
+    pos += dir * speed * dt;
+    if (pos >= 1) { pos = 1; dir = -1; }
+    if (pos <= 0) { pos = 0; dir = 1; }
+    needle.style.left = `calc(${Math.round(pos * 100)}% - 3px)`;
+    if (bRunning) bRaf = requestAnimationFrame(tick);
+  }
+
+  function startBake() {
+    idea = 0; stage = 0; lives = 3; bScore = 0; perfects = 0; hits = 0;
+    pos = 0; dir = 1; speed = 0.55; last = 0; locked = false;
+    setZone(); renderBake();
+    inGame = true;
+    bRunning = true;
+    goBtn.textContent = '★ BAKE!';
+    cancelAnimationFrame(bRaf);
+    bRaf = requestAnimationFrame(tick);
+  }
+
+  function endBake(won: boolean) {
+    inGame = false;
+    bRunning = false;
+    cancelAnimationFrame(bRaf);
+    goBtn.textContent = '▶ Bake again';
+    const res = api()?.played('bake', bScore);
+    bestEl.textContent = String(res?.best ?? bScore);
+    if (won) { fx()?.chime([523, 659, 784, 1047, 1319]); fx()?.confetti(innerWidth / 2, innerHeight / 2, 50); }
+    else fx()?.chime([392, 330, 262, 196]);
+    setTimeout(() => projectPopup(
+      'bake',
+      won ? 'All ideas fully baked!' : 'The bakery closed early.',
+      `${bScore} pts · ${perfects} perfect bake${perfects === 1 ? '' : 's'} · ${idea} of ${DATA.ideas.length} ideas baked`,
+      !!res?.isBest,
+      startBake,
+    ), won ? 900 : 600);
+  }
+
+  function bake() {
+    if (!inGame) { startBake(); return; }
+    if (!bRunning || locked) return; // between loaves
+    locked = true;
+    setTimeout(() => { locked = false; }, 250);
+    const off = Math.abs(pos - zoneC);
+    if (off <= zoneW / 2) {
+      const perfect = off <= zoneW * 0.15;
+      bScore += perfect ? 3 : 1;
+      if (perfect) perfects++;
+      hits++;
+      stage++;
+      speed += 0.09;
+      flashMsg(perfect ? 'PERFECT! +3' : 'Nice +1', perfect ? 'bg-butter text-[#2a2140]' : 'bg-mint text-[#2a2140]');
+      fx()?.chime(perfect ? [784, 1047, 1319] : [659, 784]);
+      if (stage >= 3) {
+        showLoaf(3);
+        stageEl.textContent = DATA.stages[3];
+        const r = loaves[3].getBoundingClientRect();
+        fx()?.confetti(r.left + r.width / 2, r.top + 20, 20);
+        idea++;
+        if (idea >= DATA.ideas.length) { renderBake(); showLoaf(3); endBake(true); return; }
+        bRunning = false;
+        setTimeout(() => { stage = 0; renderBake(); setZone(); bRunning = true; last = 0; bRaf = requestAnimationFrame(tick); }, 1100);
+        return;
+      }
+    } else {
+      lives--;
+      flashMsg(pos > zoneC ? 'BURNT!' : 'Underbaked…', 'bg-tomato text-[#fffaf0]');
+      fx()?.chime([196, 165]);
+      const oven = needle.closest('section');
+      oven?.classList.remove('shake'); void (oven as HTMLElement)?.offsetWidth; oven?.classList.add('shake');
+      if (lives <= 0) { renderBake(); endBake(false); return; }
+    }
+    setZone();
+    renderBake();
+  }
+
+  goBtn.addEventListener('click', bake);
+  document.addEventListener('keydown', e => {
+    if (e.code !== 'Space') return;
+    const t = e.target as HTMLElement;
+    if (t && (['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON', 'A'].includes(t.tagName) || t.isContentEditable)) return;
+    if (!document.getElementById('scene')?.classList.contains('hidden')) return;
+    if (!inGame) return;
+    e.preventDefault();
+    bake();
+  });
+
+  // ── Bubble Rush ─────────────────────────────────────
+  const arena  = $('[data-pop-arena]');
+  const startEl = $('[data-pop-start]');
+  const popScoreEl = $('[data-pop-score]');
+  const timeEl  = $('[data-pop-time]');
+  const popBest = $('[data-pop-best]');
+  const TASKS = ['write 5 pages', 'groceries', 'drink water!', 'reply to email', 'fix the bug', 'stretch', 'read a script', 'sketch an idea', 'call home', 'push to git', 'sleep early', 'go outside'];
+  const DISTRACTIONS = ['doomscroll', 'one more video', 'check likes', 'refresh inbox'];
+  const BUBBLE_SVG = arena.querySelector('[data-pop-start] svg')?.outerHTML ?? '';
+
+  type B = { el: HTMLElement; x: number; y: number; vy: number; wobble: number };
+  let bubbles: B[] = [];
+  let score = 0, left = 30, running = false, raf = 0, spawnTimer: number | undefined, clock: number | undefined, pLast = 0;
+
+  function spawn() {
+    const bad = Math.random() < 0.18;
+    const el = document.createElement('button');
+    el.type = 'button';
+    el.className = `pop-bubble${bad ? ' bad' : ''}`;
+    el.setAttribute('aria-label', bad ? 'Distraction bubble' : 'Task bubble');
+    const label = bad ? DISTRACTIONS[Math.floor(Math.random() * DISTRACTIONS.length)] : TASKS[Math.floor(Math.random() * TASKS.length)];
+    el.innerHTML = `${BUBBLE_SVG.replace(/#5aa9e6/g, bad ? '#e85d3f' : '#5aa9e6').replace(/width="\d+"/, 'width="72"').replace(/height="\d+"/, 'height="72"')}<span class="pop-label">${label}</span>`;
+    const b: B = { el, x: 8 + Math.random() * (arena.clientWidth - 92), y: arena.clientHeight, vy: 55 + Math.random() * 60 + (30 - left) * 3, wobble: Math.random() * Math.PI * 2 };
+    el.style.left = `${b.x}px`;
+    el.style.top = `${arena.clientHeight}px`;
+    el.addEventListener('pointerdown', ev => {
+      ev.preventDefault();
+      if (!running) return;
+      score = Math.max(0, score + (bad ? -2 : 1));
+      popScoreEl.textContent = String(score);
+      const r = el.getBoundingClientRect();
+      fx()?.confetti(r.left + r.width / 2, r.top + r.height / 2, bad ? 8 : 12);
+      fx()?.chime(bad ? [220, 165] : [880 + Math.random() * 200]);
+      el.remove();
+      bubbles = bubbles.filter(x => x !== b);
+    });
+    arena.appendChild(el);
+    bubbles.push(b);
+  }
+
+  function frame(t: number) {
+    const dt = pLast ? Math.min((t - pLast) / 1000, 0.05) : 0;
+    pLast = t;
+    bubbles.forEach(b => {
+      b.y -= b.vy * dt;
+      b.wobble += dt * 3;
+      const px = Math.round((b.x + Math.sin(b.wobble) * 8) / 4) * 4;
+      const py = Math.round(b.y / 4) * 4;
+      b.el.style.transform = `translate(${px - b.x}px, ${py - arena.clientHeight}px)`;
+      if (b.y < -90) b.el.remove();
+    });
+    bubbles = bubbles.filter(b => b.y >= -90);
+    if (running) raf = requestAnimationFrame(frame);
+  }
+
+  function startPop() {
+    bubbles.forEach(b => b.el.remove());
+    bubbles = []; score = 0; left = 30; pLast = 0;
+    popScoreEl.textContent = '0'; timeEl.textContent = '30';
+    startEl.classList.add('hidden');
+    running = true;
+    raf = requestAnimationFrame(frame);
+    const loop = () => {
+      if (!running) return;
+      spawn();
+      spawnTimer = window.setTimeout(loop, Math.max(320, 760 - (30 - left) * 16));
+    };
+    loop();
+    clock = window.setInterval(() => {
+      left--;
+      timeEl.textContent = String(left);
+      if (left <= 0) endPop();
+    }, 1000);
+  }
+
+  function endPop() {
+    running = false;
+    clearInterval(clock);
+    clearTimeout(spawnTimer);
+    cancelAnimationFrame(raf);
+    bubbles.forEach(b => b.el.remove());
+    bubbles = [];
+    const res = api()?.played('pop', score);
+    fx()?.chime([659, 523, 659, 784]);
+    popBest.textContent = String(res?.best ?? score);
+    startEl.classList.remove('hidden');
+    startEl.querySelector('p')!.textContent = 'Again?';
+    const verdict = score >= 20 ? 'Productivity legend.' : score >= 10 ? 'Solid day.' : 'Tomorrow is another list.';
+    setTimeout(() => projectPopup('pop', `${score} tasks done!`, verdict, !!res?.isBest, startPop), 500);
+  }
+
+  $('[data-pop-go]').addEventListener('click', startPop);
+
+  // ── Init ────────────────────────────────────────────
+  const best = api()?.load()?.best ?? {};
+  if (best.bake != null) bestEl.textContent = String(best.bake);
+  if (best.pop != null) popBest.textContent = String(best.pop);
+  setZone();
+  renderBake();
+</script>

@@ -1,0 +1,55 @@
+---
+import Sprite from './Sprite.astro';
+import Globe from './Globe.astro';
+
+interface Props {
+  index: string;
+  title: string;
+  subtitle?: string;
+  count?: number;
+  countLabel?: string;
+}
+
+const { index, title, subtitle, count, countLabel = 'items' } = Astro.props;
+
+const worlds: Record<string, { sprite: string; color: string }> = {
+  '01': { sprite: 'computer', color: 'bg-sky' },
+  '02': { sprite: 'globe',    color: 'bg-lilac' },
+  '03': { sprite: 'book',     color: 'bg-mint' },
+  '04': { sprite: 'bread',    color: 'bg-butter' },
+  '05': { sprite: 'gamepad',  color: 'bg-tomato' },
+};
+const world = worlds[index] ?? worlds['01'];
+
+// Some header sprites hide an easter egg
+const eggs: Record<string, { id: string; label: string }> = {
+  '01': { id: 'terminal', label: 'An old computer. Click to boot it.' },
+  '02': { id: 'globe',    label: 'A spinning globe. Click to spin it.' },
+  '03': { id: 'pages',    label: 'A notebook. Click to shake it.' },
+};
+const egg = eggs[index];
+---
+
+<header class="pt-12 md:pt-16 mb-14 md:mb-20">
+  <div class="px-box grid grid-cols-[1fr_auto] items-stretch anim-pop">
+    <div class="p-6 md:p-10">
+      <p class="label mb-4">
+        <span class="px-1.5 py-0.5 bg-ink text-bg mr-2">World {index}</span>
+        {count !== undefined && <span>{String(count).padStart(2, '0')} {countLabel}</span>}
+      </p>
+      <h1 class="!m-0 font-pixel font-bold text-[clamp(3rem,10vw,6.5rem)] leading-[0.9] tracking-tight">
+        {title}<span class="text-tomato anim-blink">_</span>
+      </h1>
+      {subtitle && <p class="mt-5 mb-0 max-w-xl text-lg md:text-xl text-ink-2">{subtitle}</p>}
+    </div>
+    <div class={`${world.color} border-l-[3px] border-ink grid place-items-center px-4 sm:px-8 md:px-14 [&_svg]:max-sm:w-14 [&_svg]:max-sm:h-14`}>
+      {egg ? (
+        <button type="button" data-egg={egg.id} aria-label={egg.label} title={egg.label} class="anim-bob hover:scale-110 active:scale-95 transition-transform">
+          {world.sprite === 'globe' ? <Globe scale={7} /> : <Sprite name={world.sprite} scale={7} />}
+        </button>
+      ) : (
+        <span class="anim-bob"><Sprite name={world.sprite} scale={7} /></span>
+      )}
+    </div>
+  </div>
+</header>

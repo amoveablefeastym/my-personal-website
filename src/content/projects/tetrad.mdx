@@ -1,0 +1,99 @@
+---
+title: "Тетрадь: Russian Flashcards on Notebook Paper"
+category: "DESIGN / WEB APP"
+description: "Russian flashcards drawn on squared school-notebook paper, with the stressed vowel marked in red, gender on every noun, and a simple Know / Don't know review."
+image: "/images/tetrad/cover.png"
+date: 2026-10-30
+featured: false
+repo_url: "https://github.com/amoveablefeastym/tetrad-russian-cards"
+---
+
+*Personal project · single-file web app · open source*
+
+Learning Russian vocabulary isn't just memorizing a word. You also have to remember **where the stress falls**, which textbooks usually don't mark and which can change the meaning, and **what gender a noun is**, which decides every ending around it. Most flashcard apps treat a card as two plain strings, so both of those get lost.
+
+**Тетрадь** (*tetrad'*, "exercise book") keeps them. Every card is a page of squared school-notebook paper with a red margin line, the kind of exercise book Russian students actually write in. The stressed vowel is printed in red pencil, and nouns carry a colored gender mark.
+
+<div class="my-8 flex flex-wrap gap-3">
+  <a href="/apps/tetrad/index.html" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-6 py-3 text-[#d32f2f] bg-transparent border border-[#d32f2f] hover:bg-[#d32f2f] hover:text-white transition-all no-underline font-sans text-sm font-bold uppercase tracking-widest rounded-sm">
+    Try it here
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+  </a>
+  <a href="https://github.com/amoveablefeastym/tetrad-russian-cards" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-6 py-3 text-[#d32f2f] bg-transparent border border-[#d32f2f] hover:bg-[#d32f2f] hover:text-white transition-all no-underline font-sans text-sm font-bold uppercase tracking-widest rounded-sm">
+    View on GitHub
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
+  </a>
+</div>
+
+<figure class="my-12">
+  <img src="/images/tetrad/ru-en.png" alt="A Tetrad flashcard on squared notebook paper: the Russian word тетрадь with the stressed vowel in red, a red 'f.' gender mark, and the typed answer 'exercise book' underlined in green" class="w-full h-auto rounded-sm border border-gray-200 shadow-sm" />
+  <figcaption class="text-center text-sm text-gray-500 mt-3 font-serif italic">RU → EN mode: type the meaning, and the line turns green when you’re right</figcaption>
+</figure>
+
+### What It Does
+
+<div class="my-8 space-y-4">
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-red-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">Stress and Gender, Always</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">The stressed vowel is drawn in red on every card and in every list. Nouns show their gender (m., f., n. or pl.), each in its own color, so the pattern sinks in alongside the word.</div>
+  </div>
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-blue-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">Two Ways to Study</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed"><strong>EN → RU</strong> shows the English and asks you to recall the Russian. <strong>RU → EN</strong> shows the Russian and asks you to type the meaning. Answers are checked loosely, ignoring “to” and “the” and accepting any of several listed meanings.</div>
+  </div>
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-green-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">Know / Don’t Know</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">After each card you mark it <strong>Know</strong> or <strong>Don’t know</strong>. Filters then let you drill only your Unknown cards, or review the Known ones, by word type: nouns, verbs, adjectives, adverbs, phrases or full sentences. Space reveals, 1 and 2 grade.</div>
+  </div>
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-purple-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">Fast Card Entry</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">Typing an apostrophe after a vowel marks the stress, so <code class="font-mono text-xs bg-gray-100 dark:bg-gray-700 px-1 rounded">вода'</code> becomes <strong>вода́</strong> without hunting for a combining accent. When it runs as a Claude Artifact, you can also add cards from photos of textbook pages or handwritten lists: Claude reads them, fills in stress, gender and part of speech, and you check every row before it’s added.</div>
+  </div>
+</div>
+
+<figure class="my-12">
+  <img src="/images/tetrad/dark.png" alt="Tetrad in dark mode, showing the verb 'to speak' with говорить below it, its stressed vowel in red and the note 'pf. сказать', and the card list open underneath" class="w-2/3 h-auto rounded-sm border border-gray-200 shadow-sm mx-auto block" />
+  <figcaption class="text-center text-sm text-gray-500 mt-3 font-serif italic">Dark mode keeps the squared paper: a green chalkboard-like sheet with the same red margin</figcaption>
+</figure>
+
+### Design Process
+
+The whole look comes from one object: the squared *тетрадь* exercise book. The card is a sheet with a 24px blue grid and a red margin line, and the only other color on the page is the red used for stress, as if marked in pencil by a teacher. One typeface (Golos Text, designed for Cyrillic) and a single narrow column keep the focus on the word itself.
+
+I kept the controls quiet on purpose: plain text tabs for filters, one dark button for the main action, and keyboard shortcuts for the review loop, so a study session is mostly reading and remembering, not clicking.
+
+### How It’s Built
+
+<div class="my-8 space-y-4">
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-blue-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">One File, No Build Step</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">Everything lives in a single <code class="font-mono text-xs bg-gray-100 dark:bg-gray-700 px-1 rounded">index.html</code> with vanilla JavaScript and no dependencies. Stress is stored as the Unicode combining acute accent (U+0301) after the vowel, and rendered by splitting the word on it.</div>
+  </div>
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-purple-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">Runs Anywhere</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">Built as a Claude Artifact, it uses the Artifact runtime when it’s there: a shared database that syncs cards across devices, and image reading for photo import. Opened anywhere else, it falls back to the browser’s <code class="font-mono text-xs bg-gray-100 dark:bg-gray-700 px-1 rounded">localStorage</code> and hides the photo button, with no setup.</div>
+  </div>
+  <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-orange-500">
+    <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">Careful Photo Import</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">The photo prompt treats text in images as material to transcribe, never as instructions. Duplicates already in the deck are skipped, and every extracted row can be edited or removed in a review step before anything is saved.</div>
+  </div>
+</div>
+
+### Stack
+
+<div class="my-6 p-6 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-gray-700">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <div>
+      <div class="font-sans font-bold text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">App</div>
+      <div class="font-serif text-sm text-gray-700 dark:text-gray-300">HTML · CSS · vanilla JavaScript · single file</div>
+    </div>
+    <div>
+      <div class="font-sans font-bold text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">Platform</div>
+      <div class="font-serif text-sm text-gray-700 dark:text-gray-300">Claude Artifacts (database, image reading) · localStorage fallback</div>
+    </div>
+    <div>
+      <div class="font-sans font-bold text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">Process</div>
+      <div class="font-serif text-sm text-gray-700 dark:text-gray-300">Interaction design · language-learning design · open source (MIT)</div>
+    </div>
+  </div>
+</div>

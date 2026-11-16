@@ -1,0 +1,225 @@
+---
+import { LEVELS, XP, QUESTS } from '../lib/game';
+const data = { levels: LEVELS, xp: XP, quests: QUESTS };
+---
+
+<script type="application/json" id="game-data" set:html={JSON.stringify(data)} />
+
+<style is:global>
+  .xp-float { position: fixed; z-index: 260; pointer-events: none; animation: xpFloat 1.2s steps(8) forwards; }
+  @keyframes xpFloat { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(-36px); } }
+  .coin-spin { animation: coinSpin 0.8s steps(4) infinite; }
+  @keyframes coinSpin { 0%, 100% { transform: scaleX(1); } 25% { transform: scaleX(0.5); } 50% { transform: scaleX(0.15); } 75% { transform: scaleX(0.5); } }
+</style>
+
+<script>
+  type Quest = { id: string; name: string; desc: string };
+  type State = {
+    xp: number; coins: number;
+    visited: string[]; read: string[]; played: string[]; quests: string[];
+    best: Record<string, number>; saidHi: boolean;
+  };
+
+  const DATA = JSON.parse(document.getElementById('game-data')?.textContent || '{}') as {
+    levels: number[]; xp: Record<string, number>; quests: Quest[];
+  };
+  const KEY = 'yimin.game';
+  const S = () => (window as any).__secrets;
+  const esc = (s: string) => s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
+
+  const fresh = (): State => ({ xp: 0, coins: 0, visited: [], read: [], played: [], quests: [], best: {}, saidHi: false });
+  function load(): State {
+    try { return { ...fresh(), ...JSON.parse(localStorage.getItem(KEY) || '{}') }; } catch { return fresh(); }
+  }
+  function store(st: State) {
+    try { localStorage.setItem(KEY, JSON.stringify(st)); } catch {}
+  }
+
+  // ── Levels ───────────────────────────────────────────
+  function levelOf(xp: number) {
+    let lv = 1;
+    DATA.levels.forEach((t, i) => { if (xp >= t) lv = i + 1; });
+    const max = lv >= DATA.levels.length;
+    const lo = DATA.levels[lv - 1];
+    const hi = max ? lo : DATA.levels[lv];
+    return { lv, max, pct: max ? 100 : Math.round(((xp - lo) / (hi - lo)) * 100), toNext: max ? 0 : hi - xp };
+  }
+
+  // ── HUD ──────────────────────────────────────────────
+  function renderHud() {
+    const st = load();
+    const L = levelOf(st.xp);
+    document.querySelectorAll('[data-hud-level]').forEach(el => { el.textContent = L.max ? 'MAX' : String(L.lv); });
+    document.querySelectorAll<HTMLElement>('[data-hud-bar]').forEach(el => { el.style.width = `${L.pct}%`; });
+    document.querySelectorAll('[data-hud-coins]').forEach(el => { el.textContent = String(st.coins); });
+    document.querySelectorAll('[data-hud-quests]').forEach(el => { el.textContent = `${st.quests.length}/${DATA.quests.length}`; });
+  }
+
+  function floatXP(n: number) {
+    const hud = document.querySelector<HTMLElement>('[data-hud-open]:not([hidden])');
+    const r = hud?.getBoundingClientRect();
+    const el = document.createElement('span');
+    el.className = 'xp-float font-label text-[0.72rem] px-1.5 py-0.5 bg-mint text-[#2a2140] border-2 border-ink';
+    el.textContent = `+${n} XP`;
+    el.style.left = `${(r?.left ?? innerWidth - 120) + 4}px`;
+    el.style.top = `${(r?.bottom ?? 60) + 6}px`;
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 1300);
+  }
+
+  function addXP(n: number) {
+    const st = load();
+    const before = levelOf(st.xp).lv;
+    st.xp += n;
+    store(st);
+    floatXP(n);
+    const after = levelOf(st.xp);
+    if (after.lv > before) {
+      setTimeout(() => {
+        S()?.chime([523, 659, 784, 659, 784, 1047]);
+        S()?.toast('Level up!', after.max ? 'MAX LEVEL. You’ve seen it all ♥' : `You reached LV ${after.lv}`, { href: '#quests', label: 'quest log' });
+        S()?.confetti(innerWidth - 120, 70, 24);
+      }, 500);
+    }
+    renderHud();
+  }
+
+  // ── Quests ───────────────────────────────────────────
+  function questDone(id: string, st: State, secrets: string[]): boolean {
+    switch (id) {
+      case 'tourist':   return ['projects', 'research', 'writing', 'funsies'].every(w => st.visited.includes(w));
+      case 'bookworm':  return st.read.some(r => r.startsWith('writing/'));
+      case 'cases':     return st.read.filter(r => r.startsWith('projects/') || r.startsWith('research/')).length >= 3;
+      case 'collector': return secrets.length >= 5;
+      case 'arcade':    return ['bake', 'pop'].every(g => st.played.includes(g));
+      case 'hi':        return st.saidHi;
+      case 'complete':  return secrets.length >= (S()?.total ?? 99);
+    }
+    return false;
+  }
+
+  function checkQuests() {
+    const st = load();
+    const secrets: string[] = S()?.found() ?? [];
+    const newly = DATA.quests.filter(q => !st.quests.includes(q.id) && questDone(q.id, st, secrets));
+    if (!newly.length) return;
+    st.quests.push(...newly.map(q => q.id));
+    store(st);
+    newly.forEach((q, i) => setTimeout(() => {
+      S()?.chime([392, 523, 659]);
+      S()?.toast(`Quest complete · ${st.quests.length}/${DATA.quests.length}`, q.name, { href: '#quests', label: 'quest log' });
+      addXP(DATA.xp.quest);
+    }, 700 + i * 900));
+    renderHud();
+  }
+
+  // ── Quest log ────────────────────────────────────────
+  function openQuestLog() {
+    const st = load();
+    const L = levelOf(st.xp);
+    const secrets: string[] = S()?.found() ?? [];
+    const rows = DATA.quests.map(q => {
+      const done = st.quests.includes(q.id);
+      return `<li class="flex gap-3 py-2.5 border-b-2 border-dashed border-ink/20 last:border-0">
+        <span class="shrink-0 w-6 h-6 grid place-items-center border-[3px] border-ink ${done ? 'bg-mint text-[#2a2140]' : 'bg-bg-2'} font-label text-[0.7rem]">${done ? '✓' : ''}</span>
+        <span class="min-w-0"><span class="block font-pixel text-lg leading-tight ${done ? 'line-through text-muted' : ''}">${esc(q.name)}</span>
+        <span class="block text-sm text-ink-2">${esc(q.desc)}</span></span>
+      </li>`;
+    }).join('');
+    S()?.openScene('Quest log · press Q', `
+      <div class="grid grid-cols-3 gap-3 mb-5 text-center">
+        <div class="border-[3px] border-ink p-2 bg-lilac text-[#2a2140]"><span class="block font-label text-[0.6rem]">Level</span><span class="font-pixel text-2xl">${L.max ? 'MAX' : L.lv}</span></div>
+        <div class="border-[3px] border-ink p-2 bg-butter text-[#2a2140]"><span class="block font-label text-[0.6rem]">Coins</span><span class="font-pixel text-2xl">◎ ${st.coins}</span></div>
+        <div class="border-[3px] border-ink p-2 bg-sky text-[#2a2140]"><span class="block font-label text-[0.6rem]">Secrets</span><span class="font-pixel text-2xl">${secrets.length}/${S()?.total ?? 0}</span></div>
+      </div>
+      <div class="mb-1 flex justify-between font-label text-[0.62rem] text-muted"><span>${st.xp} XP</span><span>${L.max ? 'maxed out' : `${L.toNext} XP to LV ${L.lv + 1}`}</span></div>
+      <div class="h-4 border-[3px] border-ink bg-bg-2 relative overflow-hidden mb-5"><span class="absolute inset-y-0 left-0 bg-mint" style="width:${L.pct}%"></span></div>
+      <ul class="list-none p-0 m-0 max-h-[42vh] overflow-y-auto">${rows}</ul>
+      <div class="mt-5 flex flex-wrap gap-3 justify-between items-center">
+        <span class="font-label text-[0.6rem] text-muted">Best · bake-off ${st.best.bake ?? '—'} pts · bubbles ${st.best.pop ?? '—'}</span>
+        <span class="flex gap-3">
+          <a href="/arcade" class="px-btn">Arcade</a>
+          <a href="/secrets" class="px-btn">Stickers</a>
+        </span>
+      </div>`);
+  }
+
+  // ── Arcade API ───────────────────────────────────────
+  function played(game: string, score: number) {
+    const st = load();
+    const first = !st.played.includes(game);
+    if (first) st.played.push(game);
+    const isBest = score > (st.best[game] ?? -1);
+    if (isBest) st.best[game] = score;
+    store(st);
+    if (first) addXP(DATA.xp.arcade);
+    checkQuests();
+    return { best: st.best[game], isBest };
+  }
+
+  // ── Reading to the end earns a coin ──────────────────
+  function collect(el: HTMLElement) {
+    const id = el.dataset.readEnd!;
+    const st = load();
+    if (st.read.includes(id)) { el.classList.add('is-collected'); return; }
+    st.read.push(id);
+    st.coins += 1;
+    store(st);
+    el.classList.add('is-collected', 'just-collected');
+    S()?.chime([988, 1319]);
+    const r = el.querySelector('[data-coin]')?.getBoundingClientRect();
+    if (r) S()?.confetti(r.left + r.width / 2, r.top + r.height / 2, 16);
+    addXP(DATA.xp.readEnd);
+    checkQuests();
+  }
+
+  const ends = document.querySelectorAll<HTMLElement>('[data-read-end]');
+  const st0 = load();
+  ends.forEach(el => { if (st0.read.includes(el.dataset.readEnd!)) el.classList.add('is-collected'); });
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.isIntersecting) { collect(e.target as HTMLElement); io.unobserve(e.target); }
+    }), { threshold: 0.6 });
+    ends.forEach(el => io.observe(el));
+  }
+
+  // ── Visits ───────────────────────────────────────────
+  const path = location.pathname.replace(/\/$/, '') || '/';
+  const world = ['projects', 'research', 'writing', 'funsies', 'arcade'].find(w => path === `/${w}`);
+  const pageKey = world ?? (path.split('/').length > 2 ? path.slice(1) : null);
+  if (pageKey) {
+    const st = load();
+    const tag = world ? world : `page:${pageKey}`;
+    if (!st.visited.includes(tag)) {
+      st.visited.push(tag);
+      store(st);
+      setTimeout(() => addXP(world ? DATA.xp.visitWorld : DATA.xp.visitPage), 600);
+    }
+  }
+
+  // ── Say hi ───────────────────────────────────────────
+  document.addEventListener('click', e => {
+    const a = (e.target as HTMLElement).closest('a[href^="mailto:"]');
+    if (!a) return;
+    const st = load();
+    if (!st.saidHi) { st.saidHi = true; store(st); checkQuests(); }
+  });
+
+  // ── Wiring ───────────────────────────────────────────
+  document.addEventListener('secret:unlocked', () => { addXP(DATA.xp.secret); checkQuests(); });
+  document.querySelectorAll('[data-hud-open]').forEach(b => b.addEventListener('click', openQuestLog));
+  document.addEventListener('click', e => {
+    const a = (e.target as HTMLElement).closest('a[href="#quests"]');
+    if (a) { e.preventDefault(); openQuestLog(); }
+  });
+  document.addEventListener('keydown', e => {
+    if (e.metaKey || e.ctrlKey || e.altKey) return;
+    const t = e.target as HTMLElement;
+    if (t && (t.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(t.tagName))) return;
+    if (e.key === 'q' || e.key === 'Q') openQuestLog();
+  });
+
+  renderHud();
+  checkQuests();
+  (window as any).__game = { load, addXP, played, openQuestLog, reset: () => { store(fresh()); renderHud(); } };
+</script>

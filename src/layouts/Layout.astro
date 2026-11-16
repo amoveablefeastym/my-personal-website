@@ -1,13 +1,15 @@
 ---
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import Secrets from '../components/Secrets.astro';
+import Game from '../components/Game.astro';
 
 interface Props {
   title: string;
   description?: string;
 }
 
-const { title, description = 'Personal website of Yimin Huang' } = Astro.props;
+const { title, description = 'Yimin Huang — product builder, HCI researcher, and writer at Northwestern University.' } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -15,30 +17,34 @@ const { title, description = 'Personal website of Yimin Huang' } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
     <!-- Prevent FOUC: set theme before paint -->
     <script is:inline>
-      const saved = localStorage.getItem('theme');
-      const sys = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      document.documentElement.dataset.theme = saved ?? sys;
+      try {
+        const saved = localStorage.getItem('theme');
+        const sys = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+        document.documentElement.dataset.theme = saved ?? sys;
+      } catch (e) {
+        document.documentElement.dataset.theme = 'light';
+      }
+      document.documentElement.classList.add('js');
     </script>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@300;400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&family=Silkscreen:wght@400;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,400&display=swap"
       rel="stylesheet"
     />
 
-    <title>{title} — Yimin Huang</title>
+    <title>{title === 'Home' ? 'Yimin Huang' : `${title} — Yimin Huang`}</title>
     {description && <meta name="description" content={description} />}
   </head>
   <body>
-    <!-- Rusty Lake atmosphere overlays -->
-    <div class="rusty-noise"></div>
-    <div class="rusty-vignette"></div>
+    <!-- Night-mode stars -->
+    <div class="pixel-stars" aria-hidden="true"></div>
 
     <Nav />
 
@@ -47,6 +53,36 @@ const { title, description = 'Personal website of Yimin Huang' } = Astro.props;
     </main>
 
     <Footer />
+    <Secrets />
+    <Game />
+
+    <script>
+      // Reveal elements as they scroll into view
+      const els = document.querySelectorAll<HTMLElement>('[data-reveal]');
+      if (!('IntersectionObserver' in window)) {
+        els.forEach(el => el.classList.add('is-visible'));
+      } else {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach(e => {
+            if (e.isIntersecting) {
+              e.target.classList.add('is-visible');
+              io.unobserve(e.target);
+            }
+          });
+        }, { rootMargin: '0px 0px -6% 0px' });
+        els.forEach(el => io.observe(el));
+      }
+
+      // Keyboard shortcuts: 1–5 jump to sections, 0 goes home
+      const keys: Record<string, string> = { '0': '/', '1': '/projects', '2': '/research', '3': '/writing', '4': '/funsies', '5': '/arcade' };
+      document.addEventListener('keydown', (e) => {
+        if (e.metaKey || e.ctrlKey || e.altKey) return;
+        const t = e.target as HTMLElement;
+        if (t && (t.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(t.tagName))) return;
+        const href = keys[e.key];
+        if (href && location.pathname !== href) location.href = href;
+      });
+    </script>
   </body>
 </html>
 
@@ -55,313 +91,299 @@ const { title, description = 'Personal website of Yimin Huang' } = Astro.props;
   @import "tailwindcss";
   @plugin "@tailwindcss/typography";
 
-  /* Dark mode via data-theme="dark" attribute on <html> */
   @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
   @theme {
-    --font-sans: "Noto Sans", ui-sans-serif, system-ui, sans-serif;
-    --font-serif: "Crimson Text", "EB Garamond", Georgia, serif;
-    --animate-float: float 6s ease-in-out infinite;
-    --animate-marquee: marquee 25s linear infinite;
+    --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+    --font-pixel: "Pixelify Sans", ui-monospace, monospace;
+    --font-label: "Silkscreen", "Pixelify Sans", ui-monospace, monospace;
+    --font-mono: "Silkscreen", "Pixelify Sans", ui-monospace, monospace;
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
+    --color-bg: var(--bg);
+    --color-bg-2: var(--bg-2);
+    --color-ink: var(--ink);
+    --color-ink-2: var(--ink-2);
+    --color-muted: var(--muted);
+    --color-tomato: var(--tomato);
+    --color-butter: var(--butter);
+    --color-sky: var(--sky);
+    --color-mint: var(--mint);
+    --color-lilac: var(--lilac);
+  }
 
-    @keyframes marquee {
-      0% { transform: translateX(0); }
-      100% { transform: translateX(-50%); }
-    }
+  /* ── Tokens ───────────────────────────────────────── */
+
+  :root {
+    --bg:     #fbf4e6;
+    --bg-2:   #f3e6cc;
+    --card:   #fffaf0;
+    --ink:    #2a2140;
+    --ink-2:  #554a6b;
+    --muted:  #8d829f;
+    --grid:   rgba(42, 33, 64, 0.05);
+    --shadow: #2a2140;
+    --tomato: #e85d3f;
+    --butter: #f5c04a;
+    --sky:    #5aa9e6;
+    --mint:   #5fbf8a;
+    --lilac:  #a58ae8;
+    color-scheme: light;
+  }
+  [data-theme="dark"] {
+    --bg:     #17132b;
+    --bg-2:   #231d40;
+    --card:   #201a3a;
+    --ink:    #f5ecd9;
+    --ink-2:  #cfc5e0;
+    --muted:  #8f86ab;
+    --grid:   rgba(245, 236, 217, 0.035);
+    --shadow: #07050f;
+    --tomato: #ff7a5c;
+    --butter: #ffd166;
+    --sky:    #74c0f5;
+    --mint:   #7fdba6;
+    --lilac:  #bba4ff;
+    color-scheme: dark;
   }
 
   /* ── Base ─────────────────────────────────────────── */
 
-  :root {
-    font-family: var(--font-serif);
-    line-height: 1.7;
-    font-weight: 400;
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    color-scheme: light dark;
-  }
+  html { scroll-behavior: smooth; }
 
   body {
     margin: 0;
-    padding: 0;
     min-height: 100vh;
     min-width: 320px;
-    letter-spacing: 0.2px;
-    background-color: #ffffff;
-    color: #1a1a1a;
-  }
-  [data-theme="dark"] body {
-    background-color: #000000;
-    color: #e8e8e8;
-  }
-
-  a {
-    font-weight: 400;
-    color: #5a5a5a;
-    text-decoration: none;
-    transition: color 0.15s ease;
-  }
-  a:hover { color: #000000; }
-  [data-theme="dark"] a { color: #9b9b9b; }
-  [data-theme="dark"] a:hover { color: #d4d4d4; }
-
-  h1 { font-size: 2.2em; line-height: 1.3; font-weight: 600; margin: 1.2em 0 0.6em; color: #000; }
-  h2 { font-size: 1.8em; line-height: 1.3; font-weight: 600; margin: 1em 0 0.5em; color: #000; }
-  h3 { font-size: 1.4em; line-height: 1.4; font-weight: 600; margin: 0.8em 0 0.4em; color: #000; }
-  [data-theme="dark"] h1 { color: #fff; }
-  [data-theme="dark"] h2 { color: #f5f5f5; }
-  [data-theme="dark"] h3 { color: #e8e8e8; }
-  p { margin: 0 0 1em; }
-
-  /* ── Animations ───────────────────────────────────── */
-
-  @keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .animate-fade-in-up {
-    animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-    opacity: 0;
-  }
-
-  .delay-100 { animation-delay: 100ms; }
-  .delay-200 { animation-delay: 200ms; }
-  .delay-300 { animation-delay: 300ms; }
-  .delay-500 { animation-delay: 500ms; }
-  .delay-700 { animation-delay: 700ms; }
-
-  /* ── Dot pattern ──────────────────────────────────── */
-
-  .bg-dot-pattern {
-    background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
-    background-size: 24px 24px;
-  }
-  [data-theme="dark"] .bg-dot-pattern {
-    background-image: radial-gradient(#333 1px, transparent 1px);
-  }
-
-  /* ── Rusty Lake: Film Grain ───────────────────────── */
-
-  .rusty-noise {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 9998;
-    opacity: 0.07;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  }
-
-  /* ── Rusty Lake: Vignette ─────────────────────────── */
-
-  .rusty-vignette {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 9997;
-    background: radial-gradient(circle, transparent 50%, rgba(0,0,0,0.15) 100%);
-  }
-  [data-theme="dark"] .rusty-vignette {
-    background: radial-gradient(circle, transparent 50%, rgba(0,0,0,0.4) 100%);
-  }
-
-  /* ── Rusty Lake: Profile filter ───────────────────── */
-
-  .corrupted-soul-filter {
-    filter: sepia(20%) contrast(105%) brightness(1.05);
-    transition: filter 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  /* ── Rusty Lake: Typewriter font ──────────────────── */
-
-  .font-typewriter {
-    font-family: "Courier Prime", "Courier New", Courier, monospace;
-    letter-spacing: -0.02em;
-  }
-
-  /* ── Project credit line ─────────────────────────── */
-
-  .project-credit {
     font-family: var(--font-sans);
+    line-height: 1.6;
+    color: var(--ink);
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 16px 16px;
+    -webkit-font-smoothing: antialiased;
+    cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='24' viewBox='0 0 10 12' shape-rendering='crispEdges'%3E%3Cpath d='M0 0h1v1H0zM0 1h2v1H0zM0 2h3v1H0zM0 3h4v1H0zM0 4h5v1H0zM0 5h6v1H0zM0 6h7v1H0zM0 7h5v1H0zM0 8h2v1H0zM3 8h2v1H3zM0 9h1v1H0zM4 9h2v1H4zM4 10h2v1H4z' fill='%232a2140'/%3E%3Cpath d='M1 2h1v1H1zM1 3h2v1H1zM1 4h3v1H1zM1 5h4v1H1zM1 6h3v1H1zM1 7h1v1H1z' fill='%23fffaf0'/%3E%3C/svg%3E") 0 0, auto;
+    transition: background-color 0.3s steps(3), color 0.3s steps(3);
+  }
+
+  @layer base {
+    a { color: inherit; text-decoration: none; }
+    h1, h2, h3, h4 { font-family: var(--font-pixel); color: var(--ink); font-weight: 600; line-height: 1.1; }
+    p { margin: 0 0 1em; }
+    img { image-rendering: auto; }
+  }
+
+  ::selection { background: var(--butter); color: #2a2140; }
+
+  :focus-visible { outline: 3px dashed var(--tomato); outline-offset: 3px; }
+
+  .font-pixel { font-family: var(--font-pixel); }
+  .font-label { font-family: var(--font-label); }
+  .pixelated  { image-rendering: pixelated; image-rendering: crisp-edges; }
+
+  /* ── Pixel boxes & buttons ───────────────────────── */
+
+  .px-box {
+    background: var(--card);
+    border: 3px solid var(--ink);
+    box-shadow: 5px 5px 0 var(--shadow);
+  }
+
+  .px-hover {
+    transition: transform 0.12s steps(2), box-shadow 0.12s steps(2);
+  }
+  .px-hover:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 8px 8px 0 var(--shadow);
+  }
+  .px-hover:active {
+    transform: translate(3px, 3px);
+    box-shadow: 2px 2px 0 var(--shadow);
+  }
+
+  .px-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 1rem;
+    font-family: var(--font-label);
+    font-size: 0.8rem;
+    color: var(--ink);
+    background: var(--card);
+    border: 3px solid var(--ink);
+    box-shadow: 4px 4px 0 var(--shadow);
+    transition: transform 0.1s steps(2), box-shadow 0.1s steps(2), background 0.1s;
+  }
+  .px-btn:hover { background: var(--butter); color: #2a2140; transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--shadow); }
+  .px-btn:active { transform: translate(3px, 3px); box-shadow: 1px 1px 0 var(--shadow); }
+
+  .px-chip {
+    display: inline-block;
+    padding: 0.2rem 0.55rem;
+    font-family: var(--font-label);
     font-size: 0.68rem;
-    color: #b8b8b8;
-    line-height: 1.7;
-    letter-spacing: 0.05em;
-    margin-bottom: 2.5rem;
-  }
-  [data-theme="dark"] .project-credit { color: #4a4a4a; }
-
-  .project-credit a {
-    color: inherit;
-    text-decoration: underline;
-    text-decoration-color: rgba(160, 160, 160, 0.5);
-    text-underline-offset: 3px;
-    text-decoration-thickness: 1px;
-    transition: text-decoration-color 0.2s ease, text-decoration-thickness 0.2s ease;
-  }
-  .project-credit a:hover {
-    color: inherit;
-    text-decoration-color: #b8b8b8;
-    text-decoration-thickness: 1.5px;
-  }
-  [data-theme="dark"] .project-credit a { text-decoration-color: rgba(80, 80, 80, 0.6); }
-  [data-theme="dark"] .project-credit a:hover { text-decoration-color: #4a4a4a; }
-
-  /* ── Research credit line ────────────────────────── */
-
-  .credit-line a {
-    color: inherit;
-    text-decoration: underline;
-    text-decoration-color: rgba(136, 136, 136, 0.5);
-    text-underline-offset: 3px;
-    text-decoration-thickness: 1px;
-    transition: text-decoration-color 0.2s ease, text-decoration-thickness 0.2s ease;
-  }
-  .credit-line a:hover {
-    color: inherit;
-    text-decoration-color: #888888;
-    text-decoration-thickness: 2px;
+    line-height: 1.4;
+    color: #2a2140;
+    border: 2px solid var(--ink);
   }
 
-  /* ── Prose inline links ─────────────────────────── */
+  .label {
+    font-family: var(--font-label);
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+    color: var(--muted);
+  }
 
+  /* ── Motion ───────────────────────────────────────── */
+
+  @keyframes bob   { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+  @keyframes blink { 50% { opacity: 0; } }
+  @keyframes drift { 0%, 100% { transform: translate(0, 0); } 25% { transform: translate(8px, -14px); } 50% { transform: translate(-4px, -24px); } 75% { transform: translate(-10px, -10px); } }
+  @keyframes popIn { from { opacity: 0; transform: translateY(12px) scale(0.98); } to { opacity: 1; transform: none; } }
+  @keyframes twinkle { 0%, 100% { opacity: 0.9; } 50% { opacity: 0.25; } }
+
+  .anim-bob   { animation: bob 1.6s steps(4) infinite; }
+  .group:hover .group-bob { animation: bob 0.8s steps(4) infinite; }
+  .anim-blink { animation: blink 1s steps(1) infinite; }
+  .anim-drift { animation: drift 9s steps(18) infinite; }
+  .anim-pop   { animation: popIn 0.5s steps(5) both; }
+
+  .delay-1 { animation-delay: 80ms; }
+  .delay-2 { animation-delay: 160ms; }
+  .delay-3 { animation-delay: 240ms; }
+  .delay-4 { animation-delay: 320ms; }
+
+  .js [data-reveal] { opacity: 0; transform: translateY(16px); transition: opacity 0.45s steps(4), transform 0.45s steps(4); }
+  .js [data-reveal].is-visible { opacity: 1; transform: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; }
+    .js [data-reveal] { opacity: 1; transform: none; }
+  }
+
+  /* ── Night stars ─────────────────────────────────── */
+
+  .pixel-stars { display: none; }
+  [data-theme="dark"] .pixel-stars {
+    display: block;
+    position: fixed;
+    top: 0; left: 0;
+    width: 3px; height: 3px;
+    pointer-events: none;
+    z-index: 0;
+    background: transparent;
+    box-shadow:
+      8vw 14vh #ffd166, 22vw 6vh #f5ecd9, 37vw 22vh #f5ecd9, 51vw 9vh #74c0f5,
+      66vw 18vh #f5ecd9, 81vw 7vh #ffd166, 93vw 26vh #f5ecd9, 14vw 41vh #f5ecd9,
+      72vw 44vh #bba4ff, 88vw 61vh #f5ecd9, 5vw 72vh #74c0f5, 46vw 63vh #f5ecd9,
+      29vw 86vh #ffd166, 61vw 91vh #f5ecd9, 96vw 84vh #f5ecd9, 18vw 96vh #bba4ff;
+    animation: twinkle 3s steps(3) infinite;
+  }
+  main, nav, footer { position: relative; z-index: 1; }
+
+  /* ── Prose (case studies, stories) ───────────────── */
+
+  .prose {
+    --tw-prose-body: var(--ink-2);
+    --tw-prose-headings: var(--ink);
+    --tw-prose-links: var(--ink);
+    --tw-prose-bold: var(--ink);
+    --tw-prose-counters: var(--muted);
+    --tw-prose-bullets: var(--tomato);
+    --tw-prose-hr: var(--ink);
+    --tw-prose-quotes: var(--ink);
+    --tw-prose-quote-borders: var(--butter);
+    --tw-prose-captions: var(--muted);
+    --tw-prose-code: var(--ink);
+    --tw-prose-th-borders: var(--ink);
+    --tw-prose-td-borders: var(--muted);
+  }
+  .prose :where(h1, h2, h3, h4) { font-family: var(--font-pixel); font-weight: 600; }
+  .prose :where(h2) {
+    display: inline-block;
+    padding: 0.1em 0.45em;
+    background: var(--butter);
+    color: #2a2140;
+    border: 3px solid var(--ink);
+    box-shadow: 4px 4px 0 var(--shadow);
+  }
+  .prose :where(p, li) { color: var(--ink-2); }
   .prose a {
     color: inherit;
     font-weight: 500;
-    text-decoration: underline;
-    text-decoration-color: rgba(0, 0, 0, 0.45);
-    text-underline-offset: 4px;
-    text-decoration-thickness: 1.5px;
-    transition: text-decoration-color 0.2s ease, text-decoration-thickness 0.2s ease;
+    text-decoration: none;
+    background-image: linear-gradient(var(--butter), var(--butter));
+    background-size: 100% 0.35em;
+    background-position: 0 92%;
+    background-repeat: no-repeat;
+    transition: background-size 0.15s steps(3);
   }
-  .prose a:hover {
-    color: inherit;
-    text-decoration-color: rgba(0, 0, 0, 0.9);
-    text-decoration-thickness: 2px;
+  .prose a:hover { background-size: 100% 100%; color: #2a2140; }
+  .prose img { border: 3px solid var(--ink); box-shadow: 5px 5px 0 var(--shadow); border-radius: 0 !important; }
+  .prose hr { border-top: 3px dashed var(--ink); }
+
+  /* Harmonise hard-coded colours inside MDX content with the pixel palette */
+  .prose [class*="bg-white"],
+  .prose [class*="bg-gray-50"],
+  .prose [class*="bg-gray-800"],
+  .prose [class*="bg-gray-900"] {
+    background-color: var(--card) !important;
+    border-radius: 0 !important;
+    border-top: 3px solid var(--ink);
+    border-right: 3px solid var(--ink);
+    border-bottom: 3px solid var(--ink);
+    box-shadow: 4px 4px 0 var(--shadow);
   }
-  [data-theme="dark"] .prose a {
-    color: inherit;
-    text-decoration-color: rgba(255, 255, 255, 0.45);
+  .prose [class*="rounded-lg"][class*="border"] { border: 3px solid var(--ink) !important; }
+  .prose [class*="border-l-4"] { border-left-width: 8px !important; }
+  .prose [class*="border-gray-"] { border-color: var(--ink) !important; }
+  .prose [class*="text-black"] { color: var(--ink) !important; }
+  .prose [class*="text-[#333]"],
+  .prose [class*="text-[#444]"],
+  .prose [class*="text-gray-700"],
+  .prose [class*="text-gray-600"] { color: var(--ink-2) !important; }
+  .prose [class*="text-gray-200"] { color: var(--muted) !important; opacity: 0.5; }
+  .prose [class*="text-[#d32f2f]"] { color: var(--tomato) !important; }
+  .prose [class*="font-sans"][class*="uppercase"] { font-family: var(--font-label) !important; letter-spacing: 0.02em !important; }
+  .prose [class*="font-serif"] { font-family: var(--font-sans) !important; }
+
+  /* Outline buttons used inside MDX → pixel buttons */
+  .prose a[class*="border-[#d32f2f]"] {
+    color: var(--ink) !important;
+    background: var(--card) !important;
+    border: 3px solid var(--ink) !important;
+    border-radius: 0 !important;
+    box-shadow: 4px 4px 0 var(--shadow);
+    font-family: var(--font-label) !important;
+    letter-spacing: 0.02em !important;
+    font-weight: 400 !important;
+    background-image: none !important;
+    transition: transform 0.1s steps(2), box-shadow 0.1s steps(2), background 0.1s !important;
   }
-  [data-theme="dark"] .prose a:hover {
-    color: inherit;
-    text-decoration-color: rgba(255, 255, 255, 0.9);
+  .prose a[class*="border-[#d32f2f]"]:hover {
+    background: var(--butter) !important;
+    color: #2a2140 !important;
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--shadow);
   }
 
-  /* ── Bio inline links ────────────────────────────── */
-
+  /* Bio inline link */
   .bio-link {
-    font-weight: 500;
-    color: #1a1a1a;
+    font-weight: 700;
+    color: var(--ink);
+    background-image: linear-gradient(var(--butter), var(--butter));
+    background-size: 100% 0.4em;
+    background-position: 0 90%;
+    background-repeat: no-repeat;
+    transition: background-size 0.15s steps(3);
+  }
+  .bio-link:hover { background-size: 100% 100%; color: #2a2140; }
+
+  .credit-line a, .project-credit a {
     text-decoration: underline;
-    text-decoration-color: rgba(0, 0, 0, 0.45);
-    text-underline-offset: 4px;
-    text-decoration-thickness: 1.5px;
-    transition: text-decoration-color 0.2s ease, text-decoration-thickness 0.2s ease, letter-spacing 0.2s ease;
+    text-decoration-style: dotted;
+    text-underline-offset: 3px;
   }
-  .bio-link:hover {
-    color: #1a1a1a;
-    text-decoration-color: #1a1a1a;
-    text-decoration-thickness: 2.5px;
-    letter-spacing: 0.01em;
-  }
-  [data-theme="dark"] .bio-link {
-    color: #ffffff;
-    text-decoration-color: rgba(255, 255, 255, 0.45);
-  }
-  [data-theme="dark"] .bio-link:hover {
-    color: #ffffff;
-    text-decoration-color: #ffffff;
-  }
-
-  /* ── Rusty Lake: Red thread link ──────────────────── */
-
-  .rusty-link { position: relative; text-decoration: none; }
-  .rusty-link::after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    bottom: -2px;
-    left: 0;
-    background-color: #8b0000;
-    transform: scaleX(0);
-    transform-origin: bottom right;
-    transition: transform 0.3s ease-out;
-  }
-  .rusty-link:hover::after {
-    transform: scaleX(1);
-    transform-origin: bottom left;
-  }
-
-  /* ── Rusty Lake: Double frame ─────────────────────── */
-
-  .rusty-frame { position: relative; }
-  .rusty-frame::before {
-    content: "";
-    position: absolute;
-    inset: -12px;
-    border: 1px solid rgba(0,0,0,0.1);
-    pointer-events: none;
-    z-index: 10;
-  }
-  [data-theme="dark"] .rusty-frame::before { border-color: rgba(255,255,255,0.1); }
-
-  /* ── Rusty Lake: Glitch text ──────────────────────── */
-
-  .rusty-glitch { position: relative; }
-  .rusty-glitch::before,
-  .rusty-glitch::after {
-    content: attr(data-text);
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: inherit;
-  }
-  .rusty-glitch::before {
-    left: 2px;
-    text-shadow: -1px 0 #ff00c1;
-    clip: rect(44px, 450px, 56px, 0);
-    animation: glitch-anim 5s infinite linear alternate-reverse;
-  }
-  .rusty-glitch::after {
-    left: -2px;
-    text-shadow: -1px 0 #00fff9;
-    clip: rect(44px, 450px, 56px, 0);
-    animation: glitch-anim2 5s infinite linear alternate-reverse;
-  }
-
-  @keyframes glitch-anim {
-    0%   { clip: rect(30px, 9999px, 10px, 0); }
-    5%   { clip: rect(80px, 9999px, 90px, 0); }
-    10%  { clip: rect(10px, 9999px, 40px, 0); }
-    15%  { clip: rect(50px, 9999px, 20px, 0); }
-    20%  { clip: rect(20px, 9999px, 60px, 0); }
-    100% { clip: rect(60px, 9999px, 30px, 0); }
-  }
-  @keyframes glitch-anim2 {
-    0%   { clip: rect(10px, 9999px, 80px, 0); }
-    5%   { clip: rect(60px, 9999px, 10px, 0); }
-    10%  { clip: rect(40px, 9999px, 50px, 0); }
-    15%  { clip: rect(90px, 9999px, 20px, 0); }
-    20%  { clip: rect(20px, 9999px, 30px, 0); }
-    100% { clip: rect(50px, 9999px, 60px, 0); }
-  }
-
-  /* ── Rusty Lake: Floating symbols ─────────────────── */
-
-  .rusty-symbol {
-    position: absolute;
-    opacity: 0.05;
-    pointer-events: none;
-    transition: opacity 0.5s ease;
-  }
-  .rusty-symbol:hover { opacity: 0.3; }
+  .project-credit { font-size: 0.8rem; color: var(--muted); margin-bottom: 2.5rem; }
 </style>

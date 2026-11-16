@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import PageHeader from '../../components/PageHeader.astro';
 import WritingEntry from '../../components/WritingEntry.astro';
 import { getCollection } from 'astro:content';
 
@@ -7,25 +8,22 @@ const posts = (await getCollection('writing'))
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 ---
 
-<Layout title="Writing" description="Stories, essays, and observations.">
-  <div class="max-w-3xl mx-auto px-6 md:px-12 bg-white dark:bg-black py-12 relative animate-fade-in-up">
+<Layout title="Writing" description="Stories, screenplays, and plays by Yimin Huang.">
+  <div class="max-w-6xl mx-auto px-4 md:px-8">
+    <PageHeader
+      index="03"
+      title="Writing"
+      subtitle="I write, therefore I am. Stories, a screenplay, and a play in progress."
+      count={posts.length}
+      countLabel="pieces"
+    />
 
-    <div class="text-center mb-16 border-b border-black/10 dark:border-white/10 pb-12 relative group cursor-default">
-      <h1 class="mb-4 font-semibold font-serif tracking-tight text-black dark:text-white text-5xl md:text-6xl animate-fade-in-up relative inline-block">
-        Writing
-      </h1>
-      <p class="text-[#707070] dark:text-gray-400 font-serif text-lg leading-relaxed opacity-0 group-hover:opacity-100 transition-opacity duration-700 ease-in-out">
-        I write therefore I am.
-      </p>
-    </div>
-
-    <div>
-      {posts.length === 0 ? (
-        <p class="text-center font-serif text-gray-400 italic py-12">Nothing here yet — check back soon.</p>
-      ) : (
-        posts.map(entry => <WritingEntry entry={entry} />)
-      )}
-    </div>
-
+    {posts.length === 0 ? (
+      <p class="text-center font-label text-muted py-12">Nothing here yet. Check back soon.</p>
+    ) : (
+      <div class="grid gap-7">
+        {posts.map((entry, index) => <WritingEntry entry={entry} index={index} />)}
+      </div>
+    )}
   </div>
 </Layout>

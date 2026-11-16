@@ -1,0 +1,41 @@
+---
+import Sprite from './Sprite.astro';
+
+interface Props {
+  id: string;          // e.g. "projects/bubblist"
+  backHref: string;
+  backLabel: string;
+}
+
+const { id, backHref, backLabel } = Astro.props;
+---
+
+<section data-read-end={id} class="read-end mt-20 px-box p-5 md:p-6 flex flex-col sm:flex-row sm:items-center gap-5">
+  <span data-coin class="read-end-coin shrink-0 grid place-items-center w-16 h-16 bg-butter border-[3px] border-ink">
+    <span class="coin-spin"><Sprite name="coin" scale={4} /></span>
+  </span>
+  <div class="flex-1">
+    <p class="m-0 font-label text-[0.65rem] text-tomato">End of file</p>
+    <p class="m-0 font-pixel text-2xl leading-tight">
+      <span class="when-new">You made it to the end!</span>
+      <span class="when-old">Coin already collected</span>
+    </p>
+    <p class="m-0 mt-1 text-sm text-ink-2">
+      <span class="when-new">+1 coin · +25 XP. Thanks for reading this far.</span>
+      <span class="when-old">You’ve read this one before. Thanks for coming back.</span>
+    </p>
+  </div>
+  <div class="flex gap-3 flex-wrap">
+    <a href="#quests" class="px-btn">Quests</a>
+    <a href={backHref} class="px-btn">◀ {backLabel}</a>
+  </div>
+</section>
+
+<style>
+  .read-end .when-old { display: none; }
+  .read-end.is-collected:not(.just-collected) .when-new { display: none; }
+  .read-end.is-collected:not(.just-collected) .when-old { display: inline; }
+  .read-end.is-collected:not(.just-collected) .read-end-coin { background: var(--bg-2); opacity: 0.6; }
+  .read-end.just-collected .read-end-coin { animation: coinPop 0.6s steps(6); }
+  @keyframes coinPop { 0% { transform: translateY(0); } 40% { transform: translateY(-18px); } 100% { transform: translateY(0); } }
+</style>

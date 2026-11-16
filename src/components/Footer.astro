@@ -1,41 +1,81 @@
 ---
+import Sprite from './Sprite.astro';
+import { SECRETS } from '../lib/secrets';
+const year = new Date().getFullYear();
 ---
 
-<footer class="border-t border-gray-200 dark:border-gray-800 bg-white dark:bg-black mt-20 px-4 md:px-8 py-12">
-  <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-
-   
-
-    <!-- Links -->
-    <div class="flex flex-col items-center gap-3 md:col-span-2">
-      <div class="flex items-center justify-center gap-5">
-        <a
-          href="mailto:yiminchen2025@u.northwestern.edu"
-          class="font-sans text-sm text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors no-underline"
-        >
-          h1683618346@gmail.com
-        </a>
-        <a
-          href="https://github.com/amoveablefeastym"
-          target="_blank"
-          rel="noreferrer"
-          class="font-sans text-sm text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors no-underline"
-        >
-          GitHub
-        </a>
-        <a
-          href="www.linkedin.com/in/yimin-huang-nu"
-          target="_blank"
-          rel="noreferrer"
-          class="font-sans text-sm text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors no-underline"
-        >
-          LinkedIn
-        </a>
+<footer class="mt-32">
+  <div class="max-w-6xl mx-auto px-4 md:px-8 pb-10">
+    <div class="px-box p-6 md:p-10 grid gap-8 md:grid-cols-[1fr_auto] md:items-end">
+      <div>
+        <p class="label mb-3">★ Thanks for visiting ★</p>
+        <p class="font-pixel text-3xl md:text-5xl font-semibold leading-tight m-0">
+          Want to build a product,<br class="hidden md:block" /> or swap stories?
+        </p>
+        <p class="mt-4 mb-0 text-ink-2">My inbox is always open. I read every message.</p>
       </div>
-      <p class="font-sans text-xs text-gray-300 dark:text-gray-700 mt-2 text-center">
-        &copy; {new Date().getFullYear()} Yimin Huang
-      </p>
+      <div class="flex flex-wrap gap-3">
+        <a class="px-btn !bg-tomato !text-[#fffaf0] hover:!bg-butter hover:!text-[#2a2140]" href="mailto:h1683618346@gmail.com">▶ Say hi</a>
+        <a class="px-btn" href="https://github.com/amoveablefeastym" target="_blank" rel="noreferrer">GitHub</a>
+        <a class="px-btn" href="https://www.linkedin.com/in/yimin-huang-nu" target="_blank" rel="noreferrer">LinkedIn</a>
+      </div>
     </div>
 
+    <a href="/secrets" class="group mt-6 flex items-center justify-between gap-4 px-4 py-3 border-[3px] border-dashed border-ink/40 hover:border-ink hover:bg-card transition-colors">
+      <span class="font-label text-[0.72rem] text-ink-2">
+        ★ Secrets found: <span data-secret-count class="text-tomato">0/{SECRETS.length}</span>
+        <span class="hidden sm:inline text-muted"> · this site has things to click, poke, and type</span>
+      </span>
+      <span class="font-label text-[0.72rem] text-ink group-hover:text-tomato">Sticker book ▶</span>
+    </a>
+  </div>
+
+  <!-- Pixel ground -->
+  <div class="relative">
+    <div class="relative max-w-6xl mx-auto px-4 md:px-8 h-20">
+      <!-- Half-Baked loaf: click to bake -->
+      <button type="button" data-egg="bread" class="absolute bottom-0 left-4 md:left-8 flex flex-col items-center" aria-label="A loaf of bread. Click to bake it.">
+        <span data-bake-label class="hidden absolute -top-16 z-10 whitespace-nowrap font-label text-[0.6rem] px-1.5 py-0.5 bg-card border-2 border-ink"></span>
+        <span data-bake-sprite class="block origin-bottom transition-transform duration-200"><Sprite name="bread" scale={3} /></span>
+      </button>
+
+      <!-- NPC pacing back and forth -->
+      <div class="absolute inset-x-24 md:inset-x-32 bottom-0 h-full pointer-events-none">
+        <div data-npc-walker class="npc-walker absolute bottom-0 pointer-events-auto">
+          <button type="button" data-egg="npc" class="npc-flip block" aria-label="An NPC. Click to talk.">
+            <span class="npc-f1 block"><Sprite name="npc" scale={3} /></span>
+            <span class="npc-f2 block absolute inset-0"><Sprite name="npc2" scale={3} /></span>
+          </button>
+        </div>
+      </div>
+      <div data-npc-speech class="hidden absolute left-1/2 -translate-x-1/2 bottom-[4.5rem] w-[min(92vw,380px)] px-box p-4 z-10">
+        <p class="m-0 font-label text-[0.65rem] text-tomato mb-1">NPC</p>
+        <p class="m-0 text-ink">“She sometimes wondered if these people were just NPCs in a game.”</p>
+        <a href="/writing/i-write-to-you-in-your-life" class="mt-2 inline-block font-label text-[0.62rem] text-muted hover:text-tomato">from “I Write to You in Your Life” ▶</a>
+      </div>
+
+      <span class="absolute bottom-1 right-4 md:right-8"><Sprite name="heart" scale={4} /></span>
+    </div>
+    <div class="h-3 bg-mint border-t-[3px] border-ink"></div>
+    <div class="h-14 bg-[#8a5a3b] dark:bg-[#4a3226] bg-[length:24px_24px] [background-image:linear-gradient(45deg,rgba(0,0,0,.12)_25%,transparent_25%,transparent_75%,rgba(0,0,0,.12)_75%),linear-gradient(45deg,rgba(0,0,0,.12)_25%,transparent_25%,transparent_75%,rgba(0,0,0,.12)_75%)] [background-position:0_0,12px_12px]">
+      <p class="m-0 text-center pt-4 px-4 font-label text-[0.65rem] md:text-[0.7rem] text-[#fbf4e6]/85">© {year} Yimin Huang · made by hand in Evanston, IL · press 0–5 to warp · Q for quests</p>
+    </div>
   </div>
 </footer>
+
+<style>
+  .npc-walker { animation: npc-walk 26s steps(130) infinite; }
+  .npc-flip   { animation: npc-turn 26s steps(1) infinite; position: relative; }
+  .npc-f1     { animation: npc-step 0.5s steps(1) infinite; }
+  .npc-f2     { animation: npc-step 0.5s steps(1) infinite reverse; }
+  .npc-walker.paused, .npc-walker.paused * { animation-play-state: paused; }
+
+  @keyframes npc-walk { 0% { left: 0; } 50% { left: calc(100% - 30px); } 100% { left: 0; } }
+  @keyframes npc-turn { 0% { transform: scaleX(1); } 50% { transform: scaleX(-1); } }
+  @keyframes npc-step { 0% { opacity: 1; } 50% { opacity: 0; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .npc-walker { left: 40%; }
+    .npc-f2 { display: none; }
+  }
+</style>

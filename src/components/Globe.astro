@@ -1,0 +1,26 @@
+---
+import Sprite from './Sprite.astro';
+import { GLOBE_FRAMES } from '../lib/sprites';
+
+interface Props { scale?: number; class?: string }
+const { scale = 4, class: className = '' } = Astro.props;
+const frames = Array.from({ length: GLOBE_FRAMES }, (_, i) => i);
+---
+
+<span class={`globe relative inline-block ${className}`} style={`width:${12 * scale}px;height:${12 * scale}px;--frames:${GLOBE_FRAMES}`}>
+  {frames.map(i => (
+    <span class="globe-frame absolute inset-0" style={`animation-delay:${-i * 0.35}s`}>
+      <Sprite name={`globe${i}`} scale={scale} />
+    </span>
+  ))}
+</span>
+
+<style>
+  .globe-frame { opacity: 0; animation: globeSpin 2.1s steps(1) infinite; }
+  .globe-frame:first-child { opacity: 1; }
+  @keyframes globeSpin { 0% { opacity: 1; } 16.6% { opacity: 0; } 100% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) {
+    .globe-frame { animation: none; }
+    .globe-frame:not(:first-child) { opacity: 0; }
+  }
+</style>

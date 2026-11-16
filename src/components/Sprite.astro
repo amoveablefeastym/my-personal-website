@@ -1,0 +1,28 @@
+---
+import { SPRITES, spriteRects } from '../lib/sprites';
+
+interface Props {
+  name: keyof typeof SPRITES | string;
+  scale?: number;
+  class?: string;
+  label?: string;
+}
+
+const { name, scale = 4, class: className = '', label } = Astro.props;
+const rows = SPRITES[name] ?? [];
+const { rects, width, height } = spriteRects(rows);
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox={`0 0 ${width} ${height}`}
+  width={width * scale}
+  height={height * scale}
+  shape-rendering="crispEdges"
+  class={`pixel-sprite ${className}`}
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+>
+  {rects.map(r => <rect x={r.x} y={r.y} width={r.w} height="1" fill={r.fill} />)}
+</svg>

@@ -1,106 +1,403 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import Marquee from '../components/Marquee.astro';
+import Sprite from '../components/Sprite.astro';
+import Globe from '../components/Globe.astro';
 import { getCollection } from 'astro:content';
 
-const featuredProjects = (await getCollection('projects'))
-  .filter(p => p.data.featured)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const projects = await getCollection('projects');
+const research = await getCollection('research');
+const writing  = await getCollection('writing');
+const funsies  = await getCollection('funsies');
 
-const interests = [
-  "React", "Design Systems", "Cognitive Science", "Web Development",
-  "Qualitative Research", "Prototyping", "Machine Learning", "HCI",
-  "Neuroscience", "Data Visualization", "AI Literacy", "Health Tech"
+const recent = [
+  ...projects.map(p => ({ ...p.data, href: `/projects/${p.id}`, kind: 'Project' })),
+  ...research.map(r => ({ ...r.data, href: `/research/${r.id}`, kind: 'Research' })),
+]
+  .sort((a, b) => b.date.valueOf() - a.date.valueOf())
+  .slice(0, 3);
+
+const worlds = [
+  { key: '1', label: 'Projects', href: '/projects', sprite: 'computer', color: 'bg-sky',    count: projects.length, note: 'Products I scoped, led, designed, and built.' },
+  { key: '2', label: 'Research', href: '/research', sprite: 'globe',    color: 'bg-lilac',  count: research.length, note: 'HCI, culture, cognition, and AI literacy.' },
+  { key: '3', label: 'Writing',  href: '/writing',  sprite: 'book',     color: 'bg-mint',   count: writing.length,  note: 'Stories, a screenplay, a stage play.' },
+  { key: '4', label: 'Funsies',  href: '/funsies',  sprite: 'bread',    color: 'bg-butter', count: funsies.length,  note: 'Me having a life.' },
 ];
+
+const skills = [
+  'Product Management', 'Product Strategy', 'User Research',
+  'React', 'Design Systems', 'Cognitive Science', 'Web Development',
+  'Qualitative Research', 'Prototyping', 'Machine Learning', 'HCI',
+  'Neuroscience', 'Data Visualization', 'AI Literacy', 'Health Tech',
+  'Cross-Cultural Research', 'Mandarin', 'Russian',
+];
+const chipColors = ['bg-sky', 'bg-butter', 'bg-mint', 'bg-lilac', 'bg-tomato'];
+
+// Where does each skill actually show up? Search the case studies so the chips stay honest.
+const skillPatterns: Record<string, RegExp> = {
+  'Product Management': /project manag|product manag|product scope|feature set|roadmap|led a team/i,
+  'Product Strategy': /product strateg|go-to-market|revenue|business|market/i,
+  'User Research': /user research|interview|usability|survey|participants/i,
+  'React': /\breact\b/i,
+  'Design Systems': /design system/i,
+  'Cognitive Science': /cogniti|cognitive science|working memory/i,
+  'Web Development': /web app|website|full-?stack|frontend|front-end|next\.js|firebase/i,
+  'Qualitative Research': /interview|qualitative|user research|survey|usability/i,
+  'Prototyping': /prototyp|figma/i,
+  'Machine Learning': /machine learning|\bML\b|classifier|decod|neural network|LLM/i,
+  'HCI': /\bHCI\b|human-computer/i,
+  'Neuroscience': /neuro/i,
+  'Data Visualization': /visuali[sz]/i,
+  'AI Literacy': /AI literacy/i,
+  'Health Tech': /health|medical|clinical|biometric/i,
+  'Cross-Cultural Research': /cultur/i,
+  'Mandarin': /mandarin|chinese|中文/i,
+  'Russian': /russian|тетрадь/i,
+};
+const allWork = [
+  ...projects.map(p => ({ title: p.data.title.split(': ')[0], href: `/projects/${p.id}`, text: `${p.data.title} ${p.data.description} ${p.data.category} ${p.body ?? ''}` })),
+  ...research.map(r => ({ title: r.data.title.split(': ')[0], href: `/research/${r.id}`, text: `${r.data.title} ${r.data.description} ${r.data.category} ${r.body ?? ''}` })),
+];
+const skillHits = Object.fromEntries(
+  skills.map(s => [s, allWork.filter(w => skillPatterns[s]?.test(w.text)).map(({ title, href }) => ({ title, href }))])
+);
+
+const linesZh = [
+  `我在西北大学读本科，主修计算机科学、认知科学和设计。`,
+  `职业上，我最热爱的是做产品：想清楚要做什么、带领团队把它做出来，并真正关心使用它的人。我的研究方向是人机交互。`,
+  `我也是一名写作者！我写过一部电影剧本，现在正在写一部舞台剧。我也写短篇小说，写生活里发生的事，也写我对这个世界的观察。`,
+];
+
+const lines = [
+  `I'm an undergrad at Northwestern University, studying Computer Science, Cognitive Science, and Design.`,
+  `Professionally, I'm most excited about product: scoping what to build, leading teams to build it, and caring about the people who use it. My research lives in Human-Computer Interaction.`,
+  `I'm also a writer! I wrote a screenplay and am now writing a stage play. I write short stories too, about things that happen in my life and things I notice about the world.`,
+];
+
+const pad = (n: number) => String(n).padStart(2, '0');
+const maxCount = Math.max(...worlds.map(w => w.count), 1);
 ---
 
 <Layout title="Home">
-  <div class="w-full flex flex-col items-center">
+  <!-- ── Hero ─────────────────────────────────────────── -->
+  <section class="max-w-6xl mx-auto px-4 md:px-8 pt-12 md:pt-20">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-12 items-start">
 
-    <!-- Hero -->
-    <div class="min-h-[80vh] flex flex-col items-center justify-center text-center mt-12 md:mt-20 px-4 max-w-4xl mx-auto relative z-10">
+      <!-- Portrait -->
+      <div class="md:col-span-5 relative anim-pop">
+        <button type="button" data-egg="bubble" title="A floating bubble…" aria-label="A floating bubble. Click to pop it." class="absolute -top-7 -right-2 md:-right-6 z-10 anim-drift">
+          <Sprite name="bubble" scale={4} />
+        </button>
+        <span class="absolute -top-4 -left-3 z-10 anim-bob"><Sprite name="star" scale={4} /></span>
+        <button type="button" data-egg="globe" title="A tiny spinning world…" aria-label="A spinning globe. Click to spin it." class="absolute -bottom-12 left-2 md:-left-2 z-10 hover:scale-110 transition-transform">
+          <Globe scale={5} />
+        </button>
 
-      <!-- Profile picture with Rusty Lake frame + easter egg -->
-      <div class="relative mb-8 group cursor-pointer rusty-frame">
-        <!-- Black cube easter egg -->
-        <div class="absolute -top-16 left-1/2 transform -translate-x-1/2 w-0 h-0 bg-black dark:bg-white opacity-0 group-hover:w-12 group-hover:h-12 group-hover:opacity-100 transition-all duration-1000 ease-in-out rotate-45 shadow-[0_0_30px_rgba(0,0,0,0.8)] dark:shadow-[0_0_30px_rgba(255,255,255,0.8)] z-20 border border-white/20"></div>
-        <!-- Hidden text -->
-        <div class="absolute -bottom-12 left-1/2 transform -translate-x-1/2 text-xs font-typewriter tracking-widest text-[#8b0000] opacity-0 group-hover:opacity-100 transition-opacity duration-700 delay-300 whitespace-nowrap">
-          THE PAST IS NEVER DEAD
+        <figure data-egg="poke" role="button" tabindex="0" aria-label="Portrait of Yimin. Click to poke." class="group relative px-box p-3 m-0 max-w-[360px] mx-auto md:mx-0 rotate-[-1.5deg] hover:rotate-0 transition-transform duration-200 select-none">
+          <span data-poke-bubble class="hidden absolute z-20 -top-12 left-1/2 -translate-x-1/2 whitespace-nowrap px-3 py-1.5 bg-card border-[3px] border-ink shadow-[3px_3px_0_var(--shadow)] font-pixel text-base after:content-[''] after:absolute after:left-1/2 after:-bottom-[9px] after:w-3 after:h-3 after:bg-card after:border-r-[3px] after:border-b-[3px] after:border-ink after:rotate-45 after:-translate-x-1/2"></span>
+          <div class="relative aspect-square border-[3px] border-ink overflow-hidden bg-bg-2">
+            <img src="/images/pixel/me-48.png" alt="Pixel-art portrait of Yimin" class="pixelated absolute inset-0 w-full h-full transition-opacity duration-300 group-hover:opacity-0" />
+            <img src="/images/pixel/me-real.jpg" alt="" loading="lazy" class="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+          </div>
+          <figcaption class="mt-3 flex items-center justify-between font-label text-[0.72rem]">
+            <span class="px-2 py-0.5 bg-ink text-bg">P1 · YIMIN</span>
+            <span class="text-muted group-hover:hidden">hover · or poke</span>
+            <span class="text-tomato hidden group-hover:inline">hi, it's me ♥</span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <!-- Intro -->
+      <div class="md:col-span-7">
+        <p class="label mb-4 anim-pop delay-1">
+          <span class="inline-block w-2.5 h-2.5 bg-mint border-2 border-ink align-middle mr-2 anim-blink"></span>
+          Now playing · Product · Research · Writing
+        </p>
+        <h1 class="!m-0 font-pixel font-bold text-[clamp(3.2rem,9vw,6.5rem)] leading-[0.95] tracking-tight anim-pop delay-2">
+          <span data-hi-en>Hi, I'm</span><span data-hi-zh hidden class="font-sans font-bold">你好，我是</span> <span class="relative inline-block text-tomato">Yimin<span class="absolute left-0 right-0 -bottom-1 h-2 bg-butter -z-10"></span></span>!
+        </h1>
+        <p class="mt-5 mb-0 text-xl md:text-2xl text-ink-2 max-w-xl anim-pop delay-3">
+          I build <span class="text-ink font-semibold">products</span>: figuring out what to make, for whom, and why, then shipping it. I also study how people think with computers, and write stories.
+        </p>
+
+        <!-- RPG dialogue box -->
+        <div class="dialog relative mt-10 px-box p-5 pt-7 md:p-6 md:pt-8 anim-pop delay-4" data-dialog role="region" aria-label="About Yimin" tabindex="0">
+          <span class="absolute -top-4 left-4 px-3 py-0.5 bg-tomato text-[#fffaf0] border-[3px] border-ink font-label text-[0.75rem]">YIMIN</span>
+          <div class="min-h-[7.5rem] md:min-h-[6rem] text-lg md:text-[1.2rem] leading-relaxed text-ink">
+            {lines.map((line, i) => (
+              <p data-line data-text={line} data-text-en={line} data-text-zh={linesZh[i]} class={`m-0 mb-3 last:mb-0 ${i === 0 ? 'active' : ''}`}>{line}</p>
+            ))}
+          </div>
+          <div class="mt-4 flex items-center justify-between font-label text-[0.7rem] text-muted">
+            <span class="flex items-center gap-3">
+              <span data-progress>1 / {lines.length}</span>
+              <span class="flex border-2 border-ink" role="group" aria-label="Language">
+                <button type="button" data-lang="en" aria-pressed="true" class="px-1.5 aria-pressed:bg-ink aria-pressed:text-bg">EN</button>
+                <button type="button" data-lang="zh" aria-pressed="false" class="px-1.5 !font-sans text-[0.75rem] aria-pressed:bg-ink aria-pressed:text-bg">中文</button>
+              </span>
+            </span>
+            <button type="button" data-next class="flex items-center gap-2 text-ink hover:text-tomato">
+              <span data-next-label>Next</span> <span class="anim-blink">▼</span>
+            </button>
+          </div>
         </div>
 
-        <div class="absolute inset-0 rounded-full bg-gray-200 dark:bg-gray-800 transform translate-x-2 translate-y-2 group-hover:translate-x-1 group-hover:translate-y-1 transition-transform duration-300 ease-out -z-10"></div>
-        <img
-          src="/images/profile.JPG"
-          alt="Profile picture of Yimin"
-          class="w-[280px] h-[280px] sm:w-[320px] sm:h-[320px] rounded-full object-cover animate-fade-in-up transition-all duration-700 ease-out border-4 border-white dark:border-black shadow-xl corrupted-soul-filter"
-        />
-      </div>
-
-      <!-- Name with glitch -->
-      <h1 class="font-serif font-medium tracking-tight mb-4 text-5xl sm:text-6xl md:text-7xl animate-fade-in-up delay-200 text-black dark:text-white relative z-10">
-        Hi, I'm <span class="italic relative inline-block hover:text-[#8b0000] transition-colors duration-300 cursor-default rusty-link rusty-glitch" data-text="Yimin">Yimin</span>.
-      </h1>
-
-      <!-- Atmospheric symbols -->
-      <div class="absolute inset-0 overflow-hidden pointer-events-none select-none z-0">
-        <svg class="rusty-symbol top-[10%] left-[5%] w-24 h-24 animate-float" viewBox="0 0 100 100">
-          <path d="M50 15 L85 85 L15 85 Z" fill="none" stroke="currentColor" stroke-width="1" class="text-black dark:text-white" />
-        </svg>
-        <svg class="rusty-symbol top-[20%] right-[10%] w-16 h-16 animate-float" style="animation-delay: 1s" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width="1" class="text-black dark:text-white" />
-        </svg>
-        <svg class="rusty-symbol bottom-[30%] left-[15%] w-20 h-20 animate-float" style="animation-delay: 2s" viewBox="0 0 100 100">
-          <rect x="15" y="15" width="70" height="70" fill="none" stroke="currentColor" stroke-width="1" class="text-black dark:text-white" />
-        </svg>
-      </div>
-
-      <!-- Bio -->
-      <section class="max-w-[640px] mb-10 text-left animate-fade-in-up delay-300">
-        <p class="font-serif text-base sm:text-lg uppercase tracking-[0.14em] text-gray-500 dark:text-[#8f8f8f]">
-          At a glance
-        </p>
-        <ul class="mt-4 space-y-4">
-          <li class="rounded-xl border border-black/10 dark:border-white/15 bg-white/80 dark:bg-black/30 px-5 py-4 font-serif text-gray-700 dark:text-[#d0d0d0] text-lg sm:text-xl leading-relaxed shadow-sm">
-            I am an undergraduate at <strong class="font-medium text-black dark:text-white">Northwestern University</strong>, where I study
-            <strong class="font-medium text-black dark:text-white">Computer Science</strong>,
-            <strong class="font-medium text-black dark:text-white">Cognitive Science</strong>, and
-            <strong class="font-medium text-black dark:text-white">Design</strong>.
-          </li>
-          <li class="rounded-xl border border-black/10 dark:border-white/15 bg-white/80 dark:bg-black/30 px-5 py-4 font-serif text-gray-700 dark:text-[#d0d0d0] text-lg sm:text-xl leading-relaxed shadow-sm">
-            My <a href="/research" class="bio-link">research</a> lives in <strong class="font-medium text-black dark:text-white">Human-Computer Interaction</strong>, and <a href="/projects" class="bio-link">my work</a> is grounded in
-            <strong class="font-medium text-black dark:text-white">product thinking</strong>: building with care, clarity, and purpose.
-          </li>
-          <li class="rounded-xl border border-black/10 dark:border-white/15 bg-white/80 dark:bg-black/30 px-5 py-4 font-serif text-gray-700 dark:text-[#d0d0d0] text-lg sm:text-xl leading-relaxed shadow-sm">
-            I am also a <a href="/writing" class="bio-link">writer</a>. I wrote a screenplay and am now writing a stage play! I also write short stories, things that happen in my life and things that I observe about the world.
-           
-          </li>
-        </ul>
-      </section>
-
-      <!-- Social links -->
-      <div class="flex flex-row gap-8 justify-center animate-fade-in-up delay-500 mb-20">
-        <a href="https://github.com/amoveablefeastym" target="_blank" rel="noreferrer" aria-label="GitHub"
-           class="text-gray-600 dark:text-[#e8e8e8] hover:text-black dark:hover:text-white hover:scale-110 transition-all duration-300">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
-          </svg>
-        </a>
-        <a href="https://www.linkedin.com/in/yimin-huang-nu" target="_blank" rel="noreferrer" aria-label="LinkedIn"
-           class="text-gray-600 dark:text-[#e8e8e8] hover:text-black dark:hover:text-white hover:scale-110 transition-all duration-300">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
-          </svg>
-        </a>
-        <a href="mailto:h1683618346@gmail.com" aria-label="Email"
-           class="text-gray-600 dark:text-[#e8e8e8] hover:text-black dark:hover:text-white hover:scale-110 transition-all duration-300">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
-          </svg>
-        </a>
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a class="px-btn !bg-tomato !text-[#fffaf0] hover:!bg-butter hover:!text-[#2a2140]" href="/projects">▶ See my work</a>
+          <a class="px-btn" href="https://github.com/amoveablefeastym" target="_blank" rel="noreferrer">GitHub</a>
+          <a class="px-btn" href="https://www.linkedin.com/in/yimin-huang-nu" target="_blank" rel="noreferrer">LinkedIn</a>
+          <a class="px-btn" href="mailto:h1683618346@gmail.com">Email</a>
+        </div>
       </div>
     </div>
+  </section>
 
+  <!-- ── Character sheet ─────────────────────────────── -->
+  <section class="max-w-6xl mx-auto px-4 md:px-8 mt-24 md:mt-32" data-reveal>
+    <h2 class="!m-0 mb-6 font-label text-sm text-muted">// Character sheet</h2>
+    <div class="relative px-box grid md:grid-cols-[1fr_1.3fr]">
+      <button type="button" data-egg="cube" aria-label="A small black cube" title="…" class="absolute bottom-2 right-2 opacity-40 hover:opacity-100 hover:rotate-45 transition-[opacity,transform] duration-500">
+        <Sprite name="cube" scale={2} />
+      </button>
+      <dl class="m-0 p-6 md:p-8 border-b-[3px] md:border-b-0 md:border-r-[3px] border-ink grid gap-5">
+        <div>
+          <dt class="label mb-1">Class</dt>
+          <dd class="m-0 font-pixel text-2xl font-semibold">Product Builder · Researcher · Writer</dd>
+        </div>
+        <div class="p-4 -mx-1 border-[3px] border-ink bg-butter text-[#2a2140] shadow-[3px_3px_0_var(--shadow)]">
+          <dt class="font-label text-[0.68rem] mb-1">★ Main quest: Product</dt>
+          <dd class="m-0">
+            <span class="block text-lg leading-snug">Figuring out what to build, for whom, and why. Then getting it shipped.</span>
+            <span class="mt-2 flex flex-wrap gap-x-4 gap-y-1 font-label text-[0.65rem]">
+              <a href="/projects/classhub" class="underline decoration-2 underline-offset-2 hover:text-tomato">PM · ClassHub ▶</a>
+              <a href="/projects/shopify-for-students" class="underline decoration-2 underline-offset-2 hover:text-tomato">Product strategy · Shopify ▶</a>
+              <a href="/projects/ctec-searcher" class="underline decoration-2 underline-offset-2 hover:text-tomato">PM · CTEC Searcher ▶</a>
+            </span>
+          </dd>
+        </div>
+        <div>
+          <dt class="label mb-1">Guild</dt>
+          <dd class="m-0 font-pixel text-2xl font-semibold">Northwestern University</dd>
+        </div>
+        <div>
+          <dt class="label mb-1">Home</dt>
+          <dd class="m-0 text-lg">China <span class="text-muted">·</span> Singapore <span class="text-muted">·</span> Evanston, IL</dd>
+        </div>
+        <div>
+          <dt class="label mb-1">Languages</dt>
+          <dd class="m-0 flex flex-wrap gap-2">
+            <span class="px-chip bg-sky">English</span>
+            <span class="px-chip bg-tomato !text-[#fffaf0] !font-sans !text-sm !py-0">中文 Mandarin</span>
+            <button type="button" data-egg="tetrad" title="Flip a flashcard" class="px-chip bg-card !font-sans !text-sm !py-0 shadow-[2px_2px_0_var(--shadow)] hover:-translate-y-0.5 transition-transform">Русский <span class="font-label text-[0.6rem] text-muted">(learning)</span></button>
+          </dd>
+        </div>
+        <div>
+          <dt class="label mb-1">Majors</dt>
+          <dd class="m-0 text-lg">Computer Science, Cognitive Science, Design</dd>
+        </div>
+        <div>
+          <dt class="label mb-2">Quests completed</dt>
+          <dd class="m-0 grid gap-2">
+            {worlds.slice(0, 3).map(w => (
+              <div class="grid grid-cols-[5.5rem_1fr_2rem] items-center gap-3 font-label text-[0.72rem]">
+                <span>{w.label}</span>
+                <span class="h-4 border-2 border-ink bg-bg-2 relative overflow-hidden">
+                  <span class={`absolute inset-y-0 left-0 ${w.color} [background-image:repeating-linear-gradient(90deg,transparent_0_10px,rgba(42,33,64,.35)_10px_12px)]`} style={`width:${(w.count / maxCount) * 100}%`}></span>
+                </span>
+                <span class="text-right">{pad(w.count)}</span>
+              </div>
+            ))}
+          </dd>
+        </div>
+      </dl>
+      <div class="p-6 md:p-8">
+        <p class="label mb-3">Skills &amp; interests</p>
+        <ul class="list-none p-0 m-0 flex flex-wrap gap-2.5">
+          {skills.map((s, i) => (
+            <li>
+              <button
+                type="button"
+                data-skill={s}
+                data-hits={JSON.stringify(skillHits[s])}
+                data-note={s === 'Mandarin' ? 'Fluent. 我会说中文！Spin the globe for more.' : undefined}
+                aria-controls="skill-panel"
+                class={`px-chip ${chipColors[i % chipColors.length]} shadow-[2px_2px_0_var(--shadow)] hover:-translate-y-0.5 active:translate-y-0.5 transition-transform aria-pressed:outline-[3px] aria-pressed:outline-dashed aria-pressed:outline-offset-2 aria-pressed:outline-ink`}
+              >{s}</button>
+            </li>
+          ))}
+        </ul>
+        <div id="skill-panel" class="mt-4 min-h-[3.25rem] px-3 py-2.5 border-[3px] border-dashed border-ink/40 text-sm text-ink-2" aria-live="polite">
+          <span class="font-label text-[0.65rem] text-muted">▲ click a skill to see where I’ve used it</span>
+        </div>
+        <p class="label mt-8 mb-3">Currently</p>
+        <ul class="list-none p-0 m-0 grid gap-2 text-ink-2">
+          <li class="flex gap-3"><span class="text-tomato font-label">▶</span> <span>Writing a stage play, <a class="bio-link" href="/writing/if-theyll-never-hear-you">If They’ll Never Hear You</a>, opening April 2027</span></li>
+          <li class="flex gap-3"><span class="text-tomato font-label">▶</span> <span>Making cozy little desktop apps like <a class="bio-link" href="/projects/half-baked">Half-Baked</a> and <a class="bio-link" href="/projects/bubblist">Bubblist</a></span></li>
+          <li class="flex gap-3"><span class="text-tomato font-label">▶</span> Researching how people learn with AI</li>
+          <li class="flex gap-3"><span class="text-tomato font-label">▶</span> <span>Learning Russian with <a class="bio-link" href="/projects/tetrad">Тетрадь</a>, a flashcard app I built</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
 
-  </div>
+  <!-- ── Choose a world ──────────────────────────────── -->
+  <section class="max-w-6xl mx-auto px-4 md:px-8 mt-24 md:mt-32">
+    <div class="flex items-end justify-between mb-6" data-reveal>
+      <h2 class="!m-0 font-label text-sm text-muted">// Choose a world</h2>
+      <span class="hidden md:inline label">press 1–4</span>
+    </div>
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 md:gap-6">
+      {worlds.map((w, i) => (
+        <a href={w.href} data-reveal style={`transition-delay:${i * 70}ms`} class="group px-box px-hover flex flex-col">
+          <div class={`${w.color} border-b-[3px] border-ink grid place-items-center h-36 md:h-44 relative`}>
+            <span class="group-bob">{w.sprite === 'globe' ? <Globe scale={5} /> : <Sprite name={w.sprite} scale={5} />}</span>
+            <kbd class="absolute top-2 left-2 font-label text-[0.65rem] px-1.5 bg-card text-ink border-2 border-ink">{w.key}</kbd>
+            <span class="absolute top-2 right-2 font-label text-[0.65rem] text-[#2a2140]">×{pad(w.count)}</span>
+          </div>
+          <div class="p-4 flex-1 flex flex-col">
+            <span class="font-pixel text-2xl font-semibold">{w.label}</span>
+            <span class="mt-1 text-sm text-ink-2 flex-1">{w.note}</span>
+            <span class="mt-3 font-label text-[0.7rem] text-muted group-hover:text-tomato">Enter ▶</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <!-- ── Bonus: arcade + quests ──────────────────────── -->
+  <section class="max-w-6xl mx-auto px-4 md:px-8 mt-8" data-reveal>
+    <div class="px-box grid md:grid-cols-[auto_1fr_auto] items-center gap-5 p-5 md:p-6 bg-[repeating-linear-gradient(135deg,var(--card)_0_14px,var(--bg-2)_14px_28px)]">
+      <span class="grid place-items-center w-20 h-20 bg-tomato border-[3px] border-ink anim-bob"><Sprite name="gamepad" scale={4} /></span>
+      <div>
+        <p class="m-0 font-label text-[0.65rem] text-tomato">★ Bonus stage · press 5</p>
+        <p class="m-0 font-pixel text-3xl leading-tight">The Arcade</p>
+        <p class="m-0 mt-1 text-ink-2">Bake half-formed ideas into golden bread, or pop Bubblist to-dos before they float away. Both games are based on apps I made. Earn XP, level up, and press <kbd class="font-label text-[0.7rem] px-1 border-2 border-ink">Q</kbd> to see your quests.</p>
+      </div>
+      <div class="flex flex-wrap gap-3">
+        <a href="/arcade" class="px-btn !bg-tomato !text-[#fffaf0] hover:!bg-butter hover:!text-[#2a2140]">▶ Play</a>
+        <a href="#quests" class="px-btn">Quests</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── Recently unlocked ───────────────────────────── -->
+  <section class="max-w-6xl mx-auto px-4 md:px-8 mt-24 md:mt-32">
+    <div class="flex items-end justify-between mb-6" data-reveal>
+      <h2 class="!m-0 font-label text-sm text-muted">// Recently unlocked</h2>
+      <a href="/projects" class="font-label text-[0.72rem] text-ink-2 hover:text-tomato">View all ▶</a>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {recent.map((item, i) => (
+        <a href={item.href} data-reveal style={`transition-delay:${i * 90}ms`} class="group px-box px-hover flex flex-col">
+          <div class="relative aspect-[4/3] border-b-[3px] border-ink overflow-hidden bg-bg-2">
+            {item.image && <img src={item.image} alt="" loading="lazy" class="w-full h-full object-cover" />}
+            {i === 0 && <span class="absolute top-3 left-3 px-chip bg-butter shadow-[2px_2px_0_var(--shadow)] anim-bob">NEW!</span>}
+          </div>
+          <div class="p-4">
+            <div class="flex justify-between font-label text-[0.68rem] text-muted mb-2">
+              <span class="text-tomato">{item.kind}</span>
+              <span>{item.date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+            </div>
+            <h3 class="!m-0 font-pixel text-2xl">{item.title.split(': ')[0]}</h3>
+            <p class="mt-2 mb-0 text-ink-2 text-[0.95rem] line-clamp-2">{item.description}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </section>
 </Layout>
+
+<style>
+  /* Without JS every line shows; with JS, one at a time */
+  :global(.js) .dialog [data-line]:not(.active) { display: none; }
+  :global(.js) .dialog [data-line] { margin-bottom: 0 !important; }
+</style>
+
+<script>
+  const box = document.querySelector<HTMLElement>('[data-dialog]');
+  if (box) {
+    const lines = Array.from(box.querySelectorAll<HTMLElement>('[data-line]'));
+    const progress = box.querySelector('[data-progress]');
+    const nextLabel = box.querySelector('[data-next-label]');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let idx = 0;
+    let timer: number | undefined;
+    let typing = false;
+
+    const type = (el: HTMLElement) => {
+      const text = el.dataset.text ?? '';
+      if (reduce) { el.textContent = text; return; }
+      typing = true;
+      let n = 0;
+      el.textContent = '';
+      clearInterval(timer);
+      timer = window.setInterval(() => {
+        n += 1;
+        el.textContent = text.slice(0, n);
+        if (n >= text.length) { clearInterval(timer); typing = false; }
+      }, 22);
+    };
+
+    const show = (i: number) => {
+      lines.forEach((l, j) => l.classList.toggle('active', j === i));
+      if (progress) progress.textContent = `${i + 1} / ${lines.length}`;
+      if (nextLabel) nextLabel.textContent = i === lines.length - 1 ? 'Again' : 'Next';
+      type(lines[i]);
+    };
+
+    const advance = () => {
+      if (typing) {
+        clearInterval(timer);
+        typing = false;
+        lines[idx].textContent = lines[idx].dataset.text ?? '';
+        return;
+      }
+      idx = (idx + 1) % lines.length;
+      show(idx);
+    };
+
+    box.querySelectorAll<HTMLButtonElement>('[data-lang]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const zh = btn.dataset.lang === 'zh';
+        box.querySelectorAll('[data-lang]').forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+        lines.forEach(l => { l.dataset.text = (zh ? l.dataset.textZh : l.dataset.textEn) ?? ''; l.lang = zh ? 'zh-Hans' : 'en'; });
+        document.querySelector('[data-hi-en]')?.toggleAttribute('hidden', zh);
+        document.querySelector('[data-hi-zh]')?.toggleAttribute('hidden', !zh);
+        show(idx);
+      });
+    });
+
+    box.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('a, [data-lang]')) return;
+      advance();
+    });
+    box.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); advance(); }
+    });
+
+    show(0);
+  }
+
+  // Skill chips: show where each skill shows up
+  const panel = document.getElementById('skill-panel');
+  const seen = new Set<string>();
+  const escHtml = (s: string) => s.replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]!));
+  document.querySelectorAll<HTMLButtonElement>('[data-skill]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-skill]').forEach(b => b.setAttribute('aria-pressed', 'false'));
+      btn.setAttribute('aria-pressed', 'true');
+      const skill = btn.dataset.skill ?? '';
+      const hits = JSON.parse(btn.dataset.hits || '[]') as { title: string; href: string }[];
+      if (panel && btn.dataset.note) {
+        panel.innerHTML = `<span class="font-label text-[0.65rem] text-tomato mr-2">${escHtml(skill)} ▶</span> ${escHtml(btn.dataset.note)}`;
+      } else if (panel) {
+        panel.innerHTML = hits.length
+          ? `<span class="font-label text-[0.65rem] text-tomato mr-2">${escHtml(skill)} ▶ used in</span>` +
+            hits.map(h => `<a class="bio-link mr-3" href="${h.href}">${escHtml(h.title)}</a>`).join('')
+          : `<span class="font-label text-[0.65rem] text-tomato mr-2">${escHtml(skill)} ▶</span> Still leveling this one up. Ask me about it!`;
+      }
+      seen.add(skill);
+      if (seen.size >= 4) document.dispatchEvent(new CustomEvent('egg:skills'));
+    });
+  });
+</script>
