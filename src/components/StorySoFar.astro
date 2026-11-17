@@ -1,0 +1,148 @@
+---
+import Sprite from './Sprite.astro';
+import Globe from './Globe.astro';
+
+// The thread that ties the site together: people. Each chapter is one way into it.
+const chapters = [
+  {
+    n: 'Prologue',
+    title: 'The matchmaking corner',
+    sprite: 'flyer',
+    color: 'bg-sky',
+    text: 'I grew up in China and went to school in Singapore, the kind of kid who turned in five pages for a one-page essay. Stories held a strange pull over me. In my hometown, Chengdu, there’s a matchmaking corner in the park where people hang flyers about themselves, boiled down to a few labels and numbers, hoping to find “a desirable partner.” Reading them, I couldn’t stop wondering: is that really all a person is? Moving across languages and cultures, and getting to know so many different people, has taught me the answer: no one fits on a flyer. I’ve been trying to uncover the beauty, complexity, and chaos of being human ever since.',
+    links: [
+      { label: 'My writing', href: '/writing' },
+      { label: 'My research', href: '/research' },
+    ],
+  },
+  {
+    n: 'Chapter 1',
+    title: 'How people think',
+    sprite: 'flask',
+    color: 'bg-lilac',
+    text: 'So I study it. Cognitive science and HCI are how I look closely: how working memory is held in the brain, how museum visitors make sense of AI, and how a place can become a mirror for cultural curiosity and self-reflection.',
+    links: [
+      { label: 'Working memory', href: '/research/neural-decoding-analysis' },
+      { label: 'DataBites', href: '/research/databites' },
+      { label: 'World Mirror', href: '/research/experiential-computing' },
+    ],
+  },
+  {
+    n: 'Chapter 2',
+    title: 'Building for people',
+    sprite: 'computer',
+    color: 'bg-butter',
+    text: 'In summer 2026, I was a software engineer intern at Tavern Research, a research and media firm that helps campaigns understand what voters think through fast polling and message testing. Watching how the team actually worked, I noticed that making a tutorial video for Surveyor, one of its products, took about two hours. So I built an AI agent with Cursor that navigates 5+ product workflows and produces branded tutorial videos on its own. I piloted it with the engineering and delivery teams, and it went on to support four of the company’s products. For me, building starts the same way writing does: by paying attention to people.',
+    stat: { before: '2 hrs', after: '3 min', label: 'per tutorial video' },
+    links: [
+      { label: 'Tavern Research', href: 'https://www.tavernresearch.com' },
+      { label: 'ClassHub (PM)', href: '/projects/classhub' },
+      { label: 'Shopify for Students', href: '/projects/shopify-for-students' },
+    ],
+  },
+  {
+    n: 'Chapter 3',
+    title: 'Small tools, everyday people',
+    sprite: 'bread',
+    color: 'bg-lilac',
+    text: 'I keep building outside of work, too. Whenever I notice a small, everyday friction in how people learn, plan, or hold on to an idea, I try making something for it. They’re small tools, and they all start the same way: paying attention to how people actually live.',
+    links: [
+      { label: 'Half-Baked', href: '/projects/half-baked' },
+      { label: 'Bubblist', href: '/projects/bubblist' },
+      { label: 'Тетрадь', href: '/projects/tetrad' },
+      { label: 'Play them in the Arcade', href: '/arcade' },
+    ],
+  },
+  {
+    n: 'Chapter 4',
+    title: 'Who gets to tell the story',
+    sprite: 'book',
+    color: 'bg-mint',
+    quote: { text: 'I’ve always been interested in authorship. Not just who’s speaking, but who gets to speak.', from: 'from my notes on Unwritten' },
+    text: 'Writing is where everything I notice about people ends up.',
+    links: [
+      { label: 'Unwritten', href: '/writing/unwritten' },
+      { label: 'I Write to You in Your Life', href: '/writing/i-write-to-you-in-your-life' },
+      { label: 'If They’ll Never Hear You', href: '/writing/if-theyll-never-hear-you' },
+    ],
+  },
+  {
+    n: 'Epilogue',
+    title: 'Why this site is a game',
+    sprite: 'heart',
+    color: 'bg-card',
+    text: '',
+    html: 'In winter quarter 2026, we spent a lot of time in <a class="bio-link" href="/research/experiential-computing">DTR</a> talking about play: that when you let yourself play, you let your imagination roam free, you stop needing to be right, and you transcend this material world and all the things that might be holding you back. That stuck with me. So I built this site to be played. I hid pieces of myself everywhere: lines from my stories, my apps, my languages. Poke around, and come find them.',
+    links: [
+      { label: 'Quest log', href: '#quests' },
+      { label: 'Sticker book', href: '/secrets' },
+    ],
+  },
+];
+---
+
+<section id="story" class="max-w-6xl mx-auto px-4 md:px-8 mt-24 md:mt-32 scroll-mt-24">
+  <div class="mb-8" data-reveal>
+    <h2 class="!m-0 font-label text-sm text-muted">// The story so far</h2>
+    <p class="mt-3 mb-0 font-pixel text-3xl md:text-5xl leading-tight max-w-3xl">
+      Everything I do is a way of getting closer to <span class="text-tomato">people</span>.
+    </p>
+  </div>
+
+  <ol class="story list-none p-0 m-0 relative">
+    {chapters.map((c, i) => (
+      <li class="story-step relative grid grid-cols-[3rem_1fr] md:grid-cols-[4.5rem_1fr] gap-4 md:gap-6 pb-10 last:pb-0" data-reveal>
+        <!-- path node -->
+        <div class="relative flex justify-center">
+          <span class={`relative z-10 grid place-items-center w-12 h-12 md:w-16 md:h-16 border-[3px] border-ink ${c.color} shadow-[3px_3px_0_var(--shadow)]`}>
+            {c.sprite === 'globe' ? <Globe scale={3} /> : <Sprite name={c.sprite} scale={c.sprite === 'heart' ? 4 : 3} />}
+          </span>
+        </div>
+
+        <article class="px-box p-5 md:p-7">
+          <p class="m-0 font-label text-[0.68rem] text-tomato">{c.n}</p>
+          <h3 class="!mt-1 !mb-0 font-pixel text-2xl md:text-3xl leading-tight">{c.title}</h3>
+          {c.quote && (
+            <blockquote class="mt-4 mb-0 ml-0 pl-4 border-l-[6px] border-butter">
+              <p class="m-0 text-xl md:text-2xl leading-snug text-ink">“{c.quote.text}”</p>
+              <p class="m-0 mt-1 font-label text-[0.62rem] text-muted">{c.quote.from}</p>
+            </blockquote>
+          )}
+          {c.html
+            ? <p class="mt-4 mb-0 text-lg text-ink-2 leading-relaxed max-w-3xl" set:html={c.html} />
+            : <p class="mt-4 mb-0 text-lg text-ink-2 leading-relaxed max-w-3xl">{c.text}</p>}
+          {c.stat && (
+            <div class="mt-5 inline-flex flex-wrap items-stretch border-[3px] border-ink shadow-[3px_3px_0_var(--shadow)]" aria-label={`From ${c.stat.before} to ${c.stat.after} ${c.stat.label}`}>
+              <span class="px-4 py-2 bg-bg-2 font-pixel text-2xl md:text-3xl line-through decoration-tomato decoration-2 text-ink-2">{c.stat.before}</span>
+              <span class="px-3 grid place-items-center bg-ink text-bg font-label text-sm">▶</span>
+              <span class="px-4 py-2 bg-mint text-[#2a2140] font-pixel text-2xl md:text-3xl">{c.stat.after}</span>
+              <span class="px-3 grid place-items-center bg-card font-label text-[0.62rem] text-ink-2">{c.stat.label} · −97.5%</span>
+            </div>
+          )}
+          <div class="mt-4 flex flex-wrap gap-2">
+            {c.links.map(l => (
+              <a href={l.href} target={l.href.startsWith('http') ? '_blank' : undefined} rel={l.href.startsWith('http') ? 'noopener noreferrer' : undefined} class="px-chip bg-card hover:bg-butter !text-ink hover:!text-[#2a2140] shadow-[2px_2px_0_var(--shadow)] transition-colors">{l.label} ▶</a>
+            ))}
+          </div>
+        </article>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<style>
+  /* dashed pixel path linking the chapters */
+  .story-step:not(:last-child)::before {
+    content: '';
+    position: absolute;
+    top: 3rem;
+    bottom: 0;
+    left: 1.5rem;
+    width: 0;
+    border-left: 4px dashed var(--ink);
+    opacity: 0.35;
+  }
+  @media (min-width: 768px) {
+    .story-step:not(:last-child)::before { top: 4rem; left: 2.25rem; }
+  }
+</style>

@@ -2,6 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import Sprite from '../components/Sprite.astro';
 import Globe from '../components/Globe.astro';
+import StorySoFar from '../components/StorySoFar.astro';
 import { getCollection } from 'astro:content';
 
 const projects = await getCollection('projects');
@@ -17,18 +18,18 @@ const recent = [
   .slice(0, 3);
 
 const worlds = [
-  { key: '1', label: 'Projects', href: '/projects', sprite: 'computer', color: 'bg-sky',    count: projects.length, note: 'Products I scoped, led, designed, and built.' },
-  { key: '2', label: 'Research', href: '/research', sprite: 'globe',    color: 'bg-lilac',  count: research.length, note: 'HCI, culture, cognition, and AI literacy.' },
-  { key: '3', label: 'Writing',  href: '/writing',  sprite: 'book',     color: 'bg-mint',   count: writing.length,  note: 'Stories, a screenplay, a stage play.' },
-  { key: '4', label: 'Funsies',  href: '/funsies',  sprite: 'bread',    color: 'bg-butter', count: funsies.length,  note: 'Me having a life.' },
+  { key: '1', label: 'Projects', href: '/projects', sprite: 'computer', color: 'bg-sky',    count: projects.length, note: 'Things I build for people.' },
+  { key: '2', label: 'Research', href: '/research', sprite: 'globe',    color: 'bg-lilac',  count: research.length, note: 'How people think, learn, and reflect.' },
+  { key: '3', label: 'Writing',  href: '/writing',  sprite: 'book',     color: 'bg-mint',   count: writing.length,  note: 'The stories people carry.' },
+  { key: '4', label: 'Funsies',  href: '/funsies',  sprite: 'bread',    color: 'bg-butter', count: funsies.length,  note: 'Me, being a person.' },
 ];
 
 const skills = [
-  'Product Management', 'Product Strategy', 'User Research',
-  'React', 'Design Systems', 'Cognitive Science', 'Web Development',
-  'Qualitative Research', 'Prototyping', 'Machine Learning', 'HCI',
-  'Neuroscience', 'Data Visualization', 'AI Literacy', 'Health Tech',
-  'Cross-Cultural Research', 'Mandarin', 'Russian',
+  'Storytelling', 'Screenwriting', 'Cognitive Science', 'HCI',
+  'Cross-Cultural Research', 'User Research', 'Product Management', 'Product Strategy',
+  'React', 'Design Systems', 'Web Development', 'Qualitative Research',
+  'Prototyping', 'Machine Learning', 'Neuroscience', 'Data Visualization',
+  'AI Literacy', 'Health Tech', 'Mandarin', 'Russian',
 ];
 const chipColors = ['bg-sky', 'bg-butter', 'bg-mint', 'bg-lilac', 'bg-tomato'];
 
@@ -62,15 +63,15 @@ const skillHits = Object.fromEntries(
 );
 
 const linesZh = [
-  `我在西北大学读本科，主修计算机科学、认知科学和设计。`,
-  `职业上，我最热爱的是做产品：想清楚要做什么、带领团队把它做出来，并真正关心使用它的人。我的研究方向是人机交互。`,
-  `我也是一名写作者！我写过一部电影剧本，现在正在写一部舞台剧。我也写短篇小说，写生活里发生的事，也写我对这个世界的观察。`,
+  `我在中国长大，在新加坡读书，现在在西北大学学习计算机科学、认知科学和设计。`,
+  `把这一切串起来的，是“人”。我在人机交互研究中探索人们如何思考，也围绕人们真正的需要去做产品。`,
+  `我也写他们的故事！我写过一部电影剧本，我的舞台剧将在2027年4月上演，我也写短篇小说，记录我对这个世界的观察。`,
 ];
 
 const lines = [
-  `I'm an undergrad at Northwestern University, studying Computer Science, Cognitive Science, and Design.`,
-  `Professionally, I'm most excited about product: scoping what to build, leading teams to build it, and caring about the people who use it. My research lives in Human-Computer Interaction.`,
-  `I'm also a writer! I wrote a screenplay and am now writing a stage play. I write short stories too, about things that happen in my life and things I notice about the world.`,
+  `I grew up in China, went to school in Singapore, and now I study Computer Science, Cognitive Science, and Design at Northwestern.`,
+  `What ties it all together is people. I study how they think in my HCI research, and I build products around what they actually need.`,
+  `And I write their stories! I wrote a screenplay, my stage play opens in April 2027, and I write short stories about the things I notice in the world.`,
 ];
 
 const pad = (n: number) => String(n).padStart(2, '0');
@@ -110,13 +111,13 @@ const maxCount = Math.max(...worlds.map(w => w.count), 1);
       <div class="md:col-span-7">
         <p class="label mb-4 anim-pop delay-1">
           <span class="inline-block w-2.5 h-2.5 bg-mint border-2 border-ink align-middle mr-2 anim-blink"></span>
-          Now playing · Product · Research · Writing
+          Now playing · Storyteller · Researcher · Builder
         </p>
         <h1 class="!m-0 font-pixel font-bold text-[clamp(3.2rem,9vw,6.5rem)] leading-[0.95] tracking-tight anim-pop delay-2">
           <span data-hi-en>Hi, I'm</span><span data-hi-zh hidden class="font-sans font-bold">你好，我是</span> <span class="relative inline-block text-tomato">Yimin<span class="absolute left-0 right-0 -bottom-1 h-2 bg-butter -z-10"></span></span>!
         </h1>
         <p class="mt-5 mb-0 text-xl md:text-2xl text-ink-2 max-w-xl anim-pop delay-3">
-          I build <span class="text-ink font-semibold">products</span>: figuring out what to make, for whom, and why, then shipping it. I also study how people think with computers, and write stories.
+          I’m curious about the beauty, complexity, and chaos of being <span class="text-ink font-semibold">human</span>. I study people, build for them, and write their stories.
         </p>
 
         <!-- RPG dialogue box -->
@@ -142,7 +143,7 @@ const maxCount = Math.max(...worlds.map(w => w.count), 1);
         </div>
 
         <div class="mt-8 flex flex-wrap gap-3">
-          <a class="px-btn !bg-tomato !text-[#fffaf0] hover:!bg-butter hover:!text-[#2a2140]" href="/projects">▶ See my work</a>
+          <a class="px-btn !bg-tomato !text-[#fffaf0] hover:!bg-butter hover:!text-[#2a2140]" href="#story">▶ Start the story</a>
           <a class="px-btn" href="https://github.com/amoveablefeastym" target="_blank" rel="noreferrer">GitHub</a>
           <a class="px-btn" href="https://www.linkedin.com/in/yimin-huang-nu" target="_blank" rel="noreferrer">LinkedIn</a>
           <a class="px-btn" href="mailto:h1683618346@gmail.com">Email</a>
@@ -150,6 +151,8 @@ const maxCount = Math.max(...worlds.map(w => w.count), 1);
       </div>
     </div>
   </section>
+
+  <StorySoFar />
 
   <!-- ── Character sheet ─────────────────────────────── -->
   <section class="max-w-6xl mx-auto px-4 md:px-8 mt-24 md:mt-32" data-reveal>
@@ -161,16 +164,17 @@ const maxCount = Math.max(...worlds.map(w => w.count), 1);
       <dl class="m-0 p-6 md:p-8 border-b-[3px] md:border-b-0 md:border-r-[3px] border-ink grid gap-5">
         <div>
           <dt class="label mb-1">Class</dt>
-          <dd class="m-0 font-pixel text-2xl font-semibold">Product Builder · Researcher · Writer</dd>
+          <dd class="m-0 font-pixel text-2xl font-semibold">Storyteller · Researcher · Builder</dd>
         </div>
         <div class="p-4 -mx-1 border-[3px] border-ink bg-butter text-[#2a2140] shadow-[3px_3px_0_var(--shadow)]">
-          <dt class="font-label text-[0.68rem] mb-1">★ Main quest: Product</dt>
+          <dt class="font-label text-[0.68rem] mb-1">★ Main quest</dt>
           <dd class="m-0">
-            <span class="block text-lg leading-snug">Figuring out what to build, for whom, and why. Then getting it shipped.</span>
+            <span class="block font-pixel text-2xl leading-tight">Understand people. Tell their stories.</span>
+            <span class="block mt-1 leading-snug">Every world on this site is a different way into the same question.</span>
             <span class="mt-2 flex flex-wrap gap-x-4 gap-y-1 font-label text-[0.65rem]">
-              <a href="/projects/classhub" class="underline decoration-2 underline-offset-2 hover:text-tomato">PM · ClassHub ▶</a>
-              <a href="/projects/shopify-for-students" class="underline decoration-2 underline-offset-2 hover:text-tomato">Product strategy · Shopify ▶</a>
-              <a href="/projects/ctec-searcher" class="underline decoration-2 underline-offset-2 hover:text-tomato">PM · CTEC Searcher ▶</a>
+              <a href="/writing" class="underline decoration-2 underline-offset-2 hover:text-tomato">I write them ▶</a>
+              <a href="/research" class="underline decoration-2 underline-offset-2 hover:text-tomato">I study them ▶</a>
+              <a href="/projects" class="underline decoration-2 underline-offset-2 hover:text-tomato">I build for them ▶</a>
             </span>
           </dd>
         </div>
@@ -218,7 +222,7 @@ const maxCount = Math.max(...worlds.map(w => w.count), 1);
                 type="button"
                 data-skill={s}
                 data-hits={JSON.stringify(skillHits[s])}
-                data-note={s === 'Mandarin' ? 'Fluent. 我会说中文！Spin the globe for more.' : undefined}
+                data-note={({ Mandarin: 'Fluent. 我会说中文！Spin the globe for more.', Storytelling: 'The thread through everything here. Start with the Writing world, or the story so far at the top.', Screenwriting: 'A feature-length screenplay, Unwritten, and a stage play opening April 2027. See Writing.' } as Record<string, string>)[s]}
                 aria-controls="skill-panel"
                 class={`px-chip ${chipColors[i % chipColors.length]} shadow-[2px_2px_0_var(--shadow)] hover:-translate-y-0.5 active:translate-y-0.5 transition-transform aria-pressed:outline-[3px] aria-pressed:outline-dashed aria-pressed:outline-offset-2 aria-pressed:outline-ink`}
               >{s}</button>
