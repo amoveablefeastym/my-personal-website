@@ -5,6 +5,10 @@ import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   integrations: [mdx(), react()],
+  redirects: {
+    // the project was renamed from demoforge
+    '/projects/demoforge': '/projects/demoday',
+  },
   vite: {
     plugins: [tailwindcss()],
   },

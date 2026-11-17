@@ -1,31 +1,31 @@
 ---
-title: "demoforge: Launch Videos Straight From a Repo"
+title: "demoday: Launch Videos Straight From a Repo"
 category: "AI / DEVELOPER TOOL"
 description: "A Claude Code skill that reads a repo, works out why the old way hurts and what makes the product different, records the real app doing the job, and cuts it into a launch video that matches the app's own style."
-image: "/images/demoforge/cover.jpg"
+image: "/images/demoday/cover.jpg"
 date: 2026-11-17
 featured: false
-repo_url: "https://github.com/amoveablefeastym/demoforge"
+repo_url: "https://github.com/amoveablefeastym/demoday"
 ---
 
 *Personal project · Claude Code skill · TypeScript, Swift, Remotion*
 
 At <a class="bio-link" href="https://www.tavernresearch.com" target="_blank" rel="noopener noreferrer">Tavern Research</a> I built an agent that turned a two-hour tutorial video into a three-minute job. Afterwards I kept noticing the same problem on the side: every small app I made deserved a short video, and I never made one. Recording takes an afternoon, and the result usually turns into a feature tour nobody finishes. "Make an automated demo generator" sat on my own <a class="bio-link" href="/projects/half-baked">Half-Baked</a> shelf for a while before I baked it.
 
-**demoforge** is that generator. Point it at a repo (on GitHub or a local folder) and the app it ships (a website or a native Mac app), and it produces a 45–75 second 1080p video with a real recording of the product at its center. The video below was made entirely by demoforge, of Half-Baked.
+**demoday** is that generator. Point it at a repo (on GitHub or a local folder) and the app it ships (a website or a native Mac app), and it produces a 45–75 second 1080p video with a real recording of the product at its center. The video below was made entirely by demoday, of Half-Baked.
 
 <div class="my-8 flex flex-wrap gap-3">
-  <a href="https://github.com/amoveablefeastym/demoforge" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-6 py-3 text-[#d32f2f] bg-transparent border border-[#d32f2f] hover:bg-[#d32f2f] hover:text-white transition-all no-underline font-sans text-sm font-bold uppercase tracking-widest rounded-sm">
+  <a href="https://github.com/amoveablefeastym/demoday" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-6 py-3 text-[#d32f2f] bg-transparent border border-[#d32f2f] hover:bg-[#d32f2f] hover:text-white transition-all no-underline font-sans text-sm font-bold uppercase tracking-widest rounded-sm">
     View on GitHub
     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-2"><path d="M7 17l9.2-9.2M17 17V7H7"/></svg>
   </a>
 </div>
 
 <figure class="my-12">
-  <video controls muted playsinline preload="none" poster="/images/demoforge/hook.jpg" class="w-full h-auto rounded-sm border border-gray-200 shadow-sm">
-    <source src="/images/demoforge/half-baked-demo.mp4" type="video/mp4" />
+  <video controls muted playsinline preload="none" poster="/images/demoday/hook.jpg" class="w-full h-auto rounded-sm border border-gray-200 shadow-sm">
+    <source src="/images/demoday/half-baked-demo.mp4" type="video/mp4" />
   </video>
-  <figcaption class="text-center text-sm text-gray-500 mt-3 font-serif italic">Made by demoforge: the Half-Baked launch video, from the repo to the final cut, sound effects included</figcaption>
+  <figcaption class="text-center text-sm text-gray-500 mt-3 font-serif italic">Made by demoday: the Half-Baked launch video, from the repo to the final cut, sound effects included</figcaption>
 </figure>
 
 ### What Makes a Demo Worth Watching
@@ -52,21 +52,21 @@ Before writing any code I read up on why some product videos get watched to the 
 </div>
 
 <figure class="my-12">
-  <img src="/images/demoforge/compare.jpg" alt="A before-and-after card: 'Open an app, dig around', 'Buried in Notes' and 'Invisible' crossed out on the left; 'One click on your desktop', 'On a shelf, rising' and 'A loaf that bakes' on the right; '3 min → 37 sec' below" class="w-full h-auto rounded-sm border border-gray-200 shadow-sm" />
+  <img src="/images/demoday/compare.jpg" alt="A before-and-after card: 'Open an app, dig around', 'Buried in Notes' and 'Invisible' crossed out on the left; 'One click on your desktop', 'On a shelf, rising' and 'A loaf that bakes' on the right; '3 min → 37 sec' below" class="w-full h-auto rounded-sm border border-gray-200 shadow-sm" />
   <figcaption class="text-center text-sm text-gray-500 mt-3 font-serif italic">The before/after beat. The time on the right is measured from the recording itself</figcaption>
 </figure>
 
 ### It Dresses Like the App
 
-My first version used one dark, loud template for everything. It looked great on a developer tool and completely wrong on a cozy pixel bakery. Now demoforge reads the app's own design from its code (colors, bundled fonts, app icon, mascot) and picks a soft or bold style to match. It even borrows the app's own words, so Half-Baked's captions talk about dough, rising and baking.
+My first version used one dark, loud template for everything. It looked great on a developer tool and completely wrong on a cozy pixel bakery. Now demoday reads the app's own design from its code (colors, bundled fonts, app icon, mascot) and picks a soft or bold style to match. It even borrows the app's own words, so Half-Baked's captions talk about dough, rising and baking.
 
 <div class="my-12 grid grid-cols-1 md:grid-cols-2 gap-4">
   <figure class="m-0">
-    <img src="/images/demoforge/old-way.jpg" alt="Soft style: three cream-colored cards describing the old way to keep ideas, beside a '3:00 per idea' clock, in Half-Baked's pixel font" class="w-full h-auto rounded-sm border border-gray-200 shadow-sm" />
+    <img src="/images/demoday/old-way.jpg" alt="Soft style: three cream-colored cards describing the old way to keep ideas, beside a '3:00 per idea' clock, in Half-Baked's pixel font" class="w-full h-auto rounded-sm border border-gray-200 shadow-sm" />
     <figcaption class="text-center text-sm text-gray-500 mt-3 font-serif italic">Soft, for Half-Baked</figcaption>
   </figure>
   <figure class="m-0">
-    <img src="/images/demoforge/jsoncrack-verdict.jpg" alt="Bold style: dark cards listing a painful JSON-debugging workflow with a red 13:05 clock and a red stamp reading 'Still can't see the shape.'" class="w-full h-auto rounded-sm border border-gray-200 shadow-sm" />
+    <img src="/images/demoday/jsoncrack-verdict.jpg" alt="Bold style: dark cards listing a painful JSON-debugging workflow with a red 13:05 clock and a red stamp reading 'Still can't see the shape.'" class="w-full h-auto rounded-sm border border-gray-200 shadow-sm" />
     <figcaption class="text-center text-sm text-gray-500 mt-3 font-serif italic">Bold, for JSON Crack, an open-source developer tool</figcaption>
   </figure>
 </div>
@@ -76,7 +76,7 @@ My first version used one dark, loud template for everything. It looked great on
 <div class="my-8 space-y-4">
   <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-blue-500">
     <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">Claude Directs</div>
-    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">demoforge is a Claude Code skill. Claude reads the README and the code, looks at the live app, and writes a storyboard: the hook, the old way, the workflow to record, the before/after and the closing line. The storyboard is a typed JSON file, so it can be edited by hand and re-rendered.</div>
+    <div class="text-sm text-gray-600 dark:text-gray-400 font-serif leading-relaxed">demoday is a Claude Code skill. Claude reads the README and the code, looks at the live app, and writes a storyboard: the hook, the old way, the workflow to record, the before/after and the closing line. The storyboard is a typed JSON file, so it can be edited by hand and re-rendered.</div>
   </div>
   <div class="p-5 bg-white dark:bg-gray-800 rounded border-l-4 border-purple-500">
     <div class="font-sans font-bold text-sm mb-2 text-black dark:text-white uppercase tracking-wide">Recording the Real Thing</div>
@@ -94,10 +94,10 @@ My first version used one dark, loud template for everything. It looked great on
 
 ### Try It
 
-demoforge is open source. If you use [Claude Code](https://claude.com/claude-code), install it with one line, then ask Claude for "a launch video for owner/repo":
+demoday is open source. If you use [Claude Code](https://claude.com/claude-code), install it with one line, then ask Claude for "a launch video for owner/repo":
 
 <div class="my-6 p-4 bg-gray-50 dark:bg-gray-900 rounded border border-gray-200 dark:border-gray-700 overflow-x-auto">
-  <code class="font-mono text-sm whitespace-nowrap">git clone https://github.com/amoveablefeastym/demoforge ~/.claude/skills/demoforge</code>
+  <code class="font-mono text-sm whitespace-nowrap">git clone https://github.com/amoveablefeastym/demoday ~/.claude/skills/demoday</code>
 </div>
 
 ### Stack
