@@ -31,7 +31,7 @@ public/
 
 ## Content
 
-**Projects:** demoday, Half-Baked, Тетрадь (Tetrad), Bubblist, AI Medical SOAP Note Generator (HackMIT 2025), ClassHub, CTEC Searcher, Shopify for Students, Drift
+**Projects:** DemoDay, Half-Baked, Тетрадь (Tetrad), Bubblist, AI Medical SOAP Note Generator (HackMIT 2025), ClassHub, CTEC Searcher, Shopify for Students, Drift
 
 **Writing:** short stories, screenplays, stage plays — rendered as full-text pages or PDF embeds depending on `content_type` in frontmatter
 
